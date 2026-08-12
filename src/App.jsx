@@ -38,6 +38,8 @@ function App() {
   const [activeTab, setActiveTab] = useState('mixer'); // 'mixer', 'yield', 'tokenomics', 'dao', 'poi'
   const [isConnected, setIsConnected] = useState(false);
   const [walletAddress, setWalletAddress] = useState('');
+  const [fullWalletAddress, setFullWalletAddress] = useState('');
+  const [showWalletModal, setShowWalletModal] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(true);
 
   // i18n Language State ('en', 'fr', 'zh', 'ja', 'ru', 'ar')
@@ -110,6 +112,7 @@ function App() {
           if (accounts && accounts.length > 0) {
             const acc = accounts[0];
             setIsConnected(true);
+            setFullWalletAddress(acc);
             setWalletAddress(`${acc.substring(0, 6)}...${acc.substring(acc.length - 4)}`);
           }
         })
@@ -119,9 +122,11 @@ function App() {
         if (accounts && accounts.length > 0) {
           const acc = accounts[0];
           setIsConnected(true);
+          setFullWalletAddress(acc);
           setWalletAddress(`${acc.substring(0, 6)}...${acc.substring(acc.length - 4)}`);
         } else {
           setIsConnected(false);
+          setFullWalletAddress('');
           setWalletAddress('');
         }
       };
@@ -135,20 +140,26 @@ function App() {
     }
   }, []);
 
-  // Connect / Disconnect Wallet via real Web3 provider extension (MetaMask / Rabby / Brave)
-  const connectWallet = async () => {
+  // Handle header wallet button click
+  const handleWalletClick = () => {
     if (isConnected) {
-      setIsConnected(false);
-      setWalletAddress('');
-      return;
+      // If already connected -> Open Wallet Details & Disconnect Modal
+      setShowWalletModal(true);
+    } else {
+      // If disconnected -> Trigger Web3 MetaMask Extension Popup
+      connectWallet();
     }
+  };
 
+  // Connect Wallet via real Web3 provider extension (MetaMask / Rabby / Brave)
+  const connectWallet = async () => {
     if (typeof window !== 'undefined' && window.ethereum) {
       try {
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
         if (accounts && accounts.length > 0) {
           const acc = accounts[0];
           setIsConnected(true);
+          setFullWalletAddress(acc);
           setWalletAddress(`${acc.substring(0, 6)}...${acc.substring(acc.length - 4)}`);
         }
       } catch (err) {
@@ -161,6 +172,13 @@ function App() {
     } else {
       alert("Aucun portefeuille Web3 (MetaMask) détecté dans votre navigateur.\n\nVeuillez installer l'extension MetaMask ou utiliser un navigateur Web3 (Brave, MetaMask Mobile).");
     }
+  };
+
+  // Disconnect Wallet Session
+  const handleDisconnectWallet = () => {
+    setIsConnected(false);
+    setFullWalletAddress('');
+    setWalletAddress('');
   };
 
   const toggleTheme = () => {
@@ -314,9 +332,9 @@ function App() {
               </button>
             ) : (
               <button
-                onClick={connectWallet}
+                onClick={handleWalletClick}
                 className={`btn-cyan text-xs py-2.5 px-5 font-bold flex items-center justify-center gap-2 ${
-                  isConnected ? 'bg-slate-900 border border-blue-500/40 text-blue-300' : ''
+                  isConnected ? 'bg-slate-900 border border-blue-500/40 text-blue-300 hover:bg-slate-800' : ''
                 }`}
               >
                 <Wallet className="w-4 h-4 shrink-0" />
@@ -515,6 +533,14 @@ function App() {
           </div>
         </div>
       </footer>
+
+      {/* Web3 Connected Wallet Details & Disconnect Modal */}
+      <WalletModal
+        isOpen={showWalletModal}
+        onClose={() => setShowWalletModal(false)}
+        fullAddress={fullWalletAddress}
+        onDisconnect={handleDisconnectWallet}
+      />
     </div>
   );
 }
