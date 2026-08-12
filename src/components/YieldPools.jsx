@@ -62,14 +62,14 @@ const YieldPools = ({ t }) => {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 w-full md:w-auto">
-          <div className="bg-slate-100 dark:bg-slate-950/80 p-4 rounded-xl border border-blue-200 dark:border-blue-500/30 text-center">
-            <div className="text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider">{tYield.totalTvl}</div>
-            <div className="text-2xl font-black text-blue-600 dark:text-blue-400 mt-1">$94,670,000</div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full md:w-auto">
+          <div className="bg-slate-100 dark:bg-slate-950/80 p-3.5 sm:p-4 rounded-xl border border-blue-200 dark:border-blue-500/30 text-center overflow-hidden">
+            <div className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider truncate">{tYield.totalTvl}</div>
+            <div className="text-lg sm:text-2xl font-black font-mono text-blue-600 dark:text-blue-400 mt-1 truncate">$94.6M+</div>
           </div>
-          <div className="bg-slate-100 dark:bg-slate-950/80 p-4 rounded-xl border border-emerald-200 dark:border-emerald-500/30 text-center">
-            <div className="text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider">{tYield.yieldDistributed}</div>
-            <div className="text-2xl font-black text-emerald-600 dark:text-emerald-400 mt-1">$1,420,500</div>
+          <div className="bg-slate-100 dark:bg-slate-950/80 p-3.5 sm:p-4 rounded-xl border border-emerald-200 dark:border-emerald-500/30 text-center overflow-hidden">
+            <div className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider truncate">{tYield.yieldDistributed}</div>
+            <div className="text-lg sm:text-2xl font-black font-mono text-emerald-600 dark:text-emerald-400 mt-1 truncate">$1.42M+</div>
           </div>
         </div>
       </div>

@@ -376,15 +376,31 @@ function App() {
                 </button>
               </>
             ) : (
-              <button
-                onClick={handleWalletClick}
-                className={`btn-cyan text-xs py-2 px-3 sm:px-5 font-bold flex items-center justify-center gap-2 ${
-                  isConnected ? 'bg-slate-900 border border-blue-500/40 text-blue-300 hover:bg-slate-800' : ''
-                }`}
-              >
-                <Wallet className="w-4 h-4 shrink-0" />
-                <span className="text-[11px] sm:text-xs">{isConnected ? walletAddress : t.nav.connect}</span>
-              </button>
+              <>
+                {/* Desktop Full Wallet Button */}
+                <button
+                  onClick={handleWalletClick}
+                  className={`hidden sm:flex btn-cyan text-xs py-2 px-5 font-bold items-center justify-center gap-2 ${
+                    isConnected ? 'bg-slate-900 border border-blue-500/40 text-blue-300 hover:bg-slate-800' : ''
+                  }`}
+                >
+                  <Wallet className="w-4 h-4 shrink-0" />
+                  <span className="text-xs">{isConnected ? walletAddress : t.nav.connect}</span>
+                </button>
+
+                {/* Mobile Icon-Only Wallet Button */}
+                <button
+                  onClick={handleWalletClick}
+                  className={`flex sm:hidden p-2.5 rounded-xl border font-bold items-center justify-center shrink-0 transition-all ${
+                    isConnected 
+                      ? 'bg-slate-900 border-emerald-500/50 text-emerald-400' 
+                      : 'bg-cyan-500 text-slate-950 border-cyan-400 shadow-md shadow-cyan-500/20'
+                  }`}
+                  title={isConnected ? walletAddress : t.nav.connect}
+                >
+                  <Wallet className="w-5 h-5 shrink-0" />
+                </button>
+              </>
             )}
 
             {/* Mobile Hamburger Menu Toggle Button */}
