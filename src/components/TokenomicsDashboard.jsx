@@ -1,12 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { ethers } from 'ethers';
+import { CONTRACT_ADDRESSES, LAB_TOKEN_ABI } from '../contracts/config';
 import { Flame, PieChart, Coins, Lock, Award, TrendingUp, Sparkles, UserCheck } from 'lucide-react';
 
 const TokenomicsDashboard = ({ t }) => {
   const tTok = t.tokenomics;
   const [stakedAmount, setStakedAmount] = useState('10000');
+  const [liveBurnedTokens, setLiveBurnedTokens] = useState(0);
+
+  useEffect(() => {
+    let isMounted = true;
+    async function fetchOnChainTokenData() {
+      try {
+        const labAddress = CONTRACT_ADDRESSES.sepolia.LabToken;
+        if (!labAddress || labAddress === '0x0000000000000000000000000000000000000000') return;
+
+        const provider = new ethers.JsonRpcProvider("https://ethereum-sepolia-rpc.publicnode.com");
+        const labContract = new ethers.Contract(labAddress, LAB_TOKEN_ABI, provider);
+        
+        const totalSup = await labContract.totalSupply();
+        const initialMax = ethers.parseEther("1000000000");
+        const burnedRaw = initialMax > totalSup ? initialMax - totalSup : 0n;
+        const burnedFormatted = Math.floor(Number(ethers.formatEther(burnedRaw)));
+
+        if (isMounted) {
+          setLiveBurnedTokens(burnedFormatted);
+        }
+      } catch (err) {
+        console.warn("Could not query live burn stats from Sepolia:", err);
+      }
+    }
+
+    fetchOnChainTokenData();
+    return () => { isMounted = false; };
+  }, []);
 
   const totalSupply = 1000000000; // 1,000,000,000 $LAB (1 Billion)
-  const burnedTokens = 14285000; // Live EIP-1559 Controlled Burn counter
+  const burnedTokens = liveBurnedTokens;
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8 space-y-8">

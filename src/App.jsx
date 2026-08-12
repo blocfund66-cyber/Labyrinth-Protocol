@@ -102,13 +102,64 @@ function App() {
     localStorage.setItem('labyrinth_onboarding_completed', 'true');
   };
 
-  const connectWallet = () => {
+  // Auto-detect & restore existing MetaMask wallet connection on page load
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.ethereum) {
+      window.ethereum.request({ method: 'eth_accounts' })
+        .then((accounts) => {
+          if (accounts && accounts.length > 0) {
+            const acc = accounts[0];
+            setIsConnected(true);
+            setWalletAddress(`${acc.substring(0, 6)}...${acc.substring(acc.length - 4)}`);
+          }
+        })
+        .catch(() => {});
+
+      const handleAccountsChanged = (accounts) => {
+        if (accounts && accounts.length > 0) {
+          const acc = accounts[0];
+          setIsConnected(true);
+          setWalletAddress(`${acc.substring(0, 6)}...${acc.substring(acc.length - 4)}`);
+        } else {
+          setIsConnected(false);
+          setWalletAddress('');
+        }
+      };
+
+      window.ethereum.on('accountsChanged', handleAccountsChanged);
+      return () => {
+        if (window.ethereum.removeListener) {
+          window.ethereum.removeListener('accountsChanged', handleAccountsChanged);
+        }
+      };
+    }
+  }, []);
+
+  // Connect / Disconnect Wallet via real Web3 provider extension (MetaMask / Rabby / Brave)
+  const connectWallet = async () => {
     if (isConnected) {
       setIsConnected(false);
       setWalletAddress('');
+      return;
+    }
+
+    if (typeof window !== 'undefined' && window.ethereum) {
+      try {
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        if (accounts && accounts.length > 0) {
+          const acc = accounts[0];
+          setIsConnected(true);
+          setWalletAddress(`${acc.substring(0, 6)}...${acc.substring(acc.length - 4)}`);
+        }
+      } catch (err) {
+        if (err.code === 4001) {
+          console.warn("User cancelled MetaMask connection request.");
+        } else {
+          console.error("MetaMask connection error:", err);
+        }
+      }
     } else {
-      setIsConnected(true);
-      setWalletAddress('0x71C...89F2');
+      alert("Aucun portefeuille Web3 (MetaMask) détecté dans votre navigateur.\n\nVeuillez installer l'extension MetaMask ou utiliser un navigateur Web3 (Brave, MetaMask Mobile).");
     }
   };
 
