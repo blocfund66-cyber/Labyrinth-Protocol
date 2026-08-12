@@ -28,7 +28,9 @@ import {
   ShieldCheck,
   Rocket,
   Vote,
-  Trophy
+  Trophy,
+  Menu,
+  X
 } from 'lucide-react';
 
 function App() {
@@ -44,6 +46,7 @@ function App() {
   const [fullWalletAddress, setFullWalletAddress] = useState('');
   const [showWalletModal, setShowWalletModal] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(true);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // i18n Language State ('en', 'fr', 'zh', 'ja', 'ru', 'ar')
   const [currentLang, setCurrentLang] = useState(() => {
@@ -337,88 +340,162 @@ function App() {
             </nav>
           )}
 
-          {/* RIGHT ACTION BUTTON (Pushed to Far Right with Symmetric Generous Spacing) */}
-          <div className="flex items-center gap-3 shrink-0 ml-4 lg:ml-12">
+          {/* RIGHT ACTION BUTTONS & MOBILE HAMBURGER MENU TRIGGER */}
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0 ml-2 sm:ml-4 lg:ml-12">
             {currentView === 'landing' ? (
-              <button
-                onClick={handleEnterApp}
-                className="btn-cyan text-xs py-2.5 px-6 font-bold flex items-center justify-center gap-2 shadow-lg"
-              >
-                <Rocket className="w-4 h-4" />
-                <span>{t.nav.launchApp}</span>
-              </button>
+              <>
+                {/* Desktop Full Button */}
+                <button
+                  onClick={handleEnterApp}
+                  className="hidden sm:flex btn-cyan text-xs py-2.5 px-6 font-bold items-center justify-center gap-2 shadow-lg"
+                >
+                  <Rocket className="w-4 h-4" />
+                  <span>{t.nav.launchApp}</span>
+                </button>
+
+                {/* Mobile Icon-Only Button (Never Clipped!) */}
+                <button
+                  onClick={handleEnterApp}
+                  className="flex sm:hidden p-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold shadow-lg shadow-cyan-500/25 items-center justify-center shrink-0"
+                  title={t.nav.launchApp}
+                >
+                  <Rocket className="w-5 h-5 text-slate-950 fill-slate-950" />
+                </button>
+              </>
             ) : (
               <button
                 onClick={handleWalletClick}
-                className={`btn-cyan text-xs py-2.5 px-5 font-bold flex items-center justify-center gap-2 ${
+                className={`btn-cyan text-xs py-2 px-3 sm:px-5 font-bold flex items-center justify-center gap-2 ${
                   isConnected ? 'bg-slate-900 border border-blue-500/40 text-blue-300 hover:bg-slate-800' : ''
                 }`}
               >
                 <Wallet className="w-4 h-4 shrink-0" />
-                <span>{isConnected ? walletAddress : t.nav.connect}</span>
+                <span className="text-[11px] sm:text-xs">{isConnected ? walletAddress : t.nav.connect}</span>
               </button>
             )}
+
+            {/* Mobile Hamburger Menu Toggle Button */}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className={`p-2.5 rounded-xl border transition-all lg:hidden shrink-0 ${
+                isDarkMode 
+                  ? 'bg-slate-900 border-slate-800 text-slate-200 hover:bg-slate-800' 
+                  : 'bg-slate-100 border-slate-300 text-slate-800 hover:bg-slate-200'
+              }`}
+              aria-label="Toggle Navigation Menu"
+            >
+              {isMobileMenuOpen ? <X className="w-5 h-5 text-cyan-400" /> : <Menu className="w-5 h-5" />}
+            </button>
           </div>
         </div>
 
-        {/* Mobile Navigation Bar */}
-        <div className={`flex xl:hidden overflow-x-auto px-4 py-2.5 border-t gap-2 ${isDarkMode ? 'bg-slate-950 border-slate-800' : 'bg-slate-100 border-slate-300'}`}>
-          {currentView === 'landing' ? (
-            <>
-              <button onClick={() => scrollToSection('hero')} className="px-4 py-2 rounded-lg text-xs font-bold text-slate-400 shrink-0">
-                {t.nav.landingHome}
-              </button>
-              <button onClick={() => scrollToSection('innovations')} className="px-4 py-2 rounded-lg text-xs font-bold text-slate-400 shrink-0">
-                {t.nav.landingInnovations}
-              </button>
-              <button onClick={() => scrollToSection('security')} className="px-4 py-2 rounded-lg text-xs font-bold text-slate-400 shrink-0">
-                {t.nav.landingSecurity}
-              </button>
-              <button onClick={() => scrollToSection('tokenomics')} className="px-4 py-2 rounded-lg text-xs font-bold text-slate-400 shrink-0">
-                {t.nav.landingTokenomics}
-              </button>
-            </>
-          ) : (
-            <>
-              <button
-                onClick={() => setActiveTab('mixer')}
-                className={`px-4 py-2 rounded-lg text-xs font-bold shrink-0 ${activeTab === 'mixer' ? 'bg-blue-600 text-white' : 'text-slate-500'}`}
-              >
-                {t.nav.mixer}
-              </button>
-              <button
-                onClick={() => setActiveTab('yield')}
-                className={`px-4 py-2 rounded-lg text-xs font-bold shrink-0 ${activeTab === 'yield' ? 'bg-blue-600 text-white' : 'text-slate-500'}`}
-              >
-                {t.nav.yield}
-              </button>
-              <button
-                onClick={() => setActiveTab('tokenomics')}
-                className={`px-4 py-2 rounded-lg text-xs font-bold shrink-0 ${activeTab === 'tokenomics' ? 'bg-blue-600 text-white' : 'text-slate-500'}`}
-              >
-                {t.nav.tokenomics}
-              </button>
-              <button
-                onClick={() => setActiveTab('dao')}
-                className={`px-4 py-2 rounded-lg text-xs font-bold shrink-0 ${activeTab === 'dao' ? 'bg-blue-600 text-white' : 'text-slate-500'}`}
-              >
-                {t.nav.dao}
-              </button>
-              <button
-                onClick={() => setActiveTab('poi')}
-                className={`px-4 py-2 rounded-lg text-xs font-bold shrink-0 ${activeTab === 'poi' ? 'bg-blue-600 text-white' : 'text-slate-500'}`}
-              >
-                {t.nav.poi}
-              </button>
-              <button
-                onClick={() => setActiveTab('quests')}
-                className={`px-4 py-2 rounded-lg text-xs font-bold shrink-0 ${activeTab === 'quests' ? 'bg-amber-500 text-slate-950 font-black' : 'text-amber-400 font-bold'}`}
-              >
-                {t?.nav?.quests || 'Quêtes Bêta 🎯'}
-              </button>
-            </>
-          )}
-        </div>
+        {/* Dynamic Mobile Dropdown Drawer Menu (Menu Burger) */}
+        {isMobileMenuOpen && (
+          <div className={`lg:hidden border-b backdrop-blur-2xl transition-all animate-fadeIn ${
+            isDarkMode ? 'bg-slate-950/95 border-slate-800 text-slate-200' : 'bg-white/95 border-slate-200 text-slate-800'
+          }`}>
+            <div className="p-4 space-y-2">
+              {currentView === 'landing' ? (
+                <>
+                  <button
+                    onClick={() => { scrollToSection('hero'); setIsMobileMenuOpen(false); }}
+                    className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold transition-all text-slate-300 hover:bg-slate-800/60"
+                  >
+                    <BookOpen className="w-4 h-4 text-blue-400" />
+                    <span>{t.nav.landingHome}</span>
+                  </button>
+                  <button
+                    onClick={() => { scrollToSection('innovations'); setIsMobileMenuOpen(false); }}
+                    className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold transition-all text-slate-300 hover:bg-slate-800/60"
+                  >
+                    <Layers className="w-4 h-4 text-cyan-400" />
+                    <span>{t.nav.landingInnovations}</span>
+                  </button>
+                  <button
+                    onClick={() => { scrollToSection('security'); setIsMobileMenuOpen(false); }}
+                    className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold transition-all text-slate-300 hover:bg-slate-800/60"
+                  >
+                    <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                    <span>{t.nav.landingSecurity}</span>
+                  </button>
+                  <button
+                    onClick={() => { scrollToSection('tokenomics'); setIsMobileMenuOpen(false); }}
+                    className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold transition-all text-slate-300 hover:bg-slate-800/60"
+                  >
+                    <Coins className="w-4 h-4 text-amber-400" />
+                    <span>{t.nav.landingTokenomics}</span>
+                  </button>
+                  <div className="pt-2">
+                    <button
+                      onClick={() => { handleEnterApp(); setIsMobileMenuOpen(false); }}
+                      className="w-full btn-cyan text-xs py-3 px-4 font-bold flex items-center justify-center gap-2 shadow-lg"
+                    >
+                      <Rocket className="w-4 h-4" />
+                      <span>{t.nav.launchApp}</span>
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <button
+                    onClick={() => { setActiveTab('mixer'); setIsMobileMenuOpen(false); }}
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold transition-all ${
+                      activeTab === 'mixer' ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800/60'
+                    }`}
+                  >
+                    <Lock className="w-4 h-4" />
+                    <span>{t.nav.mixer}</span>
+                  </button>
+                  <button
+                    onClick={() => { setActiveTab('yield'); setIsMobileMenuOpen(false); }}
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold transition-all ${
+                      activeTab === 'yield' ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800/60'
+                    }`}
+                  >
+                    <TrendingUp className="w-4 h-4" />
+                    <span>{t.nav.yield}</span>
+                  </button>
+                  <button
+                    onClick={() => { setActiveTab('tokenomics'); setIsMobileMenuOpen(false); }}
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold transition-all ${
+                      activeTab === 'tokenomics' ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800/60'
+                    }`}
+                  >
+                    <Coins className="w-4 h-4" />
+                    <span>{t.nav.tokenomics}</span>
+                  </button>
+                  <button
+                    onClick={() => { setActiveTab('dao'); setIsMobileMenuOpen(false); }}
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold transition-all ${
+                      activeTab === 'dao' ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800/60'
+                    }`}
+                  >
+                    <Vote className="w-4 h-4" />
+                    <span>{t?.nav?.dao || 'Gouvernance & DAO'}</span>
+                  </button>
+                  <button
+                    onClick={() => { setActiveTab('poi'); setIsMobileMenuOpen(false); }}
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold transition-all ${
+                      activeTab === 'poi' ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800/60'
+                    }`}
+                  >
+                    <Award className="w-4 h-4" />
+                    <span>{t.nav.poi}</span>
+                  </button>
+                  <button
+                    onClick={() => { setActiveTab('quests'); setIsMobileMenuOpen(false); }}
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold transition-all ${
+                      activeTab === 'quests' ? 'bg-amber-500 text-slate-950 font-black' : 'text-amber-400 font-bold bg-amber-500/10 border border-amber-500/20'
+                    }`}
+                  >
+                    <Trophy className="w-4 h-4 text-amber-400 animate-pulse" />
+                    <span>{t?.nav?.quests || 'Quêtes Bêta 🎯'}</span>
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
+        )}
       </header>
 
       {/* Main View */}
