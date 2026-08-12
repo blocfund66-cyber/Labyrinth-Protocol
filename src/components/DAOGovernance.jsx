@@ -42,8 +42,22 @@ const DAOGovernance = ({ isConnected, walletAddress, connectWallet, t }) => {
   const [newDesc, setNewDesc] = useState('');
   const [userVotedProposals, setUserVotedProposals] = useState({});
 
-  // Mock On-Chain $LAB Token Balance for Connected Wallet
-  const userLabBalance = isConnected ? 500000 : 0;
+  // ─── [FIX #6] $LAB Balance — DEMO SIMULATION ─────────────────────────────────
+  // CURRENT: Hardcoded balance used for UI demo / testnet purposes only.
+  // The platform is NOT deployed on any blockchain network.
+  //
+  // TODO (Production — replace with this ethers.js snippet):
+  // ─────────────────────────────────────────────────────────────────────────────
+  //   import { ethers } from 'ethers';
+  //   const LAB_TOKEN_ADDRESS = '0x...'; // Deployed LabToken contract address
+  //   const LAB_ABI = ['function balanceOf(address) view returns (uint256)'];
+  //   const provider = new ethers.BrowserProvider(window.ethereum);
+  //   const labContract = new ethers.Contract(LAB_TOKEN_ADDRESS, LAB_ABI, provider);
+  //   const rawBalance = await labContract.balanceOf(walletAddress);
+  //   const userLabBalance = Number(ethers.formatEther(rawBalance));
+  // ─────────────────────────────────────────────────────────────────────────────
+  const IS_DEMO_MODE = true; // Set to false and use ethers.js above in production
+  const userLabBalance = (IS_DEMO_MODE && isConnected) ? 500000 : 0;
   const isVerifiedMember = isConnected && userLabBalance > 0;
 
   // Mock Active DAO Proposals

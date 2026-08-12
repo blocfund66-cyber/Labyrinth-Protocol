@@ -3,6 +3,34 @@
 
 ---
 
+> ⚠️ **STATUT DE DÉPLOIEMENT : NON DÉPLOYÉ SUR AUCUN RÉSEAU BLOCKCHAIN**
+>
+> Labyrinth Protocol V1 est en phase de **développement local et d'audit uniquement**.
+> Le protocole n'est déployé sur **aucun réseau** (ni Mainnet, ni Testnet, ni Layer 2).
+> Aucun token $LAB n'existe sur aucune blockchain à ce jour.
+> Toute adresse de contrat prétendant être Labyrinth Protocol est une arnaque.
+>
+> **Date de mise à jour du document** : 2026-08-12
+
+---
+
+## 🛡️ 0. STATUT D'AUDIT INTERNE (V1 — 2026-08-12)
+
+Un audit interne complet a été réalisé sur l'ensemble du protocole. Les 6 findings identifiés ont été corrigés :
+
+| # | Sévérité | Contrat / Fichier | Finding | Statut |
+|---|----------|-------------------|---------|--------|
+| 1 | 🔴 Critique | `LabyrinthCore.sol` | Arbre de Merkle binaire réel (profondeur 20) implémenté via IncrementalMerkleTree | ✅ Corrigé |
+| 2 | 🔴 Critique | `LabyrinthCore.sol` | Verifier ZK-SNARK rendu obligatoire (flag `verifierActive` gouverné par DAO) | ✅ Corrigé |
+| 3 | 🔴 Critique | `LabyrinthGovernance.sol` | Réentrance dans `stake()`/`unstake()` corrigée (pattern CEI + `nonReentrant`) | ✅ Corrigé |
+| 4 | 🟡 Medium | `LabyrinthCore.sol` | Certificat PoI validé (≥32 bytes) avant émission d'événement | ✅ Corrigé |
+| 5 | 🟡 Medium | `LabyrinthRelayer.sol` | `minRelayerStake` de 10 000 $LAB désormais enforced dans `registerRelayer()` | ✅ Corrigé |
+| 6 | 🟡 Medium | `DAOGovernance.jsx` | Balance $LAB simulée flaggée comme démo, snippet ethers.js de production documenté | ✅ Corrigé |
+
+> Un audit externe certifié (CertiK / Trail of Bits) est prévu avant tout déploiement mainnet.
+
+---
+
 ## 📋 1. VUE D'ENSEMBLE DU PROJET & ARCHITECTURE
 
 **Labyrinth Protocol V1** est une infrastructure décentralisée de confidentialité crypto de nouvelle génération basée sur des preuves à divulgation nulle de connaissance (**ZK-SNARKs / Groth16 & BN254**). 
