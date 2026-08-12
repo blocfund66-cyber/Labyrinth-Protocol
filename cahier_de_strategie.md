@@ -3,8 +3,8 @@
 
 ---
 
-> 📌 **DOCUMENT STRATÉGIQUE LOCAL INTERNE**
-> Ce document rassemble la feuille de route marketing, la stratégie de liquidité et le plan d'acquisition d'utilisateurs pour le lancement commercial de Labyrinth Protocol.
+> 📌 **DOCUMENT STRATÉGIQUE LOCAL INTERNE (ÉQUIPE FONDATEUR)**
+> Ce document rassemble la feuille de route marketing, le plan d'acquisition d'utilisateurs via Galxe (20 000 Ambassadeurs), la stratégie multi-chain à frais minimes (Arbitrum, Base, Optimism, Polygon, BNB Chain) et la politique de domaine personnalisé (`.com` / `.io`).
 
 ---
 
@@ -12,29 +12,35 @@
 
 ```mermaid
 graph LR
-    A["Phase 1: Testnet Incitatif (Galxe)"] --> B["Phase 2: Lancement L2 (Arbitrum & Base)"]
-    B --> C["Phase 3: Liquidity & Staking $LAB"]
-    C --> D["Phase 4: Campagne Média ('Clean Privacy')"]
-    D --> E["Phase 5: Flywheel Réseau de Relayeurs"]
+    A["Phase 1: 20k Ambassadeurs (Galxe & Faucet)"] --> B["Phase 2: Lancement 5 Chains à Frais Minimes"]
+    B --> C["Phase 3: Liquidité Uniswap v3 & Staking"]
+    C --> D["Phase 4: Campagne Média Institutionnelle"]
+    D --> E["Phase 5: Réseau de Relayeurs & EIP-1559 Burn"]
 ```
 
 ---
 
-### 1️⃣ PHASE 1 : Campagne Bêta-Test Incitative (*Pioneer Privacy Campaign*)
-- **Plateforme** : Galxe / Zealy / Guild.xyz
-- **Objectif** : Générer une communauté initiale de 5 000+ utilisateurs engagés sans dépenses marketing prématurées.
-- **Actions** :
-  1. Inviter la communauté à effectuer des opérations de mixage de test sur Ethereum Sepolia.
-  2. Éditer des attestations de conformité ZK Proof of Innocence (PoI).
-  3. Distribuer des badges NFT exclusifs (*"Privacy Pioneer"*) offrant un multiplier de récompenses lors du futur staking $LAB.
+### 1️⃣ PHASE 1 : Campagne Galxe & Cohorte des 20 000 Ambassadeurs (*Pioneer Campaign*)
+- **Plateforme & Canal** : Galxe (`galxe.com`) + Nom de domaine personnalisé institutionnel (`labyrinthprotocol.io` / `.app` / `.com`).
+- **Objectif** : Transformer 20 000 early adopters en véritables ambassadeurs du projet.
+- **Paramètres Économiques Capping** :
+  - **Nombre d'Ambassadeurs Capped** : **20 000 Wallets uniques**.
+  - **Allocation par Wallet Éligible** : **1 000 $LAB Mainnet** (soumis à un vesting linéaire de 6 mois avec 25% au TGE pour éviter tout dump).
+  - **Pool d'Airdrop Cible** : 20 000 000 $LAB (exactement 2,0% de la réserve globale de 1 Milliard).
+  - **Badge NFT 3D** : Badge *"Privacy Pioneer"* offrant +15% de rendement supplémentaire en staking.
 
 ---
 
-### 2️⃣ PHASE 2 : Lancement Stratégique Multi-Chain *(Arbitrum One & Base L2)*
-- **Objectif** : Offrir des retraits anonymes ultra-rapides pour moins de $0.05 de frais de gaz.
-- **Actions** :
-  1. Déployer les smart contracts sur **Arbitrum One** et **Base L2** d'abord (faible coût et volume élevé).
-  2. Déployer ultérieurement sur **Ethereum Mainnet** pour capturer le volume des baleines (*Whales*).
+### 2️⃣ PHASE 2 : Lancement Multi-Chain à Frais Minimes *(5 Blockchains Frayeur < $0.05)*
+- **Objectif** : Éviter les frais élevés d'Ethereum Mainnet au lancement et garantir des retraits anonymes ultra-rapides.
+- **Réseaux Cibles au Lancement** :
+  1. **Arbitrum One** (Frais < $0.02 - Volume ZK élevé)
+  2. **Base L2** (Frais < $0.01 - Écosystème Coinbase)
+  3. **Optimism (OP)** (Frais < $0.03 - Superchain)
+  4. **Polygon (POL/MATIC)** (Frais < $0.01 - Adoption massive)
+  5. **BNB Chain (BSC)** (Frais < $0.05 - Très grande liquidité asiatique)
+- **Frais de Déploiement** : Pris en charge facilement en raison des coûts symboliques sur ces 5 réseaux.
+- **Ethereum Mainnet & Tron** : Réservés pour une phase ultérieure afin d'accueillir les baleines institutionnelles (*Whales*).
 
 ---
 

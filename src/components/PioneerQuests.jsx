@@ -84,11 +84,11 @@ const PioneerQuests = ({ isConnected, walletAddress, activeTab, setActiveTab, t 
           <div className="flex flex-wrap items-center gap-4 text-xs font-semibold pt-2">
             <div className="flex items-center gap-2 bg-slate-950/80 px-3.5 py-2 rounded-xl border border-slate-800">
               <Users className="w-4 h-4 text-cyan-400" />
-              <span>Places Réservées : <strong className="text-white">1,482 / 2,000</strong></span>
+              <span>Places Ambassadeurs Réservées : <strong className="text-white">4,820 / 20,000</strong></span>
             </div>
             <div className="flex items-center gap-2 bg-slate-950/80 px-3.5 py-2 rounded-xl border border-slate-800">
               <Award className="w-4 h-4 text-amber-400" />
-              <span>Allocation Airdrop : <strong className="text-amber-400">10,000 $LAB / Wallet</strong></span>
+              <span>Allocation Airdrop : <strong className="text-amber-400">1,000 $LAB / Wallet</strong></span>
             </div>
           </div>
         </div>
@@ -266,7 +266,7 @@ const PioneerQuests = ({ isConnected, walletAddress, activeTab, setActiveTab, t 
           </h3>
           <p className="text-xs text-slate-300">
             {nftMinted 
-              ? 'Votre wallet fait officiellement partie de la cohorte des 2 000 pionniers éligibles à l\'Airdrop de 10 000 $LAB Mainnet avec 15% de Yield Boost !' 
+              ? 'Votre wallet fait officiellement partie de la cohorte des 20 000 ambassadeurs éligibles à l\'Airdrop de 1 000 $LAB Mainnet avec 15% de Yield Boost !' 
               : 'Validez les 3 quêtes ci-dessus pour débloquer le mint de votre NFT sur la blockchain Sepolia.'
             }
           </p>
