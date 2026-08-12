@@ -22,12 +22,12 @@ const ProofOfInnocence = ({ t }) => {
     <div className="max-w-4xl mx-auto px-4 py-8 space-y-8">
       {/* Header Panel */}
       <div className="glass-panel p-6 sm:p-8 relative overflow-hidden space-y-4">
-        <div className="flex items-center justify-between">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-600 dark:text-blue-400 text-xs font-bold uppercase tracking-wider">
-            <ShieldCheck className="w-3.5 h-3.5 text-blue-500" />
-            {tPoi.badge}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-600 dark:text-blue-400 text-xs font-bold uppercase tracking-wider self-start sm:self-auto">
+            <ShieldCheck className="w-3.5 h-3.5 text-blue-500 shrink-0" />
+            <span>{tPoi.badge}</span>
           </div>
-          <span className="badge-emerald">{tPoi.cexBadge}</span>
+          <span className="badge-emerald self-start sm:self-auto shrink-0">{tPoi.cexBadge}</span>
         </div>
 
         <h2 className="text-3xl font-black text-slate-900 dark:text-white">{tPoi.title}</h2>
