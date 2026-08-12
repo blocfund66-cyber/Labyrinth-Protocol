@@ -6,7 +6,9 @@ import YieldPools from './components/YieldPools';
 import TokenomicsDashboard from './components/TokenomicsDashboard';
 import DAOGovernance from './components/DAOGovernance';
 import ProofOfInnocence from './components/ProofOfInnocence';
+import PioneerQuests from './components/PioneerQuests';
 import OnboardingModal from './components/OnboardingModal';
+import WalletModal from './components/WalletModal';
 import { AbstractLabyrinthLogo } from './components/Icons';
 import { translations, detectBrowserLanguage } from './i18n/translations';
 import { 
@@ -25,7 +27,8 @@ import {
   Layers,
   ShieldCheck,
   Rocket,
-  Vote
+  Vote,
+  Trophy
 } from 'lucide-react';
 
 function App() {
@@ -318,6 +321,19 @@ function App() {
                 <Award className="w-4 h-4" />
                 <span>{t.nav.poi}</span>
               </button>
+
+              {/* QUESTS & GALXE TAB */}
+              <button
+                onClick={() => setActiveTab('quests')}
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
+                  activeTab === 'quests'
+                    ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 shadow-sm shadow-cyan-500/20'
+                    : 'text-cyan-400/80 hover:text-cyan-300'
+                }`}
+              >
+                <Trophy className="w-4 h-4 text-amber-400 animate-pulse" />
+                <span className="whitespace-nowrap font-bold text-amber-300">{t?.nav?.quests || 'Quêtes Bêta 🎯'}</span>
+              </button>
             </nav>
           )}
 
@@ -394,6 +410,12 @@ function App() {
               >
                 {t.nav.poi}
               </button>
+              <button
+                onClick={() => setActiveTab('quests')}
+                className={`px-4 py-2 rounded-lg text-xs font-bold shrink-0 ${activeTab === 'quests' ? 'bg-amber-500 text-slate-950 font-black' : 'text-amber-400 font-bold'}`}
+              >
+                {t?.nav?.quests || 'Quêtes Bêta 🎯'}
+              </button>
             </>
           )}
         </div>
@@ -410,6 +432,7 @@ function App() {
             {activeTab === 'tokenomics' && <TokenomicsDashboard t={t} />}
             {activeTab === 'dao' && <DAOGovernance isConnected={isConnected} walletAddress={walletAddress} connectWallet={connectWallet} t={t} />}
             {activeTab === 'poi' && <ProofOfInnocence t={t} />}
+            {activeTab === 'quests' && <PioneerQuests isConnected={isConnected} walletAddress={walletAddress} activeTab={activeTab} setActiveTab={setActiveTab} t={t} />}
           </>
         )}
       </main>

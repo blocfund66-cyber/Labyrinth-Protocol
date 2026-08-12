@@ -16,6 +16,7 @@ export const translations = {
       tokenomics: '$LAB Tokenomics',
       dao: 'Governance & DAO',
       poi: 'Proof of Innocence',
+      quests: 'Beta Quests 🎯',
       connect: 'Connect Wallet',
       launchApp: 'Launch App'
     },
@@ -219,6 +220,7 @@ export const translations = {
       tokenomics: 'Tokenomics $LAB',
       dao: 'Gouvernance & DAO',
       poi: 'Proof of Innocence',
+      quests: 'Quêtes Bêta 🎯',
       connect: 'Connecter Wallet',
       launchApp: 'Lancer l\'App'
     },
@@ -422,6 +424,7 @@ export const translations = {
       tokenomics: '$LAB 代币经济',
       dao: '治理 & DAO',
       poi: '清白证明 (PoI)',
+      quests: '测试网任务 🎯',
       connect: '连接钱包',
       launchApp: '启动应用'
     },
@@ -625,6 +628,7 @@ export const translations = {
       tokenomics: '$LAB トークノミクス',
       dao: 'ガバナンス & DAO',
       poi: '潔白証明 (PoI)',
+      quests: 'ベータクエスト 🎯',
       connect: 'ウォレット接続',
       launchApp: 'アプリ起動'
     },
@@ -828,6 +832,7 @@ export const translations = {
       tokenomics: 'Токеномика $LAB',
       dao: 'Управление & DAO',
       poi: 'Proof of Innocence',
+      quests: 'Квесты Тестнета 🎯',
       connect: 'Подключить Кошелек',
       launchApp: 'Запустить Приложение'
     },
@@ -1031,6 +1036,7 @@ export const translations = {
       tokenomics: 'رموز $LAB',
       dao: 'الحوكمة & DAO',
       poi: 'إثبات البراءة (PoI)',
+      quests: 'مهام الاختبار 🎯',
       connect: 'ربط المحفظة',
       launchApp: 'تشغيل التطبيق'
     },
