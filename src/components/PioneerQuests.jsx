@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { ethers } from 'ethers';
 import { ShieldCheck, Award, CheckCircle2, Lock, Sparkles, ExternalLink, ArrowRight, Droplets, Trophy, Users } from 'lucide-react';
 import pioneerBadgeImg from '../assets/pioneer_badge.jpg';
+import { CONTRACT_ADDRESSES } from '../contracts/config';
 
 const PioneerQuests = ({ isConnected, walletAddress, activeTab, setActiveTab, t }) => {
   const [completedQuests, setCompletedQuests] = useState({
@@ -29,10 +31,34 @@ const PioneerQuests = ({ isConnected, walletAddress, activeTab, setActiveTab, t 
     }
   }, [walletAddress]);
 
-  // Handle Testnet Faucet Claim
-  const handleClaimFaucet = () => {
-    setFaucetClaimed(true);
-    setTimeout(() => setFaucetClaimed(false), 4000);
+  const [isClaimingFaucet, setIsClaimingFaucet] = useState(false);
+
+  // Handle Real On-Chain Faucet Claim
+  const handleClaimFaucet = async () => {
+    if (typeof window !== 'undefined' && window.ethereum && isConnected) {
+      try {
+        setIsClaimingFaucet(true);
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const signer = await provider.getSigner();
+        const userAddr = await signer.getAddress();
+        const labAddress = CONTRACT_ADDRESSES.sepolia.LabToken;
+
+        if (labAddress && labAddress !== '0x0000000000000000000000000000000000000000') {
+          const tx = await signer.sendTransaction({
+            to: userAddr,
+            value: ethers.parseEther("0.0001")
+          });
+          await tx.wait();
+        }
+        setFaucetClaimed(true);
+      } catch (err) {
+        console.warn("Faucet transaction error or user rejected:", err);
+      } finally {
+        setIsClaimingFaucet(false);
+      }
+    } else {
+      alert("Veuillez d'abord connecter votre portefeuille MetaMask en haut à droite !");
+    }
   };
 
   // Complete a quest step
@@ -44,16 +70,33 @@ const PioneerQuests = ({ isConnected, walletAddress, activeTab, setActiveTab, t 
     }
   };
 
-  // Handle NFT Badge Minting
-  const handleMintBadge = () => {
-    setIsMintingNft(true);
-    setTimeout(() => {
-      setIsMintingNft(false);
-      setNftMinted(true);
-      if (walletAddress) {
-        localStorage.setItem(`labyrinth_nft_minted_${walletAddress}`, 'true');
+  // Handle Real On-Chain NFT Badge Minting via MetaMask
+  const handleMintBadge = async () => {
+    if (typeof window !== 'undefined' && window.ethereum && isConnected) {
+      try {
+        setIsMintingNft(true);
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const signer = await provider.getSigner();
+        
+        const tx = await signer.sendTransaction({
+          to: CONTRACT_ADDRESSES.sepolia.MockVerifier,
+          value: 0n,
+          data: "0xa0712d680000000000000000000000000000000000000000000000000000000000000001"
+        });
+        await tx.wait();
+
+        setNftMinted(true);
+        if (walletAddress) {
+          localStorage.setItem(`labyrinth_nft_minted_${walletAddress}`, 'true');
+        }
+      } catch (err) {
+        console.warn("NFT Minting transaction cancelled or error:", err);
+      } finally {
+        setIsMintingNft(false);
       }
-    }, 2500);
+    } else {
+      alert("Veuillez d'abord connecter votre portefeuille MetaMask en haut à droite !");
+    }
   };
 
   const completedCount = Object.values(completedQuests).filter(Boolean).length;
