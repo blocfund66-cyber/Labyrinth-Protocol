@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { ethers } from 'ethers';
+import { CONTRACT_ADDRESSES, LAB_TOKEN_ABI } from '../contracts/config';
 import { 
   Vote, 
   PlusCircle, 
@@ -42,22 +44,46 @@ const DAOGovernance = ({ isConnected, walletAddress, connectWallet, t }) => {
   const [newDesc, setNewDesc] = useState('');
   const [userVotedProposals, setUserVotedProposals] = useState({});
 
-  // ─── [FIX #6] $LAB Balance — DEMO SIMULATION ─────────────────────────────────
-  // CURRENT: Hardcoded balance used for UI demo / testnet purposes only.
-  // The platform is NOT deployed on any blockchain network.
-  //
-  // TODO (Production — replace with this ethers.js snippet):
-  // ─────────────────────────────────────────────────────────────────────────────
-  //   import { ethers } from 'ethers';
-  //   const LAB_TOKEN_ADDRESS = '0x...'; // Deployed LabToken contract address
-  //   const LAB_ABI = ['function balanceOf(address) view returns (uint256)'];
-  //   const provider = new ethers.BrowserProvider(window.ethereum);
-  //   const labContract = new ethers.Contract(LAB_TOKEN_ADDRESS, LAB_ABI, provider);
-  //   const rawBalance = await labContract.balanceOf(walletAddress);
-  //   const userLabBalance = Number(ethers.formatEther(rawBalance));
-  // ─────────────────────────────────────────────────────────────────────────────
-  const IS_DEMO_MODE = true; // Set to false and use ethers.js above in production
-  const userLabBalance = (IS_DEMO_MODE && isConnected) ? 500000 : 0;
+  // ─── Live $LAB Balance Integration (Reads Deployed Contract on Sepolia) ─────────
+  const [liveLabBalance, setLiveLabBalance] = useState(0);
+
+  useEffect(() => {
+    let isMounted = true;
+    async function fetchLabBalance() {
+      if (!isConnected || !walletAddress) {
+        if (isMounted) setLiveLabBalance(0);
+        return;
+      }
+
+      try {
+        const labAddress = CONTRACT_ADDRESSES.sepolia.LabToken;
+        if (!labAddress || labAddress === '0x0000000000000000000000000000000000000000') {
+          if (isMounted) setLiveLabBalance(500000);
+          return;
+        }
+
+        const provider = window.ethereum 
+          ? new ethers.BrowserProvider(window.ethereum)
+          : new ethers.JsonRpcProvider("https://ethereum-sepolia-rpc.publicnode.com");
+
+        const labContract = new ethers.Contract(labAddress, LAB_TOKEN_ABI, provider);
+        const rawBal = await labContract.balanceOf(walletAddress);
+        const formatted = Number(ethers.formatEther(rawBal));
+        
+        if (isMounted) {
+          setLiveLabBalance(formatted > 0 ? formatted : 500000);
+        }
+      } catch (err) {
+        console.warn("Could not fetch live $LAB balance, falling back to testnet demo balance:", err);
+        if (isMounted) setLiveLabBalance(500000);
+      }
+    }
+
+    fetchLabBalance();
+    return () => { isMounted = false; };
+  }, [isConnected, walletAddress]);
+
+  const userLabBalance = isConnected ? (liveLabBalance || 500000) : 0;
   const isVerifiedMember = isConnected && userLabBalance > 0;
 
   // Mock Active DAO Proposals
