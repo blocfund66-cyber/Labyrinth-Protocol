@@ -81,11 +81,13 @@ const PioneerQuests = ({ isConnected, walletAddress, activeTab, setActiveTab, t 
           </p>
 
           {/* Relayer Staking Revenue Privilege Banner */}
-          <div className="bg-amber-500/10 border border-amber-500/30 p-3.5 rounded-xl text-xs text-amber-300 flex items-start gap-2.5">
-            <Sparkles className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-            <div>
-              <strong className="block text-white font-bold mb-0.5">💎 Utilité & Revenu Passif du Staking $LAB :</strong>
-              En stakant vos 1 000 $LAB dans le protocole, vous percevez automatiquement **80% de tous les frais de transaction prélevés par le réseau de relayeurs** (redistribués en Real Yield continu sur votre portefeuille) !
+          <div className="bg-gradient-to-r from-amber-500/15 via-slate-900 to-cyan-950/40 border border-amber-500/40 p-4 rounded-xl text-xs text-amber-300 flex items-start gap-3 shadow-lg">
+            <Sparkles className="w-5 h-5 text-amber-400 shrink-0 mt-0.5 animate-pulse" />
+            <div className="space-y-1">
+              <strong className="block text-white font-bold text-sm">🔥 80% des Frais de Relayeurs Reversés en Staking Pendant 2 Ans (24 Mois) !</strong>
+              <p className="text-slate-300 leading-relaxed">
+                En stakant vos 1 000 $LAB attribués, vous devenez éligible à la distribution de dividende : <strong className="text-amber-400">80% de TOUS les frais de transaction perçus par les relayeurs sur les 6 blockchains (Solana, Arbitrum, Base, OP, Polygon, BNB Chain)</strong> vous sont directement <strong className="text-cyan-400 font-bold">reversés en Real Yield pendant 2 ans (24 mois garantis)</strong> !
+              </p>
             </div>
           </div>
 
