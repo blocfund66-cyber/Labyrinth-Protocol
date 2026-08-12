@@ -251,8 +251,8 @@ function App() {
             </nav>
           )}
 
-          {/* RIGHT ACTION BUTTON (Pushed to Far Right) */}
-          <div className="flex items-center gap-3 shrink-0">
+          {/* RIGHT ACTION BUTTON (Pushed to Far Right with Symmetric Generous Spacing) */}
+          <div className="flex items-center gap-3 shrink-0 ml-4 lg:ml-12">
             {currentView === 'landing' ? (
               <button
                 onClick={handleEnterApp}
