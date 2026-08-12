@@ -77,8 +77,17 @@ const PioneerQuests = ({ isConnected, walletAddress, activeTab, setActiveTab, t 
           </h2>
 
           <p className="text-slate-300 text-sm leading-relaxed">
-            Participez au bêta-test officiel de Labyrinth Protocol sur Sepolia. Validez les 3 quêtes interactives, mintez votre <strong className="text-cyan-400">Badge NFT Privacy Pioneer 3D</strong> et réservez l'une des <strong className="text-amber-400">2 000 places éligibles</strong> à l'Airdrop officiel de 10 000 $LAB Mainnet !
+            Participez au bêta-test officiel de Labyrinth Protocol sur Sepolia. Validez les 3 quêtes interactives, mintez votre <strong className="text-cyan-400">Badge NFT Privacy Pioneer 3D</strong> et réservez l'une des <strong className="text-amber-400">20 000 places d'ambassadeurs</strong> pour recevoir 1 000 $LAB Mainnet !
           </p>
+
+          {/* Relayer Staking Revenue Privilege Banner */}
+          <div className="bg-amber-500/10 border border-amber-500/30 p-3.5 rounded-xl text-xs text-amber-300 flex items-start gap-2.5">
+            <Sparkles className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+            <div>
+              <strong className="block text-white font-bold mb-0.5">💎 Utilité & Revenu Passif du Staking $LAB :</strong>
+              En stakant vos 1 000 $LAB dans le protocole, vous percevez automatiquement **80% de tous les frais de transaction prélevés par le réseau de relayeurs** (redistribués en Real Yield continu sur votre portefeuille) !
+            </div>
+          </div>
 
           {/* Quick Stats Pills */}
           <div className="flex flex-wrap items-center gap-4 text-xs font-semibold pt-2">
