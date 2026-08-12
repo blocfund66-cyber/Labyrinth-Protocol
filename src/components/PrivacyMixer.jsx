@@ -187,7 +187,7 @@ const PrivacyMixer = ({ experienceLevel = 'intermediate', t }) => {
             onClick={() => { setActiveMode('deposit'); setWithdrawSuccess(false); }}
             className={`flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold transition-all text-sm ${
               activeMode === 'deposit'
-                ? 'bg-gradient-to-r from-blue-600 to-indigo-700 text-white shadow-lg shadow-blue-500/25'
+                ? 'bg-gradient-to-r from-blue-600 to-indigo-700 text-white shadow-sm'
                 : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
             }`}
           >
@@ -198,7 +198,7 @@ const PrivacyMixer = ({ experienceLevel = 'intermediate', t }) => {
             onClick={() => { setActiveMode('withdraw'); setWithdrawSuccess(false); }}
             className={`flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold transition-all text-sm ${
               activeMode === 'withdraw'
-                ? 'bg-gradient-to-r from-blue-600 to-indigo-700 text-white shadow-lg shadow-blue-500/25'
+                ? 'bg-gradient-to-r from-blue-600 to-indigo-700 text-white shadow-sm'
                 : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
             }`}
           >
