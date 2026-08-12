@@ -1,4 +1,5 @@
 import React from 'react';
+import logoImg from '../assets/logo.png';
 
 /**
  * Official Crypto Blockchain & Token SVG Logos Component Suite
@@ -123,57 +124,13 @@ export const WbtcIcon = ({ className = "w-5 h-5" }) => (
   </svg>
 );
 
-// 13. Protocol Main Brand Logo Component — Official Neon Cyan Labyrinth 'L' Maze Emblem
+// 13. Protocol Main Brand Logo Component — Direct original image file imported into Vite bundle
 export const AbstractLabyrinthLogo = ({ className = "w-10 h-10" }) => (
-  <div className={`${className} relative rounded-2xl overflow-hidden border border-blue-600/60 shadow-[0_0_15px_rgba(37,99,235,0.4)] bg-[#070B14] flex items-center justify-center p-2 group transition-all`}>
-    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full transform group-hover:scale-105 transition-transform">
-      {/* Outer Contour of Letter 'L' */}
-      <path 
-        d="M 32 20 H 52 V 60 H 76 V 80 H 32 V 20 Z" 
-        stroke="#00E5FF" 
-        strokeWidth="3.5" 
-        strokeLinejoin="round" 
-        strokeLinecap="round" 
-        fill="none" 
-      />
-
-      {/* Internal Maze Circuit Paths inside 'L' */}
-      <path 
-        d="M 42 28 V 52 H 66 V 70" 
-        stroke="#00E5FF" 
-        strokeWidth="2.5" 
-        strokeLinecap="round" 
-        strokeLinejoin="round" 
-        fill="none" 
-      />
-
-      <path 
-        d="M 52 36 V 44" 
-        stroke="#00E5FF" 
-        strokeWidth="2.5" 
-        strokeLinecap="round" 
-        fill="none" 
-      />
-
-      <path 
-        d="M 42 60 H 56" 
-        stroke="#00E5FF" 
-        strokeWidth="2.5" 
-        strokeLinecap="round" 
-        fill="none" 
-      />
-
-      <path 
-        d="M 66 60 V 70" 
-        stroke="#00E5FF" 
-        strokeWidth="2.5" 
-        strokeLinecap="round" 
-        fill="none" 
-      />
-
-      {/* Small Labyrinth Dead-End T-Junctions */}
-      <circle cx="32" cy="20" r="1.5" fill="#00E5FF" />
-      <circle cx="76" cy="80" r="1.5" fill="#00E5FF" />
-    </svg>
+  <div className={`${className} relative rounded-xl overflow-hidden border border-blue-500/40 shadow-md shadow-blue-500/20 bg-slate-950 flex items-center justify-center p-0.5 group transition-all`}>
+    <img 
+      src={logoImg} 
+      alt="Labyrinth Logo" 
+      className="w-full h-full object-contain rounded-xl transform group-hover:scale-105 transition-transform" 
+    />
   </div>
 );
