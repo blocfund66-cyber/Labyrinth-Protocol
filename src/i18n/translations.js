@@ -1,4 +1,4 @@
-// Labyrinth V1 - Complete Multilingual i18n Translation Dictionary with DAO Governance & Landing Page Nav Links
+// Labyrinth V1 - Complete Multilingual i18n Translation Dictionary with DAO & Governance Nav Links
 // Supported languages: EN (English), FR (French), ZH (Chinese), JA (Japanese), RU (Russian), AR (Arabic)
 
 export const translations = {
@@ -14,7 +14,7 @@ export const translations = {
       mixer: 'Privacy Mixer',
       yield: 'Yield Pools',
       tokenomics: '$LAB Tokenomics',
-      dao: 'DAO Governance 🗳️',
+      dao: 'Governance & DAO',
       poi: 'Proof of Innocence',
       connect: 'Connect Wallet',
       launchApp: 'Launch App 🚀'
@@ -56,25 +56,25 @@ export const translations = {
     },
     dao: {
       badge: 'On-Chain DAO Governance',
-      title: 'DAO Governance & Voting',
-      subtitle: 'Vote and submit decentralized proposals to shape the future of Labyrinth Protocol.',
-      votingPower: 'Your Voting Power (vLAB):',
-      stakedAmount: 'Staked $LAB Tokens:',
-      submitProposalBtn: '+ Submit Proposal',
-      voteFor: 'Vote FOR (Yes)',
-      voteAgainst: 'Vote AGAINST (No)',
-      proposalStatusPassed: 'Passed & Ready for Execution',
-      proposalStatusActive: 'Voting Active',
-      createModalTitle: 'Submit On-Chain Proposal',
-      inputTitleLabel: 'Proposal Title:',
-      inputDescLabel: 'Detailed Description:',
-      cancelBtn: 'Cancel',
-      submitBtn: 'Submit Proposal (On-Chain)',
-      hasVoted: 'You have already voted'
+      title: 'Gouvernance & Votes de la Communauté',
+      subtitle: 'Votez et déposez des propositions décentralisées pour façonner l\'avenir du protocole Labyrinth.',
+      votingPower: 'Votre Pouvoir de Vote (vLAB) :',
+      stakedAmount: 'Jetons $LAB Stakés :',
+      submitProposalBtn: '+ Créer une Proposition',
+      voteFor: 'Voter POUR (Yes)',
+      voteAgainst: 'Voter CONTRE (No)',
+      proposalStatusPassed: 'Approuvée & Prête à l\'Exécution',
+      proposalStatusActive: 'Vote en Cours',
+      createModalTitle: 'Déposer une Proposition sur la Blockchain',
+      inputTitleLabel: 'Titre de la Proposition :',
+      inputDescLabel: 'Description Détaillée :',
+      cancelBtn: 'Annuler',
+      submitBtn: 'Soumettre la Proposition (On-Chain)',
+      hasVoted: 'Vous avez déjà voté'
     },
     mixer: {
-      depositTab: 'Deposit & Mix',
-      withdrawTab: 'Anonymous Withdraw',
+      depositTab: 'Déposer & Mixer',
+      withdrawTab: 'Retirer Anonymement',
       title: 'Labyrinth Private Deposit',
       subtitle: 'Deposit funds to enter the zero-knowledge privacy pool.',
       selectChain: '1. Select Source Blockchain',
@@ -217,7 +217,7 @@ export const translations = {
       mixer: 'Privacy Mixer',
       yield: 'Pools de Rendement',
       tokenomics: 'Tokenomics $LAB',
-      dao: 'Gouvernance DAO 🗳️',
+      dao: 'Gouvernance & DAO',
       poi: 'Proof of Innocence',
       connect: 'Connecter Wallet',
       launchApp: 'Lancer l\'App 🚀'
@@ -420,7 +420,7 @@ export const translations = {
       mixer: '隐私混合器',
       yield: '收益池',
       tokenomics: '$LAB 代币经济',
-      dao: 'DAO 治理 🗳️',
+      dao: '治理 & DAO',
       poi: '清白证明 (PoI)',
       connect: '连接钱包',
       launchApp: '启动应用 🚀'
@@ -582,7 +582,7 @@ export const translations = {
       successTitle: '有效的 ZK 证书已出具',
       successStatus: '状态：非受制裁证明通过',
       certId: '证书 ID：',
-      merkleHash: 'Merkle 树根哈希：',
+      merkleHash: '树根哈希：',
       sanctionCheck: '制裁树检查：通过（Chainalysis/OFAC 数据库 0 匹配）',
       downloadBtn: '下载证书 (.JSON)',
       verifyAnother: '验证另一笔交易'
@@ -623,7 +623,7 @@ export const translations = {
       mixer: 'プライバシーミキサー',
       yield: '利回りプール',
       tokenomics: '$LAB トークノミクス',
-      dao: 'DAO ガバナンス 🗳️',
+      dao: 'ガバナンス & DAO',
       poi: '潔白証明 (PoI)',
       connect: 'ウォレット接続',
       launchApp: 'アプリ起動 🚀'
@@ -826,7 +826,7 @@ export const translations = {
       mixer: 'Privacy Миксер',
       yield: 'Пулы Доходности',
       tokenomics: 'Токеномика $LAB',
-      dao: 'DAO Голосование 🗳️',
+      dao: 'Управление & DAO',
       poi: 'Proof of Innocence',
       connect: 'Подключить Кошелек',
       launchApp: 'Запустить Приложение 🚀'
@@ -1029,7 +1029,7 @@ export const translations = {
       mixer: 'خلاط الخصوصية',
       yield: 'أحواض العائد',
       tokenomics: 'رموز $LAB',
-      dao: 'حوكمة DAO 🗳️',
+      dao: 'الحوكمة & DAO',
       poi: 'إثبات البراءة (PoI)',
       connect: 'ربط المحفظة',
       launchApp: 'تشغيل التطبيق 🚀'

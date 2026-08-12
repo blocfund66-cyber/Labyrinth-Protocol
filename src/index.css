@@ -74,12 +74,6 @@ body {
   color: #0f172a !important;
 }
 
-.light .text-white,
-.light .text-slate-200,
-.light .text-slate-100 {
-  color: #0f172a !important;
-}
-
 .light .text-slate-400,
 .light .text-slate-300 {
   color: #334155 !important;
@@ -88,6 +82,18 @@ body {
 .light .text-cyan-300,
 .light .text-cyan-400 {
   color: #1d4ed8 !important;
+}
+
+/* ALWAYS PRESERVE CRISP WHITE TEXT ON COLORED BUTTONS & BADGES IN LIGHT MODE */
+.light .btn-cyan,
+.light .btn-cyan *,
+.light .bg-blue-600,
+.light .bg-blue-600 *,
+.light .bg-blue-700,
+.light .bg-blue-700 *,
+.light .bg-emerald-600,
+.light .bg-emerald-600 * {
+  color: #ffffff !important;
 }
 
 /* Interactive Card Buttons */
@@ -158,79 +164,72 @@ body {
 .btn-secondary {
   background: rgba(255, 255, 255, 0.05) !important;
   color: var(--text-primary) !important;
-  border: 1px solid var(--border-subtle) !important;
-  border-radius: 12px;
-  padding: 12px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 14px;
+  padding: 14px 28px;
   font-weight: 600;
   cursor: pointer;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  line-height: 1 !important;
-  gap: 8px !important;
-  transition: all 0.25s ease;
+  transition: all 0.2s ease;
 }
 
 .light .btn-secondary {
-  background: #ffffff !important;
+  background: #f1f5f9 !important;
   color: #0f172a !important;
-  border-color: #cbd5e1 !important;
+  border: 1px solid #cbd5e1 !important;
 }
 
 .btn-secondary:hover {
-  background: rgba(37, 99, 235, 0.1) !important;
-  border-color: var(--accent-cyan) !important;
-  color: var(--accent-cyan) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
 }
 
-/* Badges */
-.badge-cyan {
-  background: rgba(37, 99, 235, 0.15) !important;
-  color: #60a5fa !important;
-  border: 1px solid rgba(59, 130, 246, 0.35) !important;
-  padding: 4px 10px;
-  border-radius: 9999px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
+.light .btn-secondary:hover {
+  background: #e2e8f0 !important;
+  border-color: #94a3b8 !important;
 }
 
-.light .badge-cyan {
-  background: #dbeafe !important;
-  color: #1d4ed8 !important;
-  border-color: #93c5fd !important;
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
 }
 
-.badge-emerald {
-  background: rgba(16, 185, 129, 0.15) !important;
-  color: #10b981 !important;
-  border: 1px solid rgba(16, 185, 129, 0.35) !important;
-  padding: 4px 10px;
-  border-radius: 9999px;
-  font-size: 0.75rem;
-  font-weight: 700;
+::-webkit-scrollbar-track {
+  background: #050814;
 }
 
-.light .badge-emerald {
-  background: #d1fae5 !important;
-  color: #059669 !important;
-  border-color: #6ee7b7 !important;
+.light ::-webkit-scrollbar-track {
+  background: #f8fafc;
 }
 
-.badge-violet {
-  background: rgba(139, 92, 246, 0.15) !important;
-  color: #8b5cf6 !important;
-  border: 1px solid rgba(139, 92, 246, 0.35) !important;
-  padding: 4px 10px;
-  border-radius: 9999px;
-  font-size: 0.75rem;
-  font-weight: 700;
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 4px;
 }
 
-.light .badge-violet {
-  background: #ede9fe !important;
-  color: #7c3aed !important;
-  border-color: #c4b5fd !important;
+.light ::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3b82f6;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+
+.animate-pulseGlow {
+  animation: pulseGlow 3s ease-in-out infinite;
 }

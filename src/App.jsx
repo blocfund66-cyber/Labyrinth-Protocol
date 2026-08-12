@@ -136,8 +136,8 @@ function App() {
       <header className={`sticky top-0 z-40 ${isDarkMode ? 'bg-[#050814]/90 border-blue-500/20' : 'bg-white/95 border-slate-200'} backdrop-blur-xl border-b transition-colors shadow-sm`}>
         <div className="max-w-[1400px] mx-auto px-4 sm:px-8 h-20 flex items-center justify-between gap-4">
           
-          {/* LOGO & TITLE (Pushed to Far Left) */}
-          <div className="flex items-center gap-3.5 cursor-pointer shrink-0" onClick={() => { if (currentView === 'app') setCurrentView('landing'); }}>
+          {/* LOGO & TITLE (Pushed to Far Left with Generous Spacing) */}
+          <div className="flex items-center gap-3.5 cursor-pointer shrink-0 mr-4 lg:mr-12" onClick={() => { if (currentView === 'app') setCurrentView('landing'); }}>
             <AbstractLabyrinthLogo className="w-10 h-10" />
             <div>
               <span className={`font-black text-2xl tracking-wider ${isDarkMode ? 'text-white' : 'text-slate-900'} font-outfit block leading-none`}>
@@ -187,13 +187,13 @@ function App() {
             </nav>
           ) : (
             /* ================= PROTOCOL dAPP HEADER NAV (ALL 5 TABS WITH CLEAR WRITTEN LABELS) ================= */
-            <nav className={`hidden lg:flex items-center gap-1 p-1.5 rounded-2xl border ${isDarkMode ? 'bg-slate-900/80 border-slate-800' : 'bg-slate-100 border-slate-200'}`}>
+            <nav className={`hidden lg:flex items-center gap-1 p-1.5 rounded-2xl border ${isDarkMode ? 'bg-slate-900/80 border-slate-800' : 'bg-white border-slate-200 shadow-sm'}`}>
               <button
                 onClick={() => setActiveTab('mixer')}
                 className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
                   activeTab === 'mixer'
-                    ? 'bg-blue-600/20 text-blue-400 dark:text-blue-300 border border-blue-500/40 shadow-sm'
-                    : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
+                    ? 'bg-blue-600 text-white shadow-md dark:bg-blue-600/30 dark:text-blue-300 dark:border dark:border-blue-500/40'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
               >
                 <Lock className="w-4 h-4" />
@@ -204,8 +204,8 @@ function App() {
                 onClick={() => setActiveTab('yield')}
                 className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
                   activeTab === 'yield'
-                    ? 'bg-blue-600/20 text-blue-400 dark:text-blue-300 border border-blue-500/40 shadow-sm'
-                    : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
+                    ? 'bg-blue-600 text-white shadow-md dark:bg-blue-600/30 dark:text-blue-300 dark:border dark:border-blue-500/40'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
               >
                 <TrendingUp className="w-4 h-4" />
@@ -216,33 +216,33 @@ function App() {
                 onClick={() => setActiveTab('tokenomics')}
                 className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
                   activeTab === 'tokenomics'
-                    ? 'bg-blue-600/20 text-blue-400 dark:text-blue-300 border border-blue-500/40 shadow-sm'
-                    : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
+                    ? 'bg-blue-600 text-white shadow-md dark:bg-blue-600/30 dark:text-blue-300 dark:border dark:border-blue-500/40'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
               >
                 <Coins className="w-4 h-4" />
                 <span>{t.nav.tokenomics}</span>
               </button>
 
-              {/* DAO GOVERNANCE TAB - FULLY WRITTEN OUT & HIGHLY VISIBLE */}
+              {/* GOUVERNANCE & DAO TAB */}
               <button
                 onClick={() => setActiveTab('dao')}
                 className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
                   activeTab === 'dao'
-                    ? 'bg-blue-600/20 text-blue-500 dark:text-blue-300 border border-blue-500/40 shadow-sm'
-                    : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
+                    ? 'bg-blue-600 text-white shadow-md dark:bg-blue-600/30 dark:text-blue-300 dark:border dark:border-blue-500/40'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
               >
-                <Vote className="w-4 h-4 text-blue-500 shrink-0" />
-                <span className="whitespace-nowrap font-bold">{t?.nav?.dao || 'Gouvernance DAO 🗳️'}</span>
+                <Vote className="w-4 h-4 shrink-0" />
+                <span className="whitespace-nowrap font-bold">{t?.nav?.dao || 'Gouvernance & DAO'}</span>
               </button>
 
               <button
                 onClick={() => setActiveTab('poi')}
                 className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
                   activeTab === 'poi'
-                    ? 'bg-blue-600/20 text-blue-400 dark:text-blue-300 border border-blue-500/40 shadow-sm'
-                    : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
+                    ? 'bg-blue-600 text-white shadow-md dark:bg-blue-600/30 dark:text-blue-300 dark:border dark:border-blue-500/40'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
               >
                 <Award className="w-4 h-4" />
