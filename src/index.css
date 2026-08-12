@@ -1,0 +1,236 @@
+/* Labyrinth V1 - Enhanced Deep Royal Blue & High-Contrast Light Mode System */
+
+:root {
+  --bg-deep: #050814;
+  --bg-surface: #0a0f24;
+  --bg-card: rgba(10, 15, 36, 0.85);
+
+  --text-primary: #ffffff;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+
+  --accent-cyan: #3b82f6; /* Soothing deep electric blue (no eye strain) */
+  --accent-cyan-glow: rgba(59, 130, 246, 0.3);
+  --accent-blue: #1d4ed8;
+
+  --border-subtle: rgba(59, 130, 246, 0.2);
+  --border-bright: rgba(59, 130, 246, 0.5);
+}
+
+/* Light Mode Global Styling Overrides */
+html.light, body.light {
+  --bg-deep: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-card: #ffffff;
+
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+
+  --accent-cyan: #1d4ed8;
+  --accent-cyan-glow: rgba(29, 78, 216, 0.15);
+  --accent-blue: #1e40af;
+
+  --border-subtle: #cbd5e1;
+  --border-bright: #1d4ed8;
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+body {
+  background-color: var(--bg-deep) !important;
+  color: var(--text-primary);
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
+
+/* Glassmorphism Cards */
+.glass-panel {
+  background: var(--bg-card) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-subtle) !important;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.35);
+  transition: all 0.3s ease;
+}
+
+.light .glass-panel {
+  background: #ffffff !important;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06) !important;
+  border: 1px solid #e2e8f0 !important;
+  color: #0f172a !important;
+}
+
+/* Universal Light Mode Card Box Override */
+.light .bg-slate-950,
+.light .bg-slate-900,
+.light .bg-slate-950\/80,
+.light .bg-slate-900\/60,
+.light .bg-slate-950\/40,
+.light .bg-slate-950\/60 {
+  background-color: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+.light .text-white,
+.light .text-slate-200,
+.light .text-slate-100 {
+  color: #0f172a !important;
+}
+
+.light .text-slate-400,
+.light .text-slate-300 {
+  color: #334155 !important;
+}
+
+.light .text-cyan-300,
+.light .text-cyan-400 {
+  color: #1d4ed8 !important;
+}
+
+/* Interactive Card Buttons */
+.card-item-btn {
+  background: rgba(10, 15, 36, 0.6);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  color: #f1f5f9;
+  transition: all 0.2s ease;
+}
+
+.light .card-item-btn {
+  background: #f8fafc !important;
+  border: 1px solid #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+.light .card-item-btn:hover {
+  background: #e2e8f0 !important;
+  border-color: #1d4ed8 !important;
+}
+
+.glass-card-selected {
+  background: rgba(59, 130, 246, 0.15) !important;
+  border: 1.5px solid #3b82f6 !important;
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.35);
+  color: #ffffff !important;
+}
+
+.light .glass-card-selected {
+  background: #eff6ff !important;
+  border: 2px solid #1d4ed8 !important;
+  color: #1e40af !important;
+  box-shadow: 0 0 16px rgba(29, 78, 216, 0.2) !important;
+}
+
+/* Pronounced Royal Blue Buttons */
+.btn-cyan {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  font-family: 'Outfit', sans-serif !important;
+  border: none !important;
+  border-radius: 14px;
+  padding: 14px 28px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 20px rgba(37, 99, 235, 0.4);
+
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  vertical-align: middle !important;
+  line-height: 1 !important;
+  gap: 10px !important;
+}
+
+.light .btn-cyan {
+  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 20px rgba(29, 78, 216, 0.35) !important;
+}
+
+.btn-cyan:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(37, 99, 235, 0.5);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.05) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-subtle) !important;
+  border-radius: 12px;
+  padding: 12px 20px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1 !important;
+  gap: 8px !important;
+  transition: all 0.25s ease;
+}
+
+.light .btn-secondary {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+}
+
+.btn-secondary:hover {
+  background: rgba(37, 99, 235, 0.1) !important;
+  border-color: var(--accent-cyan) !important;
+  color: var(--accent-cyan) !important;
+}
+
+/* Badges */
+.badge-cyan {
+  background: rgba(37, 99, 235, 0.15) !important;
+  color: #60a5fa !important;
+  border: 1px solid rgba(59, 130, 246, 0.35) !important;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.light .badge-cyan {
+  background: #dbeafe !important;
+  color: #1d4ed8 !important;
+  border-color: #93c5fd !important;
+}
+
+.badge-emerald {
+  background: rgba(16, 185, 129, 0.15) !important;
+  color: #10b981 !important;
+  border: 1px solid rgba(16, 185, 129, 0.35) !important;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.light .badge-emerald {
+  background: #d1fae5 !important;
+  color: #059669 !important;
+  border-color: #6ee7b7 !important;
+}
+
+.badge-violet {
+  background: rgba(139, 92, 246, 0.15) !important;
+  color: #8b5cf6 !important;
+  border: 1px solid rgba(139, 92, 246, 0.35) !important;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.light .badge-violet {
+  background: #ede9fe !important;
+  color: #7c3aed !important;
+  border-color: #c4b5fd !important;
+}

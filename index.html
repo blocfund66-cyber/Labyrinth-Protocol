@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Labyrinth Protocol | Next-Gen Cross-Chain Privacy & Yield Pools</title>
+    <meta name="description" content="Labyrinth est un protocole de confidentialité omnichain offrant du mixage cross-chain zero-knowledge, des pools à rendement et une tokenomics déflationniste $LAB." />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS Script -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              cyan: {
+                400: '#00f0ff',
+                500: '#00d8ff',
+                950: '#001a26'
+              },
+              slate: {
+                950: '#050814',
+                900: '#0a0f24',
+                850: '#0e1635'
+              }
+            },
+            fontFamily: {
+              outfit: ['Outfit', 'sans-serif'],
+              inter: ['Inter', 'sans-serif'],
+              mono: ['JetBrains Mono', 'monospace']
+            }
+          }
+        }
+      }
+    </script>
+  </head>
+  <body class="bg-[#050814] text-slate-100 antialiased selection:bg-cyan-500 selection:text-black font-inter min-h-screen">
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
