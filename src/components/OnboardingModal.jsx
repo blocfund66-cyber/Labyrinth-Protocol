@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles, Compass, Zap, BookOpen, Check } from 'lucide-react';
+import { Sparkles, Award, Check } from 'lucide-react';
 
 const OnboardingModal = ({ isOpen, onClose, currentLevel, onSelectLevel, t }) => {
   if (!isOpen) return null;
@@ -12,27 +12,27 @@ const OnboardingModal = ({ isOpen, onClose, currentLevel, onSelectLevel, t }) =>
       title: tOnboard.beginnerTitle,
       subtitle: tOnboard.beginnerSub,
       description: tOnboard.beginnerDesc,
-      badge: 'Guide',
-      badgeColor: 'badge-emerald',
-      icon: <BookOpen className="w-6 h-6 text-emerald-500" />
+      badge: 'Bronze 🥉',
+      badgeStyle: 'bg-amber-600/10 border border-amber-600/30 text-amber-700 dark:text-amber-400 font-bold px-2.5 py-0.5 rounded-full text-xs',
+      icon: <Award className="w-6 h-6 text-amber-600 dark:text-amber-500" />
     },
     {
       id: 'intermediate',
       title: tOnboard.interTitle,
       subtitle: tOnboard.interSub,
       description: tOnboard.interDesc,
-      badge: 'Standard',
-      badgeColor: 'badge-cyan',
-      icon: <Compass className="w-6 h-6 text-blue-500" />
+      badge: 'Argent 🥈',
+      badgeStyle: 'bg-slate-400/10 border border-slate-400/30 text-slate-700 dark:text-slate-300 font-bold px-2.5 py-0.5 rounded-full text-xs',
+      icon: <Award className="w-6 h-6 text-slate-400 dark:text-slate-300" />
     },
     {
       id: 'advanced',
       title: tOnboard.advTitle,
       subtitle: tOnboard.advSub,
       description: tOnboard.advDesc,
-      badge: 'Expert ZK',
-      badgeColor: 'badge-violet',
-      icon: <Zap className="w-6 h-6 text-violet-500" />
+      badge: 'Or 🥇',
+      badgeStyle: 'bg-yellow-500/10 border border-yellow-500/30 text-yellow-700 dark:text-yellow-400 font-bold px-2.5 py-0.5 rounded-full text-xs',
+      icon: <Award className="w-6 h-6 text-yellow-500" />
     }
   ];
 
@@ -75,7 +75,7 @@ const OnboardingModal = ({ isOpen, onClose, currentLevel, onSelectLevel, t }) =>
                   <h3 className="font-bold text-base text-slate-900 dark:text-white flex items-center gap-2">
                     {lvl.title}
                   </h3>
-                  <span className={lvl.badgeColor}>{lvl.badge}</span>
+                  <span className={lvl.badgeStyle}>{lvl.badge}</span>
                 </div>
                 <p className="text-xs font-semibold text-blue-600 dark:text-blue-400">{lvl.subtitle}</p>
                 <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">{lvl.description}</p>
