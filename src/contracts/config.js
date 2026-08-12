@@ -58,6 +58,22 @@ export const LOW_FEE_CHAINS = {
     rpcUrls: ["https://bsc-dataseed.binance.org"],
     blockExplorerUrls: ["https://bscscan.com"],
     avgFee: "< $0.05"
+  },
+  solana: {
+    chainId: "solana-mainnet",
+    chainName: "Solana Network",
+    nativeCurrency: { name: "Solana", symbol: "SOL", decimals: 9 },
+    rpcUrls: ["https://api.mainnet-beta.solana.com"],
+    blockExplorerUrls: ["https://solscan.io"],
+    avgFee: "< $0.001"
+  },
+  avalanche: {
+    chainId: "0xa86a", // 43114
+    chainName: "Avalanche C-Chain",
+    nativeCurrency: { name: "Avalanche", symbol: "AVAX", decimals: 18 },
+    rpcUrls: ["https://api.avax.network/ext/bc/C/rpc"],
+    blockExplorerUrls: ["https://snowtrace.io"],
+    avgFee: "< $0.03"
   }
 };
 
