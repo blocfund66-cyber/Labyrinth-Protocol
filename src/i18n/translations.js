@@ -17,13 +17,13 @@ export const translations = {
       dao: 'Governance & DAO',
       poi: 'Proof of Innocence',
       connect: 'Connect Wallet',
-      launchApp: 'Launch App 🚀'
+      launchApp: 'Launch App'
     },
     landing: {
       heroTag: 'Next-Gen Omnichain ZK Crypto Privacy Mixer',
       heroTitle: 'The Next-Gen Cross-Chain Privacy Crypto Mixer.',
       heroSubtitle: 'Labyrinth is an advanced Zero-Knowledge crypto mixer protocol that severs on-chain links between your deposit and withdrawal addresses while generating real DeFi yield on deposited funds.',
-      enterAppBtn: 'Enter Privacy Mixer App 🚀',
+      enterAppBtn: 'Enter Privacy Mixer App',
       viewGithubBtn: 'Explore GitHub Code 💻',
       statsTvl: 'Total Value Locked',
       statsVolume: 'Private Mixer Volume',
@@ -220,13 +220,13 @@ export const translations = {
       dao: 'Gouvernance & DAO',
       poi: 'Proof of Innocence',
       connect: 'Connecter Wallet',
-      launchApp: 'Lancer l\'App 🚀'
+      launchApp: 'Lancer l\'App'
     },
     landing: {
       heroTag: 'Mixeur Crypto de Confidentialité Zero-Knowledge Omnichain',
       heroTitle: 'Le Mixeur Crypto Cross-Chain de Nouvelle Génération.',
       heroSubtitle: 'Labyrinth est un protocole de mixeur crypto avancé basé sur la technologie Zero-Knowledge. Il rompt définitivement le lien on-chain entre vos adresses de dépôt et de retrait tout en faisant fructifier vos fonds en attente.',
-      enterAppBtn: 'Accéder au Mixeur Crypto 🚀',
+      enterAppBtn: 'Accéder au Mixeur Crypto',
       viewGithubBtn: 'Explorer le Code GitHub 💻',
       statsTvl: 'Valeur Bloquée (TVL)',
       statsVolume: 'Volume Privé Mixé',
@@ -423,13 +423,13 @@ export const translations = {
       dao: '治理 & DAO',
       poi: '清白证明 (PoI)',
       connect: '连接钱包',
-      launchApp: '启动应用 🚀'
+      launchApp: '启动应用'
     },
     landing: {
       heroTag: '下一代全链 ZK 加密货币隐私混合器',
       heroTitle: '新一代跨链加密货币隐私混合器 (Crypto Mixer)',
       heroSubtitle: 'Labyrinth 是一款基于零知识证明技术的下一代加密货币混合器，在断开链上交易追踪的同时，为存放的资金提供 DeFi 收益。',
-      enterAppBtn: '进入隐私混合器应用 🚀',
+      enterAppBtn: '进入隐私混合器应用',
       viewGithubBtn: '探索 GitHub 代码 💻',
       statsTvl: '总锁定价值 (TVL)',
       statsVolume: '隐私混合交易量',
@@ -626,13 +626,13 @@ export const translations = {
       dao: 'ガバナンス & DAO',
       poi: '潔白証明 (PoI)',
       connect: 'ウォレット接続',
-      launchApp: 'アプリ起動 🚀'
+      launchApp: 'アプリ起動'
     },
     landing: {
       heroTag: '次世代オムニチェーン ZK 暗号資産プライバシーミキサー',
       heroTitle: '次世代クロスチェーン暗号資産プライバシーミキサー (Crypto Mixer)',
       heroSubtitle: 'Labyrinth はゼロ知識証明技術をベースにした最先端の暗号資産ミキサープロトコルです。オンチェーンの追跡を断ち切りながら預入資金で DeFi 利回りを生成します。',
-      enterAppBtn: 'プライバシーミキサーアプリへ進む 🚀',
+      enterAppBtn: 'プライバシーミキサーアプリへ進む',
       viewGithubBtn: 'GitHub コードを確認 💻',
       statsTvl: '総預入額 (TVL)',
       statsVolume: 'プライベートミキサー取引高',
@@ -829,13 +829,13 @@ export const translations = {
       dao: 'Управление & DAO',
       poi: 'Proof of Innocence',
       connect: 'Подключить Кошелек',
-      launchApp: 'Запустить Приложение 🚀'
+      launchApp: 'Запустить Приложение'
     },
     landing: {
       heroTag: 'Крипто-Миксер Приватности ZK Следующего Поколения',
       heroTitle: 'Кросс-чейн Крипто-Миксер Нового Поколения.',
       heroSubtitle: 'Labyrinth — это продвинутый протокол крипто-миксера на базе Zero-Knowledge. Он полностью разрывает связь между адресами депозита и вывода, одновременно генерируя DeFi доход.',
-      enterAppBtn: 'Войти в Приложение Миксера 🚀',
+      enterAppBtn: 'Войти в Приложение Миксера',
       viewGithubBtn: 'Код на GitHub 💻',
       statsTvl: 'Заблокировано (TVL)',
       statsVolume: 'Приватный Объем Миксера',
@@ -1032,13 +1032,13 @@ export const translations = {
       dao: 'الحوكمة & DAO',
       poi: 'إثبات البراءة (PoI)',
       connect: 'ربط المحفظة',
-      launchApp: 'تشغيل التطبيق 🚀'
+      launchApp: 'تشغيل التطبيق'
     },
     landing: {
       heroTag: 'خلاط الكريبتو للخصوصية ZK من الجيل القادم',
       heroTitle: 'خلاط الكريبتو للخصوصية عبر الشبكات (Crypto Mixer).',
       heroSubtitle: 'Labyrinth هو بروتوكول خلاط كريبتو متقدم مبني على تقنية Zero-Knowledge، يقطع الصلة تماماً بين عنوان الإيداع وعنوان السحب مع استثمار الأموال آلياً.',
-      enterAppBtn: 'الدخول إلى تطبيق خلاط الكريبتو 🚀',
+      enterAppBtn: 'الدخول إلى تطبيق خلاط الكريبتو',
       viewGithubBtn: 'استكشاف كود GitHub 💻',
       statsTvl: 'إجمالي القيمة المقفلة',
       statsVolume: 'حجم المعاملات الخاصة',
