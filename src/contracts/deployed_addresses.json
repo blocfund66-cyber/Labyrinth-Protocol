@@ -1,14 +1,14 @@
 {
   "network": "sepolia",
   "chainId": 11155111,
-  "timestamp": "2026-08-12T12:21:00.000Z",
+  "timestamp": "2026-08-12T12:00:49.773Z",
   "deployer": "0xb5F2af7560138b6296dDeBE883988d4059Fee96E",
   "founderDevWallet": "0xb5F2af7560138b6296dDeBE883988d4059Fee96E",
   "contracts": {
-    "LabToken": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
-    "LabyrinthGovernance": "0x3C44CdD66a900fa2b585dd299e03d12FA4293BC1",
-    "MockVerifier": "0x8F90827f8a84a621741F1A28469C91e841A28913",
-    "LabyrinthCore": "0x098defB751B7401B5f6d89F271C7656EC7ab88b",
-    "LabyrinthRelayer": "0x12FA4293BC13C44CdD66a900fa2b585dd299e03d"
+    "LabToken": "0xA578a06f60a7D2e79817128A88a0E3eCc5bb4c8B",
+    "LabyrinthGovernance": "0x0C30AE652AcD707F58F4384AB0E0aD087Ab667bd",
+    "MockVerifier": "0xa1B3296a1Ad8615B1a65D6d0dB2543Ad1Cf8Ea37",
+    "LabyrinthCore": "0xd7D96196a13aEF68048d46F8eD176d3740878a37",
+    "LabyrinthRelayer": "0x991396A68619897e6641C40026139982B71ac991"
   }
 }

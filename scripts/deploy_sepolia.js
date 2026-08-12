@@ -6,6 +6,18 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Load .env file automatically
+const envPath = path.join(__dirname, "../.env");
+if (fs.existsSync(envPath)) {
+  const envContent = fs.readFileSync(envPath, "utf8");
+  envContent.split("\n").forEach(line => {
+    const match = line.match(/^\s*([\w.-]+)\s*=\s*["']?([^"'\r\n]+)["']?/);
+    if (match) {
+      process.env[match[1]] = match[2];
+    }
+  });
+}
+
 function getArtifact(contractName) {
   const artifactPath = path.join(
     __dirname,
@@ -48,9 +60,12 @@ async function main() {
   const provider = await getReliableProvider();
 
   let deployer;
-  const privateKey = process.env.PRIVATE_KEY;
+  let privateKey = process.env.PRIVATE_KEY;
+  if (privateKey && !privateKey.startsWith("0x")) {
+    privateKey = "0x" + privateKey;
+  }
   
-  if (privateKey && privateKey.startsWith("0x") && privateKey.length === 66) {
+  if (privateKey && privateKey.length === 66) {
     deployer = new ethers.Wallet(privateKey, provider);
   } else {
     deployer = ethers.Wallet.createRandom(provider);
@@ -64,10 +79,10 @@ async function main() {
 
   let balance = 0n;
   try {
-    balance = await provider.getBalance(founderDevWallet);
-    console.log("  • Founder Wallet Balance :", ethers.formatEther(balance), "SepoliaETH");
+    balance = await provider.getBalance(deployer.address);
+    console.log("  • Deployer Wallet Balance :", ethers.formatEther(balance), "SepoliaETH");
   } catch (err) {
-    console.warn("  • Founder Wallet Balance : Unable to query balance");
+    console.warn("  • Deployer Wallet Balance : Unable to query balance");
   }
 
   // 1. Deploy LabToken
@@ -105,10 +120,11 @@ async function main() {
   const relayerArt = getArtifact("LabyrinthRelayer");
   console.log("  • Contract bytecode size:", relayerArt.bytecode.length / 2, "bytes");
 
-  if (privateKey && privateKey.startsWith("0x")) {
+  if (privateKey && privateKey.length === 66) {
     console.log("\n🚀 LIVE DEPLOYMENT IN PROGRESS ON SEPOLIA TESTNET...");
     
     // 1. LabToken
+    console.log("  [1/5] Deploying LabToken.sol...");
     const labTokenFactory = new ethers.ContractFactory(labTokenArt.abi, labTokenArt.bytecode, deployer);
     const labToken = await labTokenFactory.deploy(deployer.address, founderDevWallet);
     await labToken.waitForDeployment();
@@ -116,6 +132,7 @@ async function main() {
     console.log("  ✅ LabToken Deployed at:", labTokenAddress);
 
     // 2. LabyrinthGovernance
+    console.log("  [2/5] Deploying LabyrinthGovernance.sol...");
     const govFactory = new ethers.ContractFactory(govArt.abi, govArt.bytecode, deployer);
     const governance = await govFactory.deploy(labTokenAddress, founderDevWallet);
     await governance.waitForDeployment();
@@ -123,11 +140,12 @@ async function main() {
     console.log("  ✅ LabyrinthGovernance Deployed at:", governanceAddress);
 
     // Transfer LAB governance
+    console.log("  • Updating LabToken governance to LabyrinthGovernance...");
     const txSetGov = await labToken.setGovernance(governanceAddress);
     await txSetGov.wait();
-    console.log("  • LabToken governance transferred to LabyrinthGovernance.");
 
     // 3. MockVerifier
+    console.log("  [3/5] Deploying MockVerifier.sol...");
     const verifierFactory = new ethers.ContractFactory(verifierArt.abi, verifierArt.bytecode, deployer);
     const verifier = await verifierFactory.deploy();
     await verifier.waitForDeployment();
@@ -135,6 +153,7 @@ async function main() {
     console.log("  ✅ MockVerifier Deployed at:", verifierAddress);
 
     // 4. LabyrinthCore
+    console.log("  [4/5] Deploying LabyrinthCore.sol...");
     const poolDenomination = ethers.parseEther("0.1");
     const coreFactory = new ethers.ContractFactory(coreArt.abi, coreArt.bytecode, deployer);
     const core = await coreFactory.deploy(poolDenomination, verifierAddress, labTokenAddress, deployer.address);
@@ -142,10 +161,12 @@ async function main() {
     const coreAddress = await core.getAddress();
     console.log("  ✅ LabyrinthCore Deployed at:", coreAddress);
 
+    console.log("  • Activating ZK Verifier...");
     const txVer = await core.setVerifier(verifierAddress, true);
     await txVer.wait();
 
     // 5. LabyrinthRelayer
+    console.log("  [5/5] Deploying LabyrinthRelayer.sol...");
     const relayerFactory = new ethers.ContractFactory(relayerArt.abi, relayerArt.bytecode, deployer);
     const relayer = await relayerFactory.deploy(deployer.address, labTokenAddress);
     await relayer.waitForDeployment();
@@ -171,13 +192,13 @@ async function main() {
     const outputPath = path.join(__dirname, "../src/contracts/deployed_addresses.json");
     fs.writeFileSync(outputPath, JSON.stringify(manifest, null, 2));
     console.log("\n📁 Live deployment manifest saved to:", outputPath);
+    console.log("\n================================================================================");
+    console.log("🎉 LIVE SEPOLIA DEPLOYMENT SUCCESSFUL!");
+    console.log("================================================================================\n");
   } else {
     console.log("\n================================================================================");
     console.log("💡 DEPLOYMENT SCRIPT VALIDATED IN SIMULATION MODE");
     console.log("================================================================================");
-    console.log("To execute live deployment on Sepolia:");
-    console.log("1. Add PRIVATE_KEY to `.env`");
-    console.log("2. Run: `node scripts/deploy_sepolia.js` or `npm run deploy:sepolia`\n");
   }
 }
 
