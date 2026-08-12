@@ -74,25 +74,25 @@ const LandingPage = ({ onEnterApp, t }) => {
         </div>
 
         {/* Live Protocol Metrics Row */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-10">
-          <div className="glass-panel p-4 text-center border-blue-500/20">
-            <span className="text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider block">{tLand.statsTvl}</span>
-            <span className="text-2xl sm:text-3xl font-black text-blue-600 dark:text-blue-400 mt-1 font-mono">$94,670,000+</span>
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 pt-10">
+          <div className="glass-panel p-3.5 sm:p-4 text-center border-blue-500/20 overflow-hidden">
+            <span className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider block truncate">{tLand.statsTvl}</span>
+            <span className="text-base sm:text-2xl lg:text-3xl font-black text-blue-600 dark:text-blue-400 mt-1 font-mono block truncate">$94.6M+</span>
           </div>
 
-          <div className="glass-panel p-4 text-center border-indigo-500/20">
-            <span className="text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider block">{tLand.statsVolume}</span>
-            <span className="text-2xl sm:text-3xl font-black text-indigo-600 dark:text-indigo-400 mt-1 font-mono">$482,100,000+</span>
+          <div className="glass-panel p-3.5 sm:p-4 text-center border-indigo-500/20 overflow-hidden">
+            <span className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider block truncate">{tLand.statsVolume}</span>
+            <span className="text-base sm:text-2xl lg:text-3xl font-black text-indigo-600 dark:text-indigo-400 mt-1 font-mono block truncate">$482.1M+</span>
           </div>
 
-          <div className="glass-panel p-4 text-center border-emerald-500/20">
-            <span className="text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider block">{tLand.statsChains}</span>
-            <span className="text-2xl sm:text-3xl font-black text-emerald-600 dark:text-emerald-400 mt-1 font-mono">8 Chains EVM+SOL</span>
+          <div className="glass-panel p-3.5 sm:p-4 text-center border-emerald-500/20 overflow-hidden">
+            <span className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider block truncate">{tLand.statsChains}</span>
+            <span className="text-base sm:text-2xl lg:text-3xl font-black text-emerald-600 dark:text-emerald-400 mt-1 font-mono block truncate">7 Chains</span>
           </div>
 
-          <div className="glass-panel p-4 text-center border-violet-500/20">
-            <span className="text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider block">{tLand.statsProof}</span>
-            <span className="text-2xl sm:text-3xl font-black text-violet-600 dark:text-violet-400 mt-1 font-mono">~2.4 sec</span>
+          <div className="glass-panel p-3.5 sm:p-4 text-center border-violet-500/20 overflow-hidden">
+            <span className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider block truncate">{tLand.statsProof}</span>
+            <span className="text-base sm:text-2xl lg:text-3xl font-black text-violet-600 dark:text-violet-400 mt-1 font-mono block truncate">~2.4 sec</span>
           </div>
         </div>
       </section>

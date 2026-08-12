@@ -135,14 +135,14 @@ const PioneerQuests = ({ isConnected, walletAddress, activeTab, setActiveTab, t 
           </div>
 
           {/* Quick Stats Pills */}
-          <div className="flex flex-wrap items-center gap-4 text-xs font-semibold pt-2">
-            <div className="flex items-center gap-2 bg-slate-950/80 px-3.5 py-2 rounded-xl border border-slate-800">
-              <Users className="w-4 h-4 text-cyan-400" />
-              <span>Places Ambassadeurs Réservées : <strong className="text-white">4,820 / 20,000</strong></span>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-semibold pt-2 w-full">
+            <div className="flex items-center gap-2.5 bg-slate-950/80 px-3.5 py-2.5 rounded-xl border border-slate-800 overflow-hidden">
+              <Users className="w-4 h-4 text-cyan-400 shrink-0" />
+              <span className="truncate">Ambassadeurs : <strong className="text-white">4,820 / 20,000</strong></span>
             </div>
-            <div className="flex items-center gap-2 bg-slate-950/80 px-3.5 py-2 rounded-xl border border-slate-800">
-              <Award className="w-4 h-4 text-amber-400" />
-              <span>Allocation Airdrop : <strong className="text-amber-400">1,000 $LAB / Wallet</strong></span>
+            <div className="flex items-center gap-2.5 bg-slate-950/80 px-3.5 py-2.5 rounded-xl border border-slate-800 overflow-hidden">
+              <Award className="w-4 h-4 text-amber-400 shrink-0" />
+              <span className="truncate">Allocation : <strong className="text-amber-400">1,000 $LAB / Wallet</strong></span>
             </div>
           </div>
         </div>
