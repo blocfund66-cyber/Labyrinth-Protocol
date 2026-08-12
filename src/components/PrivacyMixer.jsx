@@ -182,12 +182,12 @@ const PrivacyMixer = ({ experienceLevel = 'intermediate', t }) => {
       
       {/* Mode Switcher Tabs */}
       <div className="flex justify-center">
-        <div className="bg-slate-200/90 dark:bg-slate-900/90 p-1.5 rounded-2xl border border-slate-300 dark:border-blue-500/20 backdrop-blur-md flex gap-2 shadow-xl">
+        <div className="bg-slate-200/90 dark:bg-slate-900/90 p-1.5 rounded-2xl border border-slate-300 dark:border-slate-800 backdrop-blur-md flex gap-2">
           <button
             onClick={() => { setActiveMode('deposit'); setWithdrawSuccess(false); }}
             className={`flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold transition-all text-sm ${
               activeMode === 'deposit'
-                ? 'bg-gradient-to-r from-blue-600 to-indigo-700 text-white shadow-sm'
+                ? 'bg-gradient-to-r from-blue-600 to-indigo-700 text-white'
                 : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
             }`}
           >
@@ -198,7 +198,7 @@ const PrivacyMixer = ({ experienceLevel = 'intermediate', t }) => {
             onClick={() => { setActiveMode('withdraw'); setWithdrawSuccess(false); }}
             className={`flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold transition-all text-sm ${
               activeMode === 'withdraw'
-                ? 'bg-gradient-to-r from-blue-600 to-indigo-700 text-white shadow-sm'
+                ? 'bg-gradient-to-r from-blue-600 to-indigo-700 text-white'
                 : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
             }`}
           >
