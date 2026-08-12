@@ -213,28 +213,16 @@ function App() {
       <header className={`sticky top-0 z-40 ${isDarkMode ? 'bg-[#050814]/90 border-blue-500/20' : 'bg-white/95 border-slate-200'} backdrop-blur-xl border-b transition-colors shadow-sm`}>
         <div className="max-w-[1400px] mx-auto px-5 sm:px-8 h-20 flex items-center justify-between gap-3 sm:gap-4">
           
-          {/* LOGO & TITLE & ACTIVE MOBILE FRAGMENT BADGE */}
-          <div className="flex items-center gap-2.5 sm:gap-3.5 cursor-pointer shrink-0" onClick={() => { if (currentView === 'app') setCurrentView('landing'); }}>
-            <AbstractLabyrinthLogo className="w-9 h-9 sm:w-10 sm:h-10 shrink-0" />
+          {/* LOGO & TITLE (Pushed to Far Left with Generous Spacing) */}
+          <div className="flex items-center gap-3.5 cursor-pointer shrink-0 mr-4 lg:mr-12" onClick={() => { if (currentView === 'app') setCurrentView('landing'); }}>
+            <AbstractLabyrinthLogo className="w-10 h-10 shrink-0" />
             <div>
-              <span className={`font-black text-xl sm:text-2xl tracking-wider ${isDarkMode ? 'text-white' : 'text-slate-900'} font-outfit block leading-none`}>
+              <span className={`font-black text-2xl tracking-wider ${isDarkMode ? 'text-white' : 'text-slate-900'} font-outfit block leading-none`}>
                 LABYRINTH
               </span>
-              <span className={`hidden sm:block text-[11px] font-medium tracking-wide ${isDarkMode ? 'text-slate-400' : 'text-slate-500'} mt-1`}>
+              <span className={`text-[11px] font-medium tracking-wide ${isDarkMode ? 'text-slate-400' : 'text-slate-500'} mt-1 block`}>
                 Cross-Chain Privacy & Yield Protocol
               </span>
-              
-              {/* Active Mobile Fragment Indicator Badge */}
-              {currentView === 'app' && (
-                <span className="sm:hidden text-[10px] font-bold text-cyan-400 block mt-0.5 uppercase tracking-wider">
-                  {activeTab === 'mixer' && '🔒 Mixeur ZK'}
-                  {activeTab === 'yield' && '📈 Yield Pools'}
-                  {activeTab === 'tokenomics' && '🪙 Tokenomics'}
-                  {activeTab === 'dao' && '🗳️ Gouvernance'}
-                  {activeTab === 'poi' && '🛡️ PoI Certificate'}
-                  {activeTab === 'quests' && '🎯 Quêtes Bêta'}
-                </span>
-              )}
             </div>
           </div>
 
@@ -354,53 +342,25 @@ function App() {
           )}
 
           {/* RIGHT ACTION BUTTONS & MOBILE HAMBURGER MENU TRIGGER */}
-          <div className="flex items-center gap-3 sm:gap-4 shrink-0">
+          <div className="flex items-center gap-3 shrink-0">
             {currentView === 'landing' ? (
-              <>
-                {/* Desktop Full Button */}
-                <button
-                  onClick={handleEnterApp}
-                  className="hidden sm:flex btn-cyan text-xs py-2.5 px-6 font-bold items-center justify-center gap-2 shadow-lg"
-                >
-                  <Rocket className="w-4 h-4" />
-                  <span>{t.nav.launchApp}</span>
-                </button>
-
-                {/* Mobile Icon-Only Button (Never Clipped!) */}
-                <button
-                  onClick={handleEnterApp}
-                  className="flex sm:hidden p-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold shadow-lg shadow-cyan-500/25 items-center justify-center shrink-0"
-                  title={t.nav.launchApp}
-                >
-                  <Rocket className="w-5 h-5 text-slate-950 fill-slate-950" />
-                </button>
-              </>
+              <button
+                onClick={handleEnterApp}
+                className="btn-cyan text-xs py-2.5 px-3 sm:px-6 font-bold flex items-center justify-center gap-2 shadow-lg"
+              >
+                <Rocket className="w-4 h-4 shrink-0" />
+                <span className="hidden sm:inline">{t.nav.launchApp}</span>
+              </button>
             ) : (
-              <>
-                {/* Desktop Full Wallet Button */}
-                <button
-                  onClick={handleWalletClick}
-                  className={`hidden sm:flex btn-cyan text-xs py-2 px-5 font-bold items-center justify-center gap-2 ${
-                    isConnected ? 'bg-slate-900 border border-blue-500/40 text-blue-300 hover:bg-slate-800' : ''
-                  }`}
-                >
-                  <Wallet className="w-4 h-4 shrink-0" />
-                  <span className="text-xs">{isConnected ? walletAddress : t.nav.connect}</span>
-                </button>
-
-                {/* Mobile Icon-Only Wallet Button */}
-                <button
-                  onClick={handleWalletClick}
-                  className={`flex sm:hidden p-2.5 rounded-xl border font-bold items-center justify-center shrink-0 transition-all ${
-                    isConnected 
-                      ? 'bg-slate-900 border-emerald-500/50 text-emerald-400' 
-                      : 'bg-cyan-500 text-slate-950 border-cyan-400 shadow-md shadow-cyan-500/20'
-                  }`}
-                  title={isConnected ? walletAddress : t.nav.connect}
-                >
-                  <Wallet className="w-5 h-5 shrink-0" />
-                </button>
-              </>
+              <button
+                onClick={handleWalletClick}
+                className={`btn-cyan text-xs py-2.5 px-3 sm:px-5 font-bold flex items-center justify-center gap-2 ${
+                  isConnected ? 'bg-slate-900 border border-blue-500/40 text-blue-300 hover:bg-slate-800' : ''
+                }`}
+              >
+                <Wallet className="w-4 h-4 shrink-0" />
+                <span className="hidden sm:inline">{isConnected ? walletAddress : t.nav.connect}</span>
+              </button>
             )}
 
             {/* Mobile Hamburger Menu Toggle Button */}
