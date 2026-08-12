@@ -150,11 +150,11 @@ function App() {
     setIsConnected(true);
     setFullWalletAddress(acc);
     setWalletAddress(`${acc.substring(0, 6)}...${acc.substring(acc.length - 4)}`);
+    setCurrentView('app');
   };
 
   // Handle header wallet button click
   const handleWalletClick = () => {
-    // Open WalletModal (runs auto-detection & connect if disconnected, or displays details & disconnect if connected)
     setShowWalletModal(true);
   };
 
@@ -168,6 +168,7 @@ function App() {
           setIsConnected(true);
           setFullWalletAddress(acc);
           setWalletAddress(`${acc.substring(0, 6)}...${acc.substring(acc.length - 4)}`);
+          setCurrentView('app');
         }
       } catch (err) {
         if (err.code === 4001) {
@@ -212,16 +213,28 @@ function App() {
       <header className={`sticky top-0 z-40 ${isDarkMode ? 'bg-[#050814]/90 border-blue-500/20' : 'bg-white/95 border-slate-200'} backdrop-blur-xl border-b transition-colors shadow-sm`}>
         <div className="max-w-[1400px] mx-auto px-4 sm:px-8 h-20 flex items-center justify-between gap-4">
           
-          {/* LOGO & TITLE (Pushed to Far Left with Generous Spacing) */}
-          <div className="flex items-center gap-3.5 cursor-pointer shrink-0 mr-4 lg:mr-12" onClick={() => { if (currentView === 'app') setCurrentView('landing'); }}>
-            <AbstractLabyrinthLogo className="w-10 h-10" />
+          {/* LOGO & TITLE & ACTIVE MOBILE FRAGMENT BADGE */}
+          <div className="flex items-center gap-2.5 sm:gap-3.5 cursor-pointer shrink-0 mr-2 lg:mr-12" onClick={() => { if (currentView === 'app') setCurrentView('landing'); }}>
+            <AbstractLabyrinthLogo className="w-9 h-9 sm:w-10 sm:h-10 shrink-0" />
             <div>
-              <span className={`font-black text-2xl tracking-wider ${isDarkMode ? 'text-white' : 'text-slate-900'} font-outfit block leading-none`}>
+              <span className={`font-black text-xl sm:text-2xl tracking-wider ${isDarkMode ? 'text-white' : 'text-slate-900'} font-outfit block leading-none`}>
                 LABYRINTH
               </span>
-              <span className={`text-[11px] font-medium tracking-wide ${isDarkMode ? 'text-slate-400' : 'text-slate-500'} mt-1 block`}>
+              <span className={`hidden sm:block text-[11px] font-medium tracking-wide ${isDarkMode ? 'text-slate-400' : 'text-slate-500'} mt-1`}>
                 Cross-Chain Privacy & Yield Protocol
               </span>
+              
+              {/* Active Mobile Fragment Indicator Badge */}
+              {currentView === 'app' && (
+                <span className="sm:hidden text-[10px] font-bold text-cyan-400 block mt-0.5 uppercase tracking-wider">
+                  {activeTab === 'mixer' && '🔒 Mixeur ZK'}
+                  {activeTab === 'yield' && '📈 Yield Pools'}
+                  {activeTab === 'tokenomics' && '🪙 Tokenomics'}
+                  {activeTab === 'dao' && '🗳️ Gouvernance'}
+                  {activeTab === 'poi' && '🛡️ PoI Certificate'}
+                  {activeTab === 'quests' && '🎯 Quêtes Bêta'}
+                </span>
+              )}
             </div>
           </div>
 
