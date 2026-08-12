@@ -141,7 +141,7 @@ contract LabyrinthCore {
         nullifierHashes[_nullifierHash] = true;
 
         // Calculate Protocol Fee & Net Withdrawal Amount
-        uint256 poolAmount = msg.value > 0 ? msg.value : (denomination > 0 ? denomination : 1 ether);
+        uint256 poolAmount = denomination > 0 ? denomination : 1 ether;
         uint256 pFee = (poolAmount * protocolFeeBps) / 10000;
         
         require(_relayerFee < poolAmount - pFee, "LabyrinthCore: Relayer fee exceeds withdrawal balance");

@@ -9,7 +9,7 @@ pragma solidity ^0.8.20;
 
 contract LabyrinthRelayer {
     address public governance;
-    uint256 public minRelayerStake = 10,000 * 1e18; // 10,000 $LAB minimum stake to register relayer node
+    uint256 public minRelayerStake = 10000 * 1e18; // 10,000 $LAB minimum stake to register relayer node
 
     struct RelayerNode {
         address relayerAddress;

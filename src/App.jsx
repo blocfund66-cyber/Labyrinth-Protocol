@@ -4,6 +4,7 @@ import LandingPage from './components/LandingPage';
 import PrivacyMixer from './components/PrivacyMixer';
 import YieldPools from './components/YieldPools';
 import TokenomicsDashboard from './components/TokenomicsDashboard';
+import DAOGovernance from './components/DAOGovernance';
 import ProofOfInnocence from './components/ProofOfInnocence';
 import OnboardingModal from './components/OnboardingModal';
 import { AbstractLabyrinthLogo } from './components/Icons';
@@ -24,7 +25,8 @@ import {
   BookOpen,
   Layers,
   ShieldCheck,
-  Rocket
+  Rocket,
+  Vote
 } from 'lucide-react';
 
 function App() {
@@ -34,7 +36,7 @@ function App() {
     return landingSeen ? 'app' : 'landing';
   });
 
-  const [activeTab, setActiveTab] = useState('mixer'); // 'mixer', 'yield', 'tokenomics', 'poi'
+  const [activeTab, setActiveTab] = useState('mixer'); // 'mixer', 'yield', 'tokenomics', 'dao', 'poi'
   const [isConnected, setIsConnected] = useState(false);
   const [walletAddress, setWalletAddress] = useState('');
   const [isDarkMode, setIsDarkMode] = useState(true);
@@ -115,7 +117,7 @@ function App() {
     setIsDarkMode(!isDarkMode);
   };
 
-  const GITHUB_REPO_URL = "https://github.com/universal-tech/Labyrinth-Protocol";
+  const GITHUB_REPO_URL = "https://github.com/blocfund66-cyber/Labyrinth-Protocol";
 
   return (
     <div className={`min-h-screen flex flex-col relative ${isDarkMode ? 'bg-[#050814] text-slate-100' : 'bg-[#f8fafc] text-slate-900'} transition-colors duration-300 selection:bg-blue-600 selection:text-white`} dir={currentLang === 'ar' ? 'rtl' : 'ltr'}>
@@ -186,10 +188,10 @@ function App() {
             </nav>
           ) : (
             /* ================= PROTOCOL dAPP HEADER NAV ================= */
-            <nav className={`hidden lg:flex items-center gap-1.5 p-1.5 rounded-2xl border ${isDarkMode ? 'bg-slate-900/80 border-slate-800' : 'bg-slate-100 border-slate-200'}`}>
+            <nav className={`hidden lg:flex items-center gap-1 rounded-2xl p-1.5 border ${isDarkMode ? 'bg-slate-900/80 border-slate-800' : 'bg-slate-100 border-slate-200'}`}>
               <button
                 onClick={() => setActiveTab('mixer')}
-                className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all ${
+                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
                   activeTab === 'mixer'
                     ? 'bg-blue-600/20 text-blue-400 dark:text-blue-300 border border-blue-500/40 shadow-sm'
                     : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
@@ -201,7 +203,7 @@ function App() {
 
               <button
                 onClick={() => setActiveTab('yield')}
-                className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all ${
+                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
                   activeTab === 'yield'
                     ? 'bg-blue-600/20 text-blue-400 dark:text-blue-300 border border-blue-500/40 shadow-sm'
                     : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
@@ -213,7 +215,7 @@ function App() {
 
               <button
                 onClick={() => setActiveTab('tokenomics')}
-                className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all ${
+                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
                   activeTab === 'tokenomics'
                     ? 'bg-blue-600/20 text-blue-400 dark:text-blue-300 border border-blue-500/40 shadow-sm'
                     : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
@@ -224,8 +226,20 @@ function App() {
               </button>
 
               <button
+                onClick={() => setActiveTab('dao')}
+                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+                  activeTab === 'dao'
+                    ? 'bg-blue-600/20 text-blue-400 dark:text-blue-300 border border-blue-500/40 shadow-sm'
+                    : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
+                }`}
+              >
+                <Vote className="w-4 h-4 text-blue-400" />
+                {t.nav.dao}
+              </button>
+
+              <button
                 onClick={() => setActiveTab('poi')}
-                className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all ${
+                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
                   activeTab === 'poi'
                     ? 'bg-blue-600/20 text-blue-400 dark:text-blue-300 border border-blue-500/40 shadow-sm'
                     : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
@@ -301,6 +315,12 @@ function App() {
                 {t.nav.tokenomics}
               </button>
               <button
+                onClick={() => setActiveTab('dao')}
+                className={`px-4 py-2 rounded-lg text-xs font-bold shrink-0 ${activeTab === 'dao' ? 'bg-blue-600 text-white' : 'text-slate-500'}`}
+              >
+                {t.nav.dao}
+              </button>
+              <button
                 onClick={() => setActiveTab('poi')}
                 className={`px-4 py-2 rounded-lg text-xs font-bold shrink-0 ${activeTab === 'poi' ? 'bg-blue-600 text-white' : 'text-slate-500'}`}
               >
@@ -320,12 +340,13 @@ function App() {
             {activeTab === 'mixer' && <PrivacyMixer experienceLevel={experienceLevel} t={t} />}
             {activeTab === 'yield' && <YieldPools t={t} />}
             {activeTab === 'tokenomics' && <TokenomicsDashboard t={t} />}
+            {activeTab === 'dao' && <DAOGovernance t={t} />}
             {activeTab === 'poi' && <ProofOfInnocence t={t} />}
           </>
         )}
       </main>
 
-      {/* Footer with ENCADRÉS / FRAMED BUTTONS for All Items */}
+      {/* Footer with ENCADRÉS / UNIFORM FRAMED BUTTONS */}
       <footer className={`z-10 border-t py-8 mt-12 backdrop-blur-md transition-colors ${isDarkMode ? 'bg-slate-950/90 border-slate-800/80 text-slate-400' : 'bg-white/90 border-slate-200 text-slate-600'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs">
           
@@ -376,7 +397,7 @@ function App() {
             <span className="hidden sm:inline font-bold text-slate-900 dark:text-slate-200">Labyrinth Protocol V1</span>
           </div>
 
-          {/* BOTTOM RIGHT: FRAMED BUTTONS for Presentation, Level, GitHub & Theme */}
+          {/* BOTTOM RIGHT: UNIFORM FRAMED BUTTONS for Presentation, Level, GitHub & Theme */}
           <div className="flex flex-wrap items-center justify-center gap-3">
             
             {/* 1. Presentation Framed Button */}
@@ -409,19 +430,19 @@ function App() {
               </span>
             </button>
 
-            {/* 3. GitHub Framed Button with Pure White Accent & Iconic GitHub Aesthetic */}
+            {/* 3. GitHub Framed Button - Balanced shadow-sm elevation matching all other buttons in Light/Dark mode */}
             <a
               href={GITHUB_REPO_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className={`flex items-center gap-2 px-3.5 py-2 rounded-xl border font-bold transition-all shadow-md ${
+              className={`flex items-center gap-2 px-3.5 py-2 rounded-xl border font-bold transition-all shadow-sm ${
                 isDarkMode 
-                  ? 'bg-slate-900 border-white/60 text-white hover:bg-white hover:text-slate-950 hover:border-white' 
-                  : 'bg-slate-900 border-slate-900 text-white hover:bg-slate-800'
+                  ? 'bg-slate-900 border-slate-700 text-slate-200 hover:bg-slate-800 hover:border-slate-600' 
+                  : 'bg-slate-100 border-slate-300 text-slate-800 hover:bg-slate-200'
               }`}
               title="Code Source Officiel sur GitHub"
             >
-              <Github className="w-4 h-4" />
+              <Github className="w-4 h-4 text-slate-400" />
               <span>{t.footer.sourceCode}</span>
             </a>
 

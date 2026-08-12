@@ -1,4 +1,4 @@
-// Labyrinth V1 - Complete Multilingual i18n Translation Dictionary with Landing Page Nav Links
+// Labyrinth V1 - Complete Multilingual i18n Translation Dictionary with DAO Governance & Landing Page Nav Links
 // Supported languages: EN (English), FR (French), ZH (Chinese), JA (Japanese), RU (Russian), AR (Arabic)
 
 export const translations = {
@@ -14,6 +14,7 @@ export const translations = {
       mixer: 'Privacy Mixer',
       yield: 'Yield Pools',
       tokenomics: '$LAB Tokenomics',
+      dao: 'DAO Governance 🗳️',
       poi: 'Proof of Innocence',
       connect: 'Connect Wallet',
       launchApp: 'Launch App 🚀'
@@ -28,8 +29,6 @@ export const translations = {
       statsVolume: 'Private Mixer Volume',
       statsChains: 'Supported Chains',
       statsProof: 'ZK Proof Time',
-
-      // Section 1: Innovations
       innovationsTitle: 'Why Labyrinth Redefines Web3 Privacy Mixing',
       innovationsSub: 'Existing crypto mixers force you to choose between compliance, yield, and high gas fees. Labyrinth solves all three.',
       feat1Title: 'Zero-Knowledge Crypto Mixer (ZK-SNARKs)',
@@ -40,14 +39,10 @@ export const translations = {
       feat3Desc: 'Opt-in compliance certificate proving your funds do not originate from sanctioned wallets, protecting CEX deposits.',
       feat4Title: 'Gasless Relayer Network',
       feat4Desc: 'Withdraw anonymously to fresh wallet addresses without needing initial gas fees on the target chain.',
-
-      // Section 2: Transparency & Security
       securityTitle: '100% Open Source & Audited Contracts',
       securitySub: 'True privacy relies on mathematical proofs, not trust. Every line of Labyrinth smart contract code is public and open for community audit.',
       githubNotice: 'Verified Smart Contracts on GitHub',
       githubNoticeSub: 'Inspect token distribution, Merkle trees, and ZK verification logic directly on GitHub repository.',
-
-      // Section 3: Tokenomics & Community
       tokTitle: '$LAB Tokenomics & EIP-1559 Engine',
       tokSub: '1,000,000,000 Total Supply with controlled deflationary buyback & burn mechanism.',
       founderAlloc: '12% Founders (X)',
@@ -55,11 +50,27 @@ export const translations = {
       daoAlloc: '53% DAO Treasury & Liquidity',
       miningAlloc: '25% Anonymity Mining (AP)',
       combinedNotice: '👉 22% Combined Allocation (12% Founder + 10% Dev Team) locked with linear vesting to align long-term community incentives.',
-
-      // CTA Footer
       ctaTitle: 'Ready to Experience Uncompromising Privacy?',
       ctaSub: 'Launch the dApp now or inspect the open-source contracts on GitHub.',
       ctaBtn: 'Launch Protocol App'
+    },
+    dao: {
+      badge: 'On-Chain DAO Governance',
+      title: 'DAO Governance & Voting',
+      subtitle: 'Vote and submit decentralized proposals to shape the future of Labyrinth Protocol.',
+      votingPower: 'Your Voting Power (vLAB):',
+      stakedAmount: 'Staked $LAB Tokens:',
+      submitProposalBtn: '+ Submit Proposal',
+      voteFor: 'Vote FOR (Yes)',
+      voteAgainst: 'Vote AGAINST (No)',
+      proposalStatusPassed: 'Passed & Ready for Execution',
+      proposalStatusActive: 'Voting Active',
+      createModalTitle: 'Submit On-Chain Proposal',
+      inputTitleLabel: 'Proposal Title:',
+      inputDescLabel: 'Detailed Description:',
+      cancelBtn: 'Cancel',
+      submitBtn: 'Submit Proposal (On-Chain)',
+      hasVoted: 'You have already voted'
     },
     mixer: {
       depositTab: 'Deposit & Mix',
@@ -206,6 +217,7 @@ export const translations = {
       mixer: 'Privacy Mixer',
       yield: 'Pools de Rendement',
       tokenomics: 'Tokenomics $LAB',
+      dao: 'Gouvernance DAO 🗳️',
       poi: 'Proof of Innocence',
       connect: 'Connecter Wallet',
       launchApp: 'Lancer l\'App 🚀'
@@ -220,8 +232,6 @@ export const translations = {
       statsVolume: 'Volume Privé Mixé',
       statsChains: 'Blockchains Supportées',
       statsProof: 'Temps Preuve ZK',
-
-      // Section 1: Innovations
       innovationsTitle: 'Pourquoi Labyrinth Redéfinit le Mixage Crypto',
       innovationsSub: 'Les mixeurs crypto traditionnels vous obligent à choisir entre sécurité, rendement et frais élevés. Labyrinth résout ces trois défis.',
       feat1Title: 'Mixeur Crypto Zero-Knowledge (ZK-SNARKs)',
@@ -232,14 +242,10 @@ export const translations = {
       feat3Desc: 'Attestation de conformité optionnelle prouvant que vos fonds ne proviennent pas d\'adresses sanctionnées, protégeant vos dépôts sur les CEX.',
       feat4Title: 'Réseau de Relayers Sans Frais (Gasless)',
       feat4Desc: 'Retirez vos fonds anonymement vers un nouveau portefeuille sans avoir besoin d\'alimenter au préalable ce compte en frais de gaz.',
-
-      // Section 2: Transparency & Security
       securityTitle: '100% Open-Source & Smart Contracts Vérifiables',
       securitySub: 'La vraie confidentialité repose sur des preuves mathématiques, pas sur la confiance. Chaque ligne du code Labyrinth est publique et vérifiable par la communauté.',
       githubNotice: 'Contrats Intelligents Vérifiés sur GitHub',
       githubNoticeSub: 'Inspectez la répartition des jetons, les arbres de Merkle et la logique ZK directement sur le dépôt officiel GitHub.',
-
-      // Section 3: Tokenomics & Community
       tokTitle: 'Tokenomics $LAB & Moteur Burn EIP-1559',
       tokSub: '1 000 000 000 de Total Supply avec mécanisme déflationniste rachetant et brûlant des jetons $LAB.',
       founderAlloc: '12% Fondateurs (X)',
@@ -247,11 +253,27 @@ export const translations = {
       daoAlloc: '53% Trésorerie DAO & Liquidité',
       miningAlloc: '25% Anonymity Mining (AP)',
       combinedNotice: '👉 22% de Total Combiné (12% Fondateurs + 10% Dev) bloqués avec vesting linéaire pour garantir l\'alignement long terme avec la communauté.',
-
-      // CTA Footer
       ctaTitle: 'Prêt à Tester le Mixeur Crypto le Plus Avancé ?',
       ctaSub: 'Lancez le mixeur dès maintenant ou inspectez les contrats open-source sur GitHub.',
       ctaBtn: 'Commencer — Accéder au Mixeur'
+    },
+    dao: {
+      badge: 'Gouvernance DAO On-Chain',
+      title: 'Gouvernance & Votes de la Communauté',
+      subtitle: 'Votez et déposez des propositions décentralisées pour façonner l\'avenir du protocole Labyrinth.',
+      votingPower: 'Votre Pouvoir de Vote (vLAB) :',
+      stakedAmount: 'Jetons $LAB Stakés :',
+      submitProposalBtn: '+ Créer une Proposition',
+      voteFor: 'Voter POUR (Yes)',
+      voteAgainst: 'Voter CONTRE (No)',
+      proposalStatusPassed: 'Approuvée & Prête à l\'Exécution',
+      proposalStatusActive: 'Vote en Cours',
+      createModalTitle: 'Déposer une Proposition sur la Blockchain',
+      inputTitleLabel: 'Titre de la Proposition :',
+      inputDescLabel: 'Description Détaillée :',
+      cancelBtn: 'Annuler',
+      submitBtn: 'Soumettre la Proposition (On-Chain)',
+      hasVoted: 'Vous avez déjà voté'
     },
     mixer: {
       depositTab: 'Déposer & Mixer',
@@ -398,6 +420,7 @@ export const translations = {
       mixer: '隐私混合器',
       yield: '收益池',
       tokenomics: '$LAB 代币经济',
+      dao: 'DAO 治理 🗳️',
       poi: '清白证明 (PoI)',
       connect: '连接钱包',
       launchApp: '启动应用 🚀'
@@ -412,7 +435,6 @@ export const translations = {
       statsVolume: '隐私混合交易量',
       statsChains: '支持的区块链',
       statsProof: 'ZK 证明生成时间',
-
       innovationsTitle: '为什么 Labyrinth 重新定义加密货币混合器',
       innovationsSub: '现有的加密混合器迫使您在合规、收益和高昂 Gas 费之间做选择。Labyrinth 解决了这三大痛点。',
       feat1Title: '零知识加密混合器 (ZK-SNARKs)',
@@ -423,12 +445,10 @@ export const translations = {
       feat3Desc: '选择性合规证书，证实您的资金未来自受制裁钱包，保护 CEX 存款。',
       feat4Title: '无 Gas 中继网络 (Gasless)',
       feat4Desc: '无需事先为新钱包充值 Gas 费，即可匿名提现至全新地址。',
-
       securityTitle: '100% 开源与已审计合约',
       securitySub: '真正的隐私建立在数学证明而非信任之上。Labyrinth 的智能合约代码完全公开。',
       githubNotice: 'GitHub 上已验证的智能合约',
       githubNoticeSub: '直接在 GitHub 存储库检查代币分配、Merkle 树及 ZK 验证逻辑。',
-
       tokTitle: '$LAB 代币经济与 EIP-1559 销毁',
       tokSub: '1,000,000,000 总供应量，具备受控回购与销毁机制。',
       founderAlloc: '12% 创始人 (X)',
@@ -436,10 +456,27 @@ export const translations = {
       daoAlloc: '53% DAO 金库与流动性',
       miningAlloc: '25% 匿名挖矿 (AP)',
       combinedNotice: '👉 22% 合并分配（12% 创始人 + 10% 开发团队），线性解锁以对齐长期利益。',
-
       ctaTitle: '准备好体验极致隐私了吗？',
       ctaSub: '立即启动 dApp 或在 GitHub 上查看开源代码。',
       ctaBtn: '开始 — 进入混合器'
+    },
+    dao: {
+      badge: '链上 DAO 治理',
+      title: 'DAO 治理与社区投票',
+      subtitle: '投票并提交去中心化提案，共同塑造 Labyrinth 协议的未来。',
+      votingPower: '您的投票权 (vLAB):',
+      stakedAmount: '已质押的 $LAB 代币:',
+      submitProposalBtn: '+ 提交提案',
+      voteFor: '赞成票 (Yes)',
+      voteAgainst: '反对票 (No)',
+      proposalStatusPassed: '已通过并准备执行',
+      proposalStatusActive: '正在投票',
+      createModalTitle: '提交链上提案',
+      inputTitleLabel: '提案标题:',
+      inputDescLabel: '详细说明:',
+      cancelBtn: '取消',
+      submitBtn: '提交提案 (链上)',
+      hasVoted: '您已经投票'
     },
     mixer: {
       depositTab: '存款与混合',
@@ -586,6 +623,7 @@ export const translations = {
       mixer: 'プライバシーミキサー',
       yield: '利回りプール',
       tokenomics: '$LAB トークノミクス',
+      dao: 'DAO ガバナンス 🗳️',
       poi: '潔白証明 (PoI)',
       connect: 'ウォレット接続',
       launchApp: 'アプリ起動 🚀'
@@ -600,7 +638,6 @@ export const translations = {
       statsVolume: 'プライベートミキサー取引高',
       statsChains: '対応ブロックチェーン',
       statsProof: 'ZK 証明生成時間',
-
       innovationsTitle: 'Labyrinth が暗号資産ミキサーを再定義する理由',
       innovationsSub: '従来の暗号資産ミキサーはコンプライアンス、利回り、高いガス代のトレードオフを強いていました。Labyrinth はこれを解決します。',
       feat1Title: 'ゼロ知識暗号資産ミキサー (ZK-SNARKs)',
@@ -611,12 +648,10 @@ export const translations = {
       feat3Desc: '資金が制裁対象でないことを証明するオプトイン ZK 証明書を発行可能。',
       feat4Title: 'ガス代不要リレイヤー (Gasless)',
       feat4Desc: '新しい受取用ウォレットに初期ガス代を入金することなく匿名引き出しが可能。',
-
       securityTitle: '100% オープンソース＆監査済みスマートコントラクト',
       securitySub: '本当のプライバシーは信頼ではなく数学的証明に基づきます。Labyrinth のコードはすべて公開されています。',
       githubNotice: 'GitHub 上の検証済みスマートコントラクト',
       githubNoticeSub: 'トークン配分、Merkle ツリー、ZK 検証ロジックを GitHub リポジトリで確認。',
-
       tokTitle: '$LAB トークノミクス＆ EIP-1559 バーン',
       tokSub: '総発行量 1,000,000,000 トークン。プロトコル手数料により自動買い取り＆バーン。',
       founderAlloc: '創業者 12% (X)',
@@ -624,10 +659,27 @@ export const translations = {
       daoAlloc: 'DAO トレジャリー 53%',
       miningAlloc: 'アノニミティマイニング 25%',
       combinedNotice: '👉 創業者 12% ＋ 開発 10% ＝ 計 22% の割り当ては長期直線アンロックで固定。',
-
       ctaTitle: '妥協のないプライバシーを体験しませんか？',
       ctaSub: '今すぐアプリを起動するか、GitHub でコードをご確認ください。',
       ctaBtn: 'スタート — ミキサーへ進む'
+    },
+    dao: {
+      badge: 'オンチェーン DAO ガバナンス',
+      title: 'DAO ガバナンス＆コミュニティ投票',
+      subtitle: '分散型提案に投票し、Labyrinth プロトコルの未来を構築。',
+      votingPower: 'あなたの投票力 (vLAB):',
+      stakedAmount: 'ステーキング済み $LAB:',
+      submitProposalBtn: '+ 提案を作成',
+      voteFor: '賛成票 (Yes)',
+      voteAgainst: '反対票 (No)',
+      proposalStatusPassed: '承認＆実行可能',
+      proposalStatusActive: '投票実施中',
+      createModalTitle: 'オンチェーン提案を作成',
+      inputTitleLabel: '提案のタイトル:',
+      inputDescLabel: '詳細な説明:',
+      cancelBtn: 'キャンセル',
+      submitBtn: '提案を送信 (On-Chain)',
+      hasVoted: '投票済みです'
     },
     mixer: {
       depositTab: '預入＆ミックス',
@@ -774,6 +826,7 @@ export const translations = {
       mixer: 'Privacy Миксер',
       yield: 'Пулы Доходности',
       tokenomics: 'Токеномика $LAB',
+      dao: 'DAO Голосование 🗳️',
       poi: 'Proof of Innocence',
       connect: 'Подключить Кошелек',
       launchApp: 'Запустить Приложение 🚀'
@@ -788,7 +841,6 @@ export const translations = {
       statsVolume: 'Приватный Объем Миксера',
       statsChains: 'Сетей Поддерживается',
       statsProof: 'Время Preuve ZK',
-
       innovationsTitle: 'Почему Labyrinth Переопределяет Крипто-Миксинг',
       innovationsSub: 'Существующие миксеры заставляют выбирать между доходностью, соответствием и газом. Labyrinth решает все задачи.',
       feat1Title: 'Zero-Knowledge Крипто-Миксер (ZK-SNARKs)',
@@ -799,12 +851,10 @@ export const translations = {
       feat3Desc: 'ZK-сертификат соответствия, доказывающий отсутствие связи с подсанкционными кошельками для CEX.',
       feat4Title: 'Сеть Релейеров Без Газа (Gasless)',
       feat4Desc: 'Анонимный вывод на новый адрес без необходимости пополнять его газом заранее.',
-
       securityTitle: '100% Открытый Исходный Код на GitHub',
       securitySub: 'Настоящая приватность основана на математике. Код смарт-контрактов Labyrinth полностью публичен.',
       githubNotice: 'Проверенные Смарт-Контракты на GitHub',
       githubNoticeSub: 'Изучите токеномику, деревья Меркла и ZK логику прямо в официальном репозитории GitHub.',
-
       tokTitle: 'Токеномика $LAB и Сжигание EIP-1559',
       tokSub: '1 000 000 000 Общего Предложения с автоматическим выкупом и сжиганием.',
       founderAlloc: '12% Основатели (X)',
@@ -812,10 +862,27 @@ export const translations = {
       daoAlloc: '53% Казначейство DAO',
       miningAlloc: '25% Майнинг Анонимности',
       combinedNotice: '👉 22% Общий Итог (12% Основатели + 10% Команда) заблокированы линейным вестингом.',
-
       ctaTitle: 'Готовы к Абсолютной Приватности?',
       ctaSub: 'Запустите приложение прямо сейчас или изучите код на GitHub.',
       ctaBtn: 'Начать — Войти в Миксер'
+    },
+    dao: {
+      badge: 'Управление DAO On-Chain',
+      title: 'Голосование и Управление DAO',
+      subtitle: 'Голосуйте и создавайте предложения для развития протокола Labyrinth.',
+      votingPower: 'Ваша Сила Голоса (vLAB):',
+      stakedAmount: 'Застейкано $LAB:',
+      submitProposalBtn: '+ Создать Предложение',
+      voteFor: 'Голосовать ЗА (Yes)',
+      voteAgainst: 'Голосовать ПРОТИВ (No)',
+      proposalStatusPassed: 'Одобрено и Готово к Исполнению',
+      proposalStatusActive: 'Идет Голосование',
+      createModalTitle: 'Создать Предложение On-Chain',
+      inputTitleLabel: 'Заголовок Предложения:',
+      inputDescLabel: 'Подробное Описание:',
+      cancelBtn: 'Отмена',
+      submitBtn: 'Отправить Предложение (On-Chain)',
+      hasVoted: 'Вы уже проголосовали'
     },
     mixer: {
       depositTab: 'Депозит и Микс',
@@ -962,6 +1029,7 @@ export const translations = {
       mixer: 'خلاط الخصوصية',
       yield: 'أحواض العائد',
       tokenomics: 'رموز $LAB',
+      dao: 'حوكمة DAO 🗳️',
       poi: 'إثبات البراءة (PoI)',
       connect: 'ربط المحفظة',
       launchApp: 'تشغيل التطبيق 🚀'
@@ -976,7 +1044,6 @@ export const translations = {
       statsVolume: 'حجم المعاملات الخاصة',
       statsChains: 'الشبكات المدعومة',
       statsProof: 'زمن إثبات ZK',
-
       innovationsTitle: 'لماذا يعيد Labyrinth تعريف خلاط الكريبتو',
       innovationsSub: 'خلاطات الكريبتو الحالية تجبرك على الاختيار بين الأرباح والرسوم والامتثال. حل Labyrinth التحديات الثلاثة.',
       feat1Title: 'خلاط الكريبتو بالمعرفة الصفرية (ZK-SNARKs)',
@@ -987,12 +1054,10 @@ export const translations = {
       feat3Desc: 'شهادة امتثال اختيارية تثبت أن أموالك لا تأتي من محافظ محظورة لحماية إيداعات المنصات.',
       feat4Title: 'شبكة مرحلين بدون رسوم (Gasless)',
       feat4Desc: 'اسحب أموالك دون الحاجة لدفع رسوم غاز مبدئية في المحفظة الجديدة.',
-
       securityTitle: 'عقود ذكية مفتوحة المصدر ١٠٠٪ ومفحوصة',
       securitySub: 'الخصوصية الحقيقية تعتمد على الإثبات الرياضيات وليس الثقة. كود Labyrinth مفتوح للجميع.',
       githubNotice: 'عقود موثقة على GitHub',
       githubNoticeSub: 'افحص توزيع الرموز وأشجار Merkle وكود ZK مباشرة على GitHub.',
-
       tokTitle: 'اقتصاد الرموز $LAB وحرق EIP-1559',
       tokSub: 'معروض إجمالي ١,٠٠٠,٠٠٠,٠٠٠ رمز مع حرق محكوم وآلي.',
       founderAlloc: '١٢٪ للمؤسسين (X)',
@@ -1000,10 +1065,27 @@ export const translations = {
       daoAlloc: '٥٣٪ لخزينة الـ DAO والسيولة',
       miningAlloc: '٢٥٪ لتعدين الخصوصية (AP)',
       combinedNotice: '👉 ٢٢٪ المجموع الكلي (١٢٪ مؤسسين + ١٠٪ تطوير) مقفلة بتدفق خطي لحماية المجتمع.',
-
       ctaTitle: 'هل أنت جاهز لتجربة خصوصية مطلقة؟',
       ctaSub: 'افتح التطبيق الآن أو افحص العقود الذكية على GitHub.',
       ctaBtn: 'البدء — الدخول للخلاط'
+    },
+    dao: {
+      badge: 'حوكمة DAO على الشبكة',
+      title: 'حوكمة DAO وتصويت المجتمع',
+      subtitle: 'صوت وقدم اقتراحات لامركزية لتشكيل مستقبل بروتوكول Labyrinth.',
+      votingPower: 'قوة التصويت الخاصة بك (vLAB):',
+      stakedAmount: 'رموز $LAB المخزنة:',
+      submitProposalBtn: '+ تقديم اقتراح',
+      voteFor: 'التصويت بـ نعم (Yes)',
+      voteAgainst: 'التصويت بـ لا (No)',
+      proposalStatusPassed: 'تمت الموافقة وجاهز للتنفيذ',
+      proposalStatusActive: 'التصويت جاري',
+      createModalTitle: 'تقديم اقتراح على الشبكة',
+      inputTitleLabel: 'عنوان الاقتراح:',
+      inputDescLabel: 'الوصف التفصيلي:',
+      cancelBtn: 'إلغاء',
+      submitBtn: 'تقديم الاقتراح (On-Chain)',
+      hasVoted: 'لقد قمت بالتصويت بالفعل'
     },
     mixer: {
       depositTab: 'إيداع وخلط',
