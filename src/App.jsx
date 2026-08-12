@@ -229,12 +229,12 @@ function App() {
                 onClick={() => setActiveTab('dao')}
                 className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
                   activeTab === 'dao'
-                    ? 'bg-blue-600/20 text-blue-400 dark:text-blue-300 border border-blue-500/40 shadow-sm'
+                    ? 'bg-blue-600/20 text-blue-500 dark:text-blue-300 border border-blue-500/40 shadow-sm'
                     : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
               >
-                <Vote className="w-4 h-4 text-blue-400" />
-                <span>{t.nav.dao}</span>
+                <Vote className="w-4 h-4 text-blue-500 shrink-0" />
+                <span className="whitespace-nowrap font-bold">{t?.nav?.dao || 'Gouvernance DAO 🗳️'}</span>
               </button>
 
               <button
