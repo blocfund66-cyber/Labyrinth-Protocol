@@ -424,7 +424,7 @@ function App() {
             >
               <Sliders className="w-3.5 h-3.5" />
               <span>
-                {t.footer.levelPrefix} {experienceLevel === 'beginner' ? 'Débutant 🐣' : experienceLevel === 'intermediate' ? 'Intermédiaire 🛡️' : 'Avancé / Pro ⚡'}
+                {t.footer.levelPrefix} {experienceLevel === 'beginner' ? 'Débutant 🐣' : experienceLevel === 'intermediate' ? 'Intermédiaire 🧭' : 'Avancé / Pro ⚡'}
               </span>
             </button>
 

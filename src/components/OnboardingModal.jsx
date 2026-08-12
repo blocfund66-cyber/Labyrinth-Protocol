@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles, Shield, Zap, BookOpen, Check } from 'lucide-react';
+import { Sparkles, Compass, Zap, BookOpen, Check } from 'lucide-react';
 
 const OnboardingModal = ({ isOpen, onClose, currentLevel, onSelectLevel, t }) => {
   if (!isOpen) return null;
@@ -23,7 +23,7 @@ const OnboardingModal = ({ isOpen, onClose, currentLevel, onSelectLevel, t }) =>
       description: tOnboard.interDesc,
       badge: 'Standard',
       badgeColor: 'badge-cyan',
-      icon: <Shield className="w-6 h-6 text-blue-500" />
+      icon: <Compass className="w-6 h-6 text-blue-500" />
     },
     {
       id: 'advanced',
