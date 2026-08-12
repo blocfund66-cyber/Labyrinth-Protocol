@@ -16,7 +16,6 @@ import {
   Award, 
   Wallet, 
   Github, 
-  FileCode2, 
   Sun, 
   Moon,
   Sliders,
@@ -133,12 +132,12 @@ function App() {
       {/* Interactive Glowing Canvas Background (Visible in Dark mode) */}
       {isDarkMode && <MazeVisualizer />}
 
-      {/* Dynamic Header Navbar */}
+      {/* Dynamic Header Navbar - Pushed to Far Left & Far Right to Maximize Space */}
       <header className={`sticky top-0 z-40 ${isDarkMode ? 'bg-[#050814]/90 border-blue-500/20' : 'bg-white/95 border-slate-200'} backdrop-blur-xl border-b transition-colors shadow-sm`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-8 h-20 flex items-center justify-between gap-4">
           
-          {/* Logo & Title */}
-          <div className="flex items-center gap-3.5 cursor-pointer" onClick={() => { if (currentView === 'app') setCurrentView('landing'); }}>
+          {/* LOGO & TITLE (Pushed to Far Left) */}
+          <div className="flex items-center gap-3.5 cursor-pointer shrink-0" onClick={() => { if (currentView === 'app') setCurrentView('landing'); }}>
             <AbstractLabyrinthLogo className="w-10 h-10" />
             <div>
               <span className={`font-black text-2xl tracking-wider ${isDarkMode ? 'text-white' : 'text-slate-900'} font-outfit block leading-none`}>
@@ -150,10 +149,10 @@ function App() {
             </div>
           </div>
 
-          {/* DYNAMIC HEADER NAVIGATION BAR */}
+          {/* DYNAMIC HEADER NAVIGATION BAR (Spacious & Fully Readable Text Labels) */}
           {currentView === 'landing' ? (
             /* ================= LANDING PAGE HEADER NAV ================= */
-            <nav className={`hidden lg:flex items-center gap-1.5 p-1.5 rounded-2xl border ${isDarkMode ? 'bg-slate-900/80 border-slate-800' : 'bg-slate-100 border-slate-200'}`}>
+            <nav className={`hidden xl:flex items-center gap-1.5 p-1.5 rounded-2xl border ${isDarkMode ? 'bg-slate-900/80 border-slate-800' : 'bg-slate-100 border-slate-200'}`}>
               <button
                 onClick={() => scrollToSection('hero')}
                 className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all text-slate-500 dark:text-slate-400 hover:text-blue-500"
@@ -187,74 +186,74 @@ function App() {
               </button>
             </nav>
           ) : (
-            /* ================= PROTOCOL dAPP HEADER NAV ================= */
-            <nav className={`hidden lg:flex items-center gap-1 rounded-2xl p-1.5 border ${isDarkMode ? 'bg-slate-900/80 border-slate-800' : 'bg-slate-100 border-slate-200'}`}>
+            /* ================= PROTOCOL dAPP HEADER NAV (ALL 5 TABS WITH CLEAR WRITTEN LABELS) ================= */
+            <nav className={`hidden xl:flex items-center gap-1 p-1.5 rounded-2xl border ${isDarkMode ? 'bg-slate-900/80 border-slate-800' : 'bg-slate-100 border-slate-200'}`}>
               <button
                 onClick={() => setActiveTab('mixer')}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
                   activeTab === 'mixer'
                     ? 'bg-blue-600/20 text-blue-400 dark:text-blue-300 border border-blue-500/40 shadow-sm'
                     : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
               >
                 <Lock className="w-4 h-4" />
-                {t.nav.mixer}
+                <span>{t.nav.mixer}</span>
               </button>
 
               <button
                 onClick={() => setActiveTab('yield')}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
                   activeTab === 'yield'
                     ? 'bg-blue-600/20 text-blue-400 dark:text-blue-300 border border-blue-500/40 shadow-sm'
                     : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
               >
                 <TrendingUp className="w-4 h-4" />
-                {t.nav.yield}
+                <span>{t.nav.yield}</span>
               </button>
 
               <button
                 onClick={() => setActiveTab('tokenomics')}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
                   activeTab === 'tokenomics'
                     ? 'bg-blue-600/20 text-blue-400 dark:text-blue-300 border border-blue-500/40 shadow-sm'
                     : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
               >
                 <Coins className="w-4 h-4" />
-                {t.nav.tokenomics}
+                <span>{t.nav.tokenomics}</span>
               </button>
 
+              {/* DAO GOVERNANCE TAB - FULLY WRITTEN OUT & HIGHLY VISIBLE */}
               <button
                 onClick={() => setActiveTab('dao')}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
                   activeTab === 'dao'
                     ? 'bg-blue-600/20 text-blue-400 dark:text-blue-300 border border-blue-500/40 shadow-sm'
                     : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
               >
                 <Vote className="w-4 h-4 text-blue-400" />
-                {t.nav.dao}
+                <span>{t.nav.dao}</span>
               </button>
 
               <button
                 onClick={() => setActiveTab('poi')}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
                   activeTab === 'poi'
                     ? 'bg-blue-600/20 text-blue-400 dark:text-blue-300 border border-blue-500/40 shadow-sm'
                     : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
               >
                 <Award className="w-4 h-4" />
-                {t.nav.poi}
+                <span>{t.nav.poi}</span>
               </button>
             </nav>
           )}
 
-          {/* DYNAMIC RIGHT ACTION BUTTON */}
-          <div className="flex items-center gap-3">
+          {/* RIGHT ACTION BUTTON (Pushed to Far Right) */}
+          <div className="flex items-center gap-3 shrink-0">
             {currentView === 'landing' ? (
-              /* Landing Header Button: Launch App 🚀 */
               <button
                 onClick={handleEnterApp}
                 className="btn-cyan text-xs py-2.5 px-6 font-bold flex items-center justify-center gap-2 shadow-lg"
@@ -263,7 +262,6 @@ function App() {
                 <span>{t.nav.launchApp}</span>
               </button>
             ) : (
-              /* Protocol dApp Header Button: Connect Wallet */
               <button
                 onClick={connectWallet}
                 className={`btn-cyan text-xs py-2.5 px-5 font-bold flex items-center justify-center gap-2 ${
@@ -278,7 +276,7 @@ function App() {
         </div>
 
         {/* Mobile Navigation Bar */}
-        <div className={`flex lg:hidden overflow-x-auto px-4 py-2 border-t gap-2 ${isDarkMode ? 'bg-slate-950 border-slate-800' : 'bg-slate-100 border-slate-300'}`}>
+        <div className={`flex xl:hidden overflow-x-auto px-4 py-2.5 border-t gap-2 ${isDarkMode ? 'bg-slate-950 border-slate-800' : 'bg-slate-100 border-slate-300'}`}>
           {currentView === 'landing' ? (
             <>
               <button onClick={() => scrollToSection('hero')} className="px-4 py-2 rounded-lg text-xs font-bold text-slate-400 shrink-0">
@@ -346,7 +344,7 @@ function App() {
         )}
       </main>
 
-      {/* Footer with ENCADRÉS / UNIFORM FRAMED BUTTONS */}
+      {/* Footer - Clean, Non-Redundant (Single GitHub Code Source Button) */}
       <footer className={`z-10 border-t py-8 mt-12 backdrop-blur-md transition-colors ${isDarkMode ? 'bg-slate-950/90 border-slate-800/80 text-slate-400' : 'bg-white/90 border-slate-200 text-slate-600'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs">
           
@@ -397,7 +395,7 @@ function App() {
             <span className="hidden sm:inline font-bold text-slate-900 dark:text-slate-200">Labyrinth Protocol V1</span>
           </div>
 
-          {/* BOTTOM RIGHT: UNIFORM FRAMED BUTTONS for Presentation, Level, GitHub & Theme */}
+          {/* BOTTOM RIGHT: UNIFORM FRAMED BUTTONS (Single Non-Redundant GitHub Button) */}
           <div className="flex flex-wrap items-center justify-center gap-3">
             
             {/* 1. Presentation Framed Button */}
@@ -430,7 +428,7 @@ function App() {
               </span>
             </button>
 
-            {/* 3. GitHub Framed Button - Balanced shadow-sm elevation matching all other buttons in Light/Dark mode */}
+            {/* 3. GitHub Source Code Framed Button (Clean & Non-Redundant) */}
             <a
               href={GITHUB_REPO_URL}
               target="_blank"
@@ -440,28 +438,13 @@ function App() {
                   ? 'bg-slate-900 border-slate-700 text-slate-200 hover:bg-slate-800 hover:border-slate-600' 
                   : 'bg-slate-100 border-slate-300 text-slate-800 hover:bg-slate-200'
               }`}
-              title="Code Source Officiel sur GitHub"
+              title="Code Source & Smart Contracts sur GitHub"
             >
               <Github className="w-4 h-4 text-slate-400" />
               <span>{t.footer.sourceCode}</span>
             </a>
 
-            {/* 4. Smart Contracts Framed Button */}
-            <a
-              href={`${GITHUB_REPO_URL}/tree/main/contracts`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`hidden sm:flex items-center gap-2 px-3.5 py-2 rounded-xl border font-bold transition-all shadow-sm ${
-                isDarkMode 
-                  ? 'bg-slate-900 border-slate-800 text-slate-300 hover:bg-slate-800 hover:border-slate-700' 
-                  : 'bg-slate-100 border-slate-300 text-slate-700 hover:bg-slate-200'
-              }`}
-            >
-              <FileCode2 className="w-3.5 h-3.5 text-slate-400" />
-              <span>{t.footer.smartContracts}</span>
-            </a>
-
-            {/* 5. Theme Toggle Framed Button */}
+            {/* 4. Theme Toggle Framed Button */}
             <button
               onClick={toggleTheme}
               className={`flex items-center gap-2 px-3.5 py-2 rounded-xl border font-bold transition-all shadow-sm ${
