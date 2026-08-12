@@ -211,10 +211,10 @@ function App() {
 
       {/* Dynamic Header Navbar - Pushed to Far Left & Far Right to Maximize Space */}
       <header className={`sticky top-0 z-40 ${isDarkMode ? 'bg-[#050814]/90 border-blue-500/20' : 'bg-white/95 border-slate-200'} backdrop-blur-xl border-b transition-colors shadow-sm`}>
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-8 h-20 flex items-center justify-between gap-4">
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-8 h-20 flex items-center justify-between gap-3 sm:gap-4">
           
           {/* LOGO & TITLE & ACTIVE MOBILE FRAGMENT BADGE */}
-          <div className="flex items-center gap-2.5 sm:gap-3.5 cursor-pointer shrink-0 mr-2 lg:mr-12" onClick={() => { if (currentView === 'app') setCurrentView('landing'); }}>
+          <div className="flex items-center gap-2.5 sm:gap-3.5 cursor-pointer shrink-0" onClick={() => { if (currentView === 'app') setCurrentView('landing'); }}>
             <AbstractLabyrinthLogo className="w-9 h-9 sm:w-10 sm:h-10 shrink-0" />
             <div>
               <span className={`font-black text-xl sm:text-2xl tracking-wider ${isDarkMode ? 'text-white' : 'text-slate-900'} font-outfit block leading-none`}>
@@ -354,7 +354,7 @@ function App() {
           )}
 
           {/* RIGHT ACTION BUTTONS & MOBILE HAMBURGER MENU TRIGGER */}
-          <div className="flex items-center gap-2 sm:gap-3 shrink-0 ml-2 sm:ml-4 lg:ml-12">
+          <div className="flex items-center gap-3 sm:gap-4 shrink-0">
             {currentView === 'landing' ? (
               <>
                 {/* Desktop Full Button */}
