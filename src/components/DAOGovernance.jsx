@@ -8,15 +8,14 @@ import {
   ShieldCheck, 
   Coins, 
   Users, 
-  Sparkles, 
-  ExternalLink,
+  AlertTriangle,
+  Wallet,
+  Lock,
   ChevronRight,
-  TrendingUp,
-  AlertCircle,
-  Lock
+  ShieldAlert
 } from 'lucide-react';
 
-const DAOGovernance = ({ t }) => {
+const DAOGovernance = ({ isConnected, walletAddress, connectWallet, t }) => {
   const tDao = t.dao || {
     badge: 'On-Chain DAO Governance',
     title: 'Gouvernance & Votes de la Communauté',
@@ -38,9 +37,14 @@ const DAOGovernance = ({ t }) => {
 
   const [activeFilter, setActiveFilter] = useState('all'); // 'all', 'active', 'passed'
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showAuthWarning, setShowAuthWarning] = useState(false);
   const [newTitle, setNewTitle] = useState('');
   const [newDesc, setNewDesc] = useState('');
   const [userVotedProposals, setUserVotedProposals] = useState({});
+
+  // Mock On-Chain $LAB Token Balance for Connected Wallet
+  const userLabBalance = isConnected ? 500000 : 0;
+  const isVerifiedMember = isConnected && userLabBalance > 0;
 
   // Mock Active DAO Proposals
   const [proposals, setProposals] = useState([
@@ -85,21 +89,47 @@ const DAOGovernance = ({ t }) => {
     }
   ]);
 
+  // Handle Voting Action with Strict Wallet & Token Holder Check
   const handleVote = (proposalId, voteType) => {
+    if (!isConnected) {
+      setShowAuthWarning(true);
+      return;
+    }
+
+    if (!isVerifiedMember) {
+      alert("⚠️ Accès refusé : Votre portefeuille ne détient pas de jetons $LAB. Seuls les détenteurs de jetons $LAB enregistrés sur la blockchain peuvent participer au vote.");
+      return;
+    }
+
     if (userVotedProposals[proposalId]) return;
 
     setProposals(prev => prev.map(p => {
       if (p.id === proposalId) {
         return {
           ...p,
-          votesFor: voteType === 'for' ? p.votesFor + 500000 : p.votesFor,
-          votesAgainst: voteType === 'against' ? p.votesAgainst + 500000 : p.votesAgainst
+          votesFor: voteType === 'for' ? p.votesFor + userLabBalance : p.votesFor,
+          votesAgainst: voteType === 'against' ? p.votesAgainst + userLabBalance : p.votesAgainst
         };
       }
       return p;
     }));
 
     setUserVotedProposals(prev => ({ ...prev, [proposalId]: voteType }));
+  };
+
+  // Handle Proposal Submission with Strict Wallet Check
+  const handleOpenCreateModal = () => {
+    if (!isConnected) {
+      setShowAuthWarning(true);
+      return;
+    }
+
+    if (!isVerifiedMember) {
+      alert("⚠️ Seuls les membres détenant au moins 100,000 jetons $LAB stakés peuvent publier une proposition sur la blockchain.");
+      return;
+    }
+
+    setShowCreateModal(true);
   };
 
   const handleSubmitNewProposal = (e) => {
@@ -109,10 +139,10 @@ const DAOGovernance = ({ t }) => {
     const newProp = {
       id: `LIP-00${proposals.length + 1}`,
       title: `${newTitle}`,
-      author: '0x71C...89F2 (You)',
+      author: `${walletAddress.substring(0, 6)}...${walletAddress.substring(walletAddress.length - 4)} (Vous)`,
       category: 'Community Proposal',
       description: newDesc,
-      votesFor: 500000, // Initial self vote
+      votesFor: userLabBalance,
       votesAgainst: 0,
       quorumBps: 1500,
       status: 'active',
@@ -152,12 +182,58 @@ const DAOGovernance = ({ t }) => {
           </div>
 
           <button
-            onClick={() => setShowCreateModal(true)}
+            onClick={handleOpenCreateModal}
             className="btn-cyan py-3 px-6 text-xs font-bold flex items-center gap-2 shrink-0 shadow-lg"
           >
             <PlusCircle className="w-4 h-4" />
             <span>{tDao.submitProposalBtn}</span>
           </button>
+        </div>
+
+        {/* ON-CHAIN MEMBER VERIFICATION STATUS BAR */}
+        <div className="mt-6 p-4 rounded-xl border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 transition-all bg-slate-100 dark:bg-slate-900/80 border-slate-200 dark:border-slate-800">
+          <div className="flex items-center gap-3">
+            {isConnected ? (
+              isVerifiedMember ? (
+                <div className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse"></div>
+              ) : (
+                <div className="w-3 h-3 rounded-full bg-amber-500"></div>
+              )
+            ) : (
+              <div className="w-3 h-3 rounded-full bg-rose-500"></div>
+            )}
+
+            <div>
+              <span className="text-xs font-bold text-slate-900 dark:text-white block">
+                {isConnected ? (
+                  isVerifiedMember 
+                    ? `🟢 Statut : Membre Vérifié de la Communauté DAO (${walletAddress})` 
+                    : `🟡 Statut : Portefeuille Connecté — Aucun jeton $LAB détecté`
+                ) : (
+                  `🔴 Statut : Portefeuille Non Connecté`
+                )}
+              </span>
+              <span className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">
+                {isConnected ? (
+                  isVerifiedMember 
+                    ? `Votre portefeuille détient ${userLabBalance.toLocaleString()} $LAB. Vous êtes autorisé à voter et proposer.`
+                    : `Acquérez ou stakez des jetons $LAB pour activer votre pouvoir de vote.`
+                ) : (
+                  `Connectez votre portefeuille Web3 pour vérifier votre solde de jetons $LAB On-Chain.`
+                )}
+              </span>
+            </div>
+          </div>
+
+          {!isConnected && (
+            <button
+              onClick={connectWallet}
+              className="btn-cyan text-xs py-2 px-4 font-bold flex items-center gap-2 shrink-0"
+            >
+              <Wallet className="w-3.5 h-3.5" />
+              <span>Connecter le Portefeuille</span>
+            </button>
+          )}
         </div>
 
         {/* Voting Power Metrics Row - Adaptive Light/Dark Mode */}
@@ -168,7 +244,9 @@ const DAOGovernance = ({ t }) => {
             </div>
             <div>
               <span className="text-[11px] text-slate-500 dark:text-slate-400 font-semibold block">{tDao.votingPower}</span>
-              <span className="text-lg font-black text-blue-600 dark:text-blue-400 font-mono">500,000 vLAB</span>
+              <span className="text-lg font-black text-blue-600 dark:text-blue-400 font-mono">
+                {userLabBalance.toLocaleString()} vLAB
+              </span>
             </div>
           </div>
 
@@ -178,7 +256,9 @@ const DAOGovernance = ({ t }) => {
             </div>
             <div>
               <span className="text-[11px] text-slate-500 dark:text-slate-400 font-semibold block">{tDao.stakedAmount}</span>
-              <span className="text-lg font-black text-emerald-600 dark:text-emerald-400 font-mono">500,000 $LAB</span>
+              <span className="text-lg font-black text-emerald-600 dark:text-emerald-400 font-mono">
+                {userLabBalance.toLocaleString()} $LAB
+              </span>
             </div>
           </div>
 
@@ -187,8 +267,10 @@ const DAOGovernance = ({ t }) => {
               <Users className="w-5 h-5" />
             </div>
             <div>
-              <span className="text-[11px] text-slate-500 dark:text-slate-400 font-semibold block">Gouvernance Anonyme :</span>
-              <span className="text-lg font-black text-violet-600 dark:text-violet-400 font-mono">100% On-Chain</span>
+              <span className="text-[11px] text-slate-500 dark:text-slate-400 font-semibold block">Vérification des Membres :</span>
+              <span className="text-lg font-black text-violet-600 dark:text-violet-400 font-mono">
+                {isConnected ? 'Verrouillé On-Chain' : 'En Attente'}
+              </span>
             </div>
           </div>
         </div>
@@ -339,6 +421,43 @@ const DAOGovernance = ({ t }) => {
           );
         })}
       </div>
+
+      {/* Mandatory Wallet Auth Warning Modal */}
+      {showAuthWarning && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-fadeIn">
+          <div className="glass-panel max-w-md w-full p-6 sm:p-8 space-y-6 border-amber-500/40 shadow-2xl relative text-center">
+            <div className="w-14 h-14 rounded-2xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-500 mx-auto">
+              <ShieldAlert className="w-8 h-8" />
+            </div>
+
+            <div className="space-y-2">
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white">
+                Portefeuille Non Connecté
+              </h3>
+              <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                Pour vérifier que vous êtes un membre effectif de la communauté Labyrinth et contrôler votre solde de jetons $LAB On-Chain, vous devez d'abord connecter votre portefeuille Web3.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-3 pt-2">
+              <button
+                onClick={() => setShowAuthWarning(false)}
+                className="w-1/2 py-3 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold hover:bg-slate-200 dark:hover:bg-slate-800 transition-all"
+              >
+                Fermer
+              </button>
+
+              <button
+                onClick={() => { setShowAuthWarning(false); connectWallet(); }}
+                className="w-1/2 btn-cyan py-3 text-xs font-bold flex items-center justify-center gap-2"
+              >
+                <Wallet className="w-4 h-4" />
+                <span>Connecter</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Create Proposal Modal */}
       {showCreateModal && (

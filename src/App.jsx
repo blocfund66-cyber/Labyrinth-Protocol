@@ -338,7 +338,7 @@ function App() {
             {activeTab === 'mixer' && <PrivacyMixer experienceLevel={experienceLevel} t={t} />}
             {activeTab === 'yield' && <YieldPools t={t} />}
             {activeTab === 'tokenomics' && <TokenomicsDashboard t={t} />}
-            {activeTab === 'dao' && <DAOGovernance t={t} />}
+            {activeTab === 'dao' && <DAOGovernance isConnected={isConnected} walletAddress={walletAddress} connectWallet={connectWallet} t={t} />}
             {activeTab === 'poi' && <ProofOfInnocence t={t} />}
           </>
         )}
