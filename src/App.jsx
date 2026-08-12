@@ -187,12 +187,12 @@ function App() {
             </nav>
           ) : (
             /* ================= PROTOCOL dAPP HEADER NAV (ALL 5 TABS WITH CLEAR WRITTEN LABELS) ================= */
-            <nav className={`hidden lg:flex items-center gap-1 p-1.5 rounded-2xl border ${isDarkMode ? 'bg-slate-900/80 border-slate-800' : 'bg-white border-slate-200 shadow-sm'}`}>
+            <nav className={`hidden lg:flex items-center gap-1 p-1.5 rounded-2xl border ${isDarkMode ? 'bg-slate-900/80 border-slate-800' : 'bg-slate-100 border-slate-200'}`}>
               <button
                 onClick={() => setActiveTab('mixer')}
                 className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
                   activeTab === 'mixer'
-                    ? 'bg-blue-600 text-white shadow-md dark:bg-blue-600/30 dark:text-blue-300 dark:border dark:border-blue-500/40'
+                    ? 'bg-blue-500/15 text-blue-600 dark:text-blue-400 border border-blue-500/30 shadow-sm'
                     : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
               >
@@ -204,7 +204,7 @@ function App() {
                 onClick={() => setActiveTab('yield')}
                 className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
                   activeTab === 'yield'
-                    ? 'bg-blue-600 text-white shadow-md dark:bg-blue-600/30 dark:text-blue-300 dark:border dark:border-blue-500/40'
+                    ? 'bg-blue-500/15 text-blue-600 dark:text-blue-400 border border-blue-500/30 shadow-sm'
                     : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
               >
@@ -216,7 +216,7 @@ function App() {
                 onClick={() => setActiveTab('tokenomics')}
                 className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
                   activeTab === 'tokenomics'
-                    ? 'bg-blue-600 text-white shadow-md dark:bg-blue-600/30 dark:text-blue-300 dark:border dark:border-blue-500/40'
+                    ? 'bg-blue-500/15 text-blue-600 dark:text-blue-400 border border-blue-500/30 shadow-sm'
                     : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
               >
@@ -229,7 +229,7 @@ function App() {
                 onClick={() => setActiveTab('dao')}
                 className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
                   activeTab === 'dao'
-                    ? 'bg-blue-600 text-white shadow-md dark:bg-blue-600/30 dark:text-blue-300 dark:border dark:border-blue-500/40'
+                    ? 'bg-blue-500/15 text-blue-600 dark:text-blue-400 border border-blue-500/30 shadow-sm'
                     : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
               >
@@ -241,7 +241,7 @@ function App() {
                 onClick={() => setActiveTab('poi')}
                 className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
                   activeTab === 'poi'
-                    ? 'bg-blue-600 text-white shadow-md dark:bg-blue-600/30 dark:text-blue-300 dark:border dark:border-blue-500/40'
+                    ? 'bg-blue-500/15 text-blue-600 dark:text-blue-400 border border-blue-500/30 shadow-sm'
                     : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
               >
