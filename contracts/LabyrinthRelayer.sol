@@ -71,7 +71,7 @@ contract LabyrinthRelayer {
         // [FIX #5] Enforce minimum $LAB stake before allowing registration.
         require(
             IERC20Token(labToken).balanceOf(msg.sender) >= minRelayerStake,
-            "LabyrinthRelayer: Insufficient $LAB balance — minimum 10,000 LAB required"
+            "LabyrinthRelayer: Insufficient $LAB balance - minimum 10,000 LAB required"
         );
         require(_feeBps <= 200, "LabyrinthRelayer: Fee cannot exceed 2%");
 
