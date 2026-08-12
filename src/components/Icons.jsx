@@ -123,23 +123,57 @@ export const WbtcIcon = ({ className = "w-5 h-5" }) => (
   </svg>
 );
 
-// 13. Protocol Main Brand Logo Component
+// 13. Protocol Main Brand Logo Component — Official Neon Cyan Labyrinth 'L' Maze Emblem
 export const AbstractLabyrinthLogo = ({ className = "w-10 h-10" }) => (
-  <div className={`${className} relative rounded-xl overflow-hidden border border-blue-500/40 shadow-lg shadow-blue-500/30 group transition-all`}>
-    <img 
-      src="/logo.jpg" 
-      alt="Labyrinth Logo" 
-      className="w-full h-full object-cover rounded-xl transform group-hover:scale-105 transition-transform" 
-      onError={(e) => {
-        e.target.onerror = null;
-        e.target.style.display = 'none';
-        e.target.nextSibling.style.display = 'block';
-      }}
-    />
-    <svg className="w-full h-full p-1 text-blue-500 bg-slate-950 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-      <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z"/>
-      <path d="M12 6V10M12 10H16M12 10H8M12 14V18"/>
-      <path d="M6 12H10M14 12H18"/>
+  <div className={`${className} relative rounded-2xl overflow-hidden border border-blue-600/60 shadow-[0_0_15px_rgba(37,99,235,0.4)] bg-[#070B14] flex items-center justify-center p-2 group transition-all`}>
+    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full transform group-hover:scale-105 transition-transform">
+      {/* Outer Contour of Letter 'L' */}
+      <path 
+        d="M 32 20 H 52 V 60 H 76 V 80 H 32 V 20 Z" 
+        stroke="#00E5FF" 
+        strokeWidth="3.5" 
+        strokeLinejoin="round" 
+        strokeLinecap="round" 
+        fill="none" 
+      />
+
+      {/* Internal Maze Circuit Paths inside 'L' */}
+      <path 
+        d="M 42 28 V 52 H 66 V 70" 
+        stroke="#00E5FF" 
+        strokeWidth="2.5" 
+        strokeLinecap="round" 
+        strokeLinejoin="round" 
+        fill="none" 
+      />
+
+      <path 
+        d="M 52 36 V 44" 
+        stroke="#00E5FF" 
+        strokeWidth="2.5" 
+        strokeLinecap="round" 
+        fill="none" 
+      />
+
+      <path 
+        d="M 42 60 H 56" 
+        stroke="#00E5FF" 
+        strokeWidth="2.5" 
+        strokeLinecap="round" 
+        fill="none" 
+      />
+
+      <path 
+        d="M 66 60 V 70" 
+        stroke="#00E5FF" 
+        strokeWidth="2.5" 
+        strokeLinecap="round" 
+        fill="none" 
+      />
+
+      {/* Small Labyrinth Dead-End T-Junctions */}
+      <circle cx="32" cy="20" r="1.5" fill="#00E5FF" />
+      <circle cx="76" cy="80" r="1.5" fill="#00E5FF" />
     </svg>
   </div>
 );
