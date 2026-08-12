@@ -140,15 +140,16 @@ function App() {
     }
   }, []);
 
+  const handleConnectSuccess = (acc) => {
+    setIsConnected(true);
+    setFullWalletAddress(acc);
+    setWalletAddress(`${acc.substring(0, 6)}...${acc.substring(acc.length - 4)}`);
+  };
+
   // Handle header wallet button click
   const handleWalletClick = () => {
-    if (isConnected) {
-      // If already connected -> Open Wallet Details & Disconnect Modal
-      setShowWalletModal(true);
-    } else {
-      // If disconnected -> Trigger Web3 MetaMask Extension Popup
-      connectWallet();
-    }
+    // Open WalletModal (runs auto-detection & connect if disconnected, or displays details & disconnect if connected)
+    setShowWalletModal(true);
   };
 
   // Connect Wallet via real Web3 provider extension (MetaMask / Rabby / Brave)
@@ -538,7 +539,9 @@ function App() {
       <WalletModal
         isOpen={showWalletModal}
         onClose={() => setShowWalletModal(false)}
+        isConnected={isConnected}
         fullAddress={fullWalletAddress}
+        onConnectSuccess={handleConnectSuccess}
         onDisconnect={handleDisconnectWallet}
       />
     </div>
