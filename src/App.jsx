@@ -428,7 +428,7 @@ function App() {
               </span>
             </button>
 
-            {/* 3. GitHub Source Code Framed Button (Clean & Non-Redundant) */}
+            {/* 3. GitHub Source Code Framed Button */}
             <a
               href={GITHUB_REPO_URL}
               target="_blank"
@@ -444,25 +444,21 @@ function App() {
               <span>{t.footer.sourceCode}</span>
             </a>
 
-            {/* 4. Theme Toggle Framed Button */}
+            {/* 4. Compact Theme Toggle Icon Button at Page Bottom (Footer) */}
             <button
               onClick={toggleTheme}
-              className={`flex items-center gap-2 px-3.5 py-2 rounded-xl border font-bold transition-all shadow-sm ${
+              className={`p-2 rounded-xl border font-bold transition-all shadow-sm flex items-center justify-center ${
                 isDarkMode 
-                  ? 'bg-slate-900 border-slate-800 text-slate-200 hover:bg-slate-800' 
-                  : 'bg-slate-100 border-slate-300 text-slate-800 hover:bg-slate-200'
+                  ? 'bg-slate-900 border-slate-800 text-amber-400 hover:bg-slate-800' 
+                  : 'bg-slate-100 border-slate-300 text-indigo-600 hover:bg-slate-200'
               }`}
+              title={isDarkMode ? 'Passer en Mode Clair ☀️' : 'Passer en Mode Sombre 🌙'}
+              aria-label="Mode Clair / Sombre"
             >
               {isDarkMode ? (
-                <>
-                  <Sun className="w-3.5 h-3.5 text-amber-400" />
-                  <span>{t.footer.lightMode}</span>
-                </>
+                <Sun className="w-4 h-4 text-amber-400" />
               ) : (
-                <>
-                  <Moon className="w-3.5 h-3.5 text-indigo-500" />
-                  <span>{t.footer.darkMode}</span>
-                </>
+                <Moon className="w-4 h-4 text-indigo-600" />
               )}
             </button>
           </div>
