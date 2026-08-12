@@ -38,7 +38,6 @@ const LandingPage = ({ onEnterApp, t }) => {
 
         {/* Tagline Badge */}
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-600 dark:text-blue-400 text-xs font-bold uppercase tracking-wider animate-fadeIn">
-          <Sparkles className="w-4 h-4 text-blue-500" />
           <span>{tLand.heroTag}</span>
         </div>
 
