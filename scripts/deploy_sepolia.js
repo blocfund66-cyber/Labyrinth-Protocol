@@ -17,13 +17,35 @@ function getArtifact(contractName) {
   return JSON.parse(fs.readFileSync(artifactPath, "utf8"));
 }
 
+const PUBLIC_SEPOLIA_RPCS = [
+  "https://ethereum-sepolia-rpc.publicnode.com",
+  "https://rpc.sepolia.org",
+  "https://sepolia.drpc.org",
+  "https://rpc2.sepolia.org"
+];
+
+async function getReliableProvider() {
+  const customUrl = process.env.SEPOLIA_RPC_URL;
+  const urls = customUrl ? [customUrl, ...PUBLIC_SEPOLIA_RPCS] : PUBLIC_SEPOLIA_RPCS;
+  
+  for (const url of urls) {
+    try {
+      const provider = new ethers.JsonRpcProvider(url);
+      await provider.getBlockNumber();
+      return provider;
+    } catch (e) {
+      continue;
+    }
+  }
+  return new ethers.JsonRpcProvider(PUBLIC_SEPOLIA_RPCS[0]);
+}
+
 async function main() {
   console.log("================================================================================");
   console.log("🌀 LABYRINTH PROTOCOL V1 — SEPOLIA TESTNET AUTOMATED DEPLOYMENT");
   console.log("================================================================================");
 
-  const rpcUrl = process.env.SEPOLIA_RPC_URL || "https://rpc.sepolia.org";
-  const provider = new ethers.JsonRpcProvider(rpcUrl);
+  const provider = await getReliableProvider();
 
   let deployer;
   const privateKey = process.env.PRIVATE_KEY;
@@ -31,28 +53,21 @@ async function main() {
   if (privateKey && privateKey.startsWith("0x") && privateKey.length === 66) {
     deployer = new ethers.Wallet(privateKey, provider);
   } else {
-    // Generate a temporary wallet for dry-run simulation
     deployer = ethers.Wallet.createRandom(provider);
-    console.warn("⚠️ PRIVATE_KEY not found in environment. Using generated test wallet for simulation.");
   }
 
-  console.log("📌 DEPLOYMENT ACCOUNT INFORMATION:");
-  console.log("  • Target RPC URL    :", rpcUrl);
-  console.log("  • Deployer Address  :", deployer.address);
+  const founderDevWallet = process.env.FOUNDER_DEV_WALLET || "0xb5F2af7560138b6296dDeBE883988d4059Fee96E";
 
-  const founderDevWallet = process.env.FOUNDER_DEV_WALLET || deployer.address;
+  console.log("📌 DEPLOYMENT ACCOUNT INFORMATION:");
+  console.log("  • Deployer Wallet   :", deployer.address);
   console.log("  • Founder/Dev Wallet:", founderDevWallet);
 
   let balance = 0n;
   try {
-    balance = await provider.getBalance(deployer.address);
-    console.log("  • Account Balance   :", ethers.formatEther(balance), "ETH");
+    balance = await provider.getBalance(founderDevWallet);
+    console.log("  • Founder Wallet Balance :", ethers.formatEther(balance), "SepoliaETH");
   } catch (err) {
-    console.warn("  • Account Balance   : 0 ETH (RPC Offline or Unreachable)");
-  }
-
-  if (balance === 0n && privateKey) {
-    console.warn("\n⚠️ WARNING: Deployer balance is 0 ETH on Sepolia. Please fund this wallet via a Sepolia faucet before running live deployment.");
+    console.warn("  • Founder Wallet Balance : Unable to query balance");
   }
 
   // 1. Deploy LabToken
@@ -90,8 +105,7 @@ async function main() {
   const relayerArt = getArtifact("LabyrinthRelayer");
   console.log("  • Contract bytecode size:", relayerArt.bytecode.length / 2, "bytes");
 
-  // If private key is configured with balance > 0, perform real on-chain deployment
-  if (privateKey && balance > 0n) {
+  if (privateKey && privateKey.startsWith("0x")) {
     console.log("\n🚀 LIVE DEPLOYMENT IN PROGRESS ON SEPOLIA TESTNET...");
     
     // 1. LabToken
@@ -162,9 +176,8 @@ async function main() {
     console.log("💡 DEPLOYMENT SCRIPT VALIDATED IN SIMULATION MODE");
     console.log("================================================================================");
     console.log("To execute live deployment on Sepolia:");
-    console.log("1. Copy `.env.example` to `.env`");
-    console.log("2. Set SEPOLIA_RPC_URL and PRIVATE_KEY (funded with SepoliaETH)");
-    console.log("3. Run: `node scripts/deploy_sepolia.js` or `npm run deploy:sepolia`\n");
+    console.log("1. Add PRIVATE_KEY to `.env`");
+    console.log("2. Run: `node scripts/deploy_sepolia.js` or `npm run deploy:sepolia`\n");
   }
 }
 
