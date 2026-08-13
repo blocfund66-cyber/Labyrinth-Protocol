@@ -209,12 +209,12 @@ function App() {
       {/* Interactive Glowing Canvas Background (Visible in Dark mode) */}
       {isDarkMode && <MazeVisualizer />}
 
-      {/* Dynamic Header Navbar - Pushed to Far Left & Far Right to Maximize Space */}
+      {/* Dynamic Header Navbar - Mathematically Centered Nav & Symmetrical Balance */}
       <header className={`sticky top-0 z-40 ${isDarkMode ? 'bg-[#050814]/90 border-blue-500/20' : 'bg-white/95 border-slate-200'} backdrop-blur-xl border-b transition-colors shadow-sm`}>
-        <div className="max-w-[1400px] mx-auto px-5 sm:px-8 h-20 flex items-center justify-between gap-3 sm:gap-4">
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-8 h-20 flex items-center justify-between relative">
           
-          {/* LOGO & TITLE (Pushed to Far Left with Generous Spacing) */}
-          <div className="flex items-center gap-3.5 cursor-pointer shrink-0 mr-4 lg:mr-12" onClick={() => { if (currentView === 'app') setCurrentView('landing'); }}>
+          {/* LOGO & TITLE (Left Aligned) */}
+          <div className="flex items-center gap-3.5 cursor-pointer shrink-0" onClick={() => { if (currentView === 'app') setCurrentView('landing'); }}>
             <AbstractLabyrinthLogo className="w-10 h-10 shrink-0" />
             <div>
               <span className={`font-black text-2xl tracking-wider ${isDarkMode ? 'text-white' : 'text-slate-900'} font-outfit block leading-none`}>
@@ -226,10 +226,10 @@ function App() {
             </div>
           </div>
 
-          {/* DYNAMIC HEADER NAVIGATION BAR (Spacious & Fully Readable Text Labels) */}
+          {/* DYNAMIC HEADER NAVIGATION BAR (MATHEMATICALLY CENTERED IN VIEWPORT) */}
           {currentView === 'landing' ? (
             /* ================= LANDING PAGE HEADER NAV ================= */
-            <nav className={`hidden lg:flex items-center gap-1.5 p-1.5 rounded-2xl border ${isDarkMode ? 'bg-slate-900/80 border-slate-800' : 'bg-slate-100 border-slate-200'}`}>
+            <nav className={`hidden lg:flex items-center gap-1.5 p-1.5 rounded-2xl border absolute left-1/2 -translate-x-1/2 ${isDarkMode ? 'bg-slate-900/80 border-slate-800' : 'bg-slate-100 border-slate-200'}`}>
               <button
                 onClick={() => scrollToSection('hero')}
                 className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all text-slate-500 dark:text-slate-400 hover:text-blue-500"
@@ -263,8 +263,8 @@ function App() {
               </button>
             </nav>
           ) : (
-            /* ================= PROTOCOL dAPP HEADER NAV (ALL 5 TABS WITH CLEAR WRITTEN LABELS) ================= */
-            <nav className={`hidden lg:flex items-center gap-1 p-1.5 rounded-2xl border ${isDarkMode ? 'bg-slate-900/80 border-slate-800' : 'bg-slate-100 border-slate-200'}`}>
+            /* ================= PROTOCOL dAPP HEADER NAV (MATHEMATICALLY CENTERED IN VIEWPORT) ================= */
+            <nav className={`hidden lg:flex items-center gap-1 p-1.5 rounded-2xl border absolute left-1/2 -translate-x-1/2 ${isDarkMode ? 'bg-slate-900/80 border-slate-800' : 'bg-slate-100 border-slate-200'}`}>
               <button
                 onClick={() => setActiveTab('mixer')}
                 className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
@@ -341,7 +341,7 @@ function App() {
             </nav>
           )}
 
-          {/* RIGHT ACTION BUTTONS & MOBILE HAMBURGER MENU TRIGGER */}
+          {/* RIGHT ACTION BUTTONS & MOBILE HAMBURGER MENU TRIGGER (Right Aligned) */}
           <div className="flex items-center gap-3 shrink-0">
             {currentView === 'landing' ? (
               <button
@@ -354,9 +354,7 @@ function App() {
             ) : (
               <button
                 onClick={handleWalletClick}
-                className={`btn-cyan text-xs py-2.5 px-3 sm:px-5 font-bold flex items-center justify-center gap-2 ${
-                  isConnected ? 'bg-slate-900 border border-blue-500/40 text-blue-300 hover:bg-slate-800' : ''
-                }`}
+                className="btn-cyan text-xs py-2.5 px-3 sm:px-5 font-bold flex items-center justify-center gap-2 shadow-lg"
               >
                 <Wallet className="w-4 h-4 shrink-0" />
                 <span className="hidden sm:inline">{isConnected ? walletAddress : t.nav.connect}</span>
@@ -368,12 +366,12 @@ function App() {
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className={`p-2.5 rounded-xl border transition-all lg:hidden shrink-0 ${
                 isDarkMode 
-                  ? 'bg-slate-900 border-slate-800 text-slate-200 hover:bg-slate-800' 
-                  : 'bg-slate-100 border-slate-300 text-slate-800 hover:bg-slate-200'
+                  ? 'bg-slate-900 border-slate-800 text-slate-300 hover:text-white' 
+                  : 'bg-slate-100 border-slate-200 text-slate-700 hover:text-slate-900'
               }`}
               aria-label="Toggle Navigation Menu"
             >
-              {isMobileMenuOpen ? <X className="w-5 h-5 text-cyan-400" /> : <Menu className="w-5 h-5" />}
+              {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
