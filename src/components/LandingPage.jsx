@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { 
   ShieldCheck, 
   Lock, 
@@ -24,6 +24,32 @@ const LandingPage = ({ onEnterApp, t }) => {
   const tLand = t.landing;
 
   const GITHUB_REPO_URL = "https://github.com/universal-tech/Labyrinth-Protocol";
+
+  // IntersectionObserver Scroll-Reveal Effect
+  useEffect(() => {
+    const observerCallback = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-revealed');
+        }
+      });
+    };
+
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px 0px -60px 0px',
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+    const revealElements = document.querySelectorAll('.scroll-reveal');
+
+    revealElements.forEach((el) => observer.observe(el));
+
+    return () => {
+      revealElements.forEach((el) => observer.unobserve(el));
+    };
+  }, []);
 
   return (
     <div className="space-y-20 pb-16">
@@ -75,22 +101,22 @@ const LandingPage = ({ onEnterApp, t }) => {
 
         {/* Live Protocol Metrics Row */}
         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 pt-10">
-          <div className="glass-panel p-3.5 sm:p-4 text-center border-blue-500/20 overflow-hidden">
+          <div className="glass-panel p-3.5 sm:p-4 text-center border-blue-500/20 overflow-hidden scroll-reveal scroll-reveal-delay-1">
             <span className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider block truncate">{tLand.statsTvl}</span>
             <span className="text-base sm:text-2xl lg:text-3xl font-black text-blue-600 dark:text-blue-400 mt-1 font-mono block truncate">$94.6M+</span>
           </div>
 
-          <div className="glass-panel p-3.5 sm:p-4 text-center border-indigo-500/20 overflow-hidden">
+          <div className="glass-panel p-3.5 sm:p-4 text-center border-indigo-500/20 overflow-hidden scroll-reveal scroll-reveal-delay-2">
             <span className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider block truncate">{tLand.statsVolume}</span>
             <span className="text-base sm:text-2xl lg:text-3xl font-black text-indigo-600 dark:text-indigo-400 mt-1 font-mono block truncate">$482.1M+</span>
           </div>
 
-          <div className="glass-panel p-3.5 sm:p-4 text-center border-emerald-500/20 overflow-hidden">
+          <div className="glass-panel p-3.5 sm:p-4 text-center border-emerald-500/20 overflow-hidden scroll-reveal scroll-reveal-delay-3">
             <span className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider block truncate">{tLand.statsChains}</span>
             <span className="text-base sm:text-2xl lg:text-3xl font-black text-emerald-600 dark:text-emerald-400 mt-1 font-mono block truncate">7 Chains</span>
           </div>
 
-          <div className="glass-panel p-3.5 sm:p-4 text-center border-violet-500/20 overflow-hidden">
+          <div className="glass-panel p-3.5 sm:p-4 text-center border-violet-500/20 overflow-hidden scroll-reveal scroll-reveal-delay-4">
             <span className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider block truncate">{tLand.statsProof}</span>
             <span className="text-base sm:text-2xl lg:text-3xl font-black text-violet-600 dark:text-violet-400 mt-1 font-mono block truncate">~2.4 sec</span>
           </div>
@@ -100,8 +126,8 @@ const LandingPage = ({ onEnterApp, t }) => {
       {/* ========================================================================= */}
       {/* 2. INNOVATIONS & ARCHITECTURE MECHANICS */}
       {/* ========================================================================= */}
-      <section id="innovations" className="max-w-6xl mx-auto px-4 space-y-10 scroll-mt-24">
-        <div className="text-center space-y-3 max-w-2xl mx-auto">
+      <section id="innovations" className="max-w-6xl mx-auto px-4 space-y-10 scroll-mt-24 scroll-reveal">
+        <div className="text-center space-y-3 max-w-2xl mx-auto scroll-reveal">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 text-xs font-bold uppercase tracking-wider">
             <Layers className="w-3.5 h-3.5" />
             Architecture & Innovations
@@ -116,7 +142,7 @@ const LandingPage = ({ onEnterApp, t }) => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Innovation 1 */}
-          <div className="glass-panel p-6 sm:p-8 space-y-4 hover:border-blue-500/40 transition-all">
+          <div className="glass-panel p-6 sm:p-8 space-y-4 hover:border-blue-500/40 transition-all scroll-reveal scroll-reveal-delay-1">
             <div className="w-12 h-12 rounded-2xl bg-blue-500/15 border border-blue-500/30 flex items-center justify-center text-blue-600 dark:text-blue-400">
               <Lock className="w-6 h-6" />
             </div>
@@ -127,7 +153,7 @@ const LandingPage = ({ onEnterApp, t }) => {
           </div>
 
           {/* Innovation 2 */}
-          <div className="glass-panel p-6 sm:p-8 space-y-4 hover:border-emerald-500/40 transition-all">
+          <div className="glass-panel p-6 sm:p-8 space-y-4 hover:border-emerald-500/40 transition-all scroll-reveal scroll-reveal-delay-2">
             <div className="w-12 h-12 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
               <TrendingUp className="w-6 h-6" />
             </div>
@@ -138,7 +164,7 @@ const LandingPage = ({ onEnterApp, t }) => {
           </div>
 
           {/* Innovation 3 */}
-          <div className="glass-panel p-6 sm:p-8 space-y-4 hover:border-cyan-500/40 transition-all">
+          <div className="glass-panel p-6 sm:p-8 space-y-4 hover:border-cyan-500/40 transition-all scroll-reveal scroll-reveal-delay-3">
             <div className="w-12 h-12 rounded-2xl bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center text-cyan-600 dark:text-cyan-400">
               <ShieldCheck className="w-6 h-6" />
             </div>
@@ -149,7 +175,7 @@ const LandingPage = ({ onEnterApp, t }) => {
           </div>
 
           {/* Innovation 4 */}
-          <div className="glass-panel p-6 sm:p-8 space-y-4 hover:border-violet-500/40 transition-all">
+          <div className="glass-panel p-6 sm:p-8 space-y-4 hover:border-violet-500/40 transition-all scroll-reveal scroll-reveal-delay-4">
             <div className="w-12 h-12 rounded-2xl bg-violet-500/15 border border-violet-500/30 flex items-center justify-center text-violet-600 dark:text-violet-400">
               <Zap className="w-6 h-6" />
             </div>
@@ -164,7 +190,7 @@ const LandingPage = ({ onEnterApp, t }) => {
       {/* ========================================================================= */}
       {/* 3. OPEN SOURCE TRANSPARENCY & GITHUB SECTION */}
       {/* ========================================================================= */}
-      <section id="security" className="max-w-6xl mx-auto px-4 scroll-mt-24">
+      <section id="security" className="max-w-6xl mx-auto px-4 scroll-mt-24 scroll-reveal">
         <div className="glass-panel p-8 sm:p-12 relative overflow-hidden border-blue-500/30 space-y-8">
           
           <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
@@ -195,7 +221,7 @@ const LandingPage = ({ onEnterApp, t }) => {
 
           {/* Code Inspection Cards Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
-            <a href={`${GITHUB_REPO_URL}/blob/main/contracts/LabToken.sol`} target="_blank" rel="noopener noreferrer" className="bg-slate-900 p-4 rounded-xl border border-slate-800 hover:border-blue-500/50 transition-all font-mono text-xs text-slate-300 space-y-2 block">
+            <a href={`${GITHUB_REPO_URL}/blob/main/contracts/LabToken.sol`} target="_blank" rel="noopener noreferrer" className="bg-slate-900 p-4 rounded-xl border border-slate-800 hover:border-blue-500/50 transition-all font-mono text-xs text-slate-300 space-y-2 block scroll-reveal scroll-reveal-delay-1">
               <div className="flex items-center justify-between text-blue-400 font-bold">
                 <span className="flex items-center gap-1.5">
                   <FileCode2 className="w-4 h-4" /> LabToken.sol
@@ -205,7 +231,7 @@ const LandingPage = ({ onEnterApp, t }) => {
               <p className="text-[11px] text-slate-500 font-sans">ERC-20 (1B Supply, EIP-2612 Permit & Burn Engine)</p>
             </a>
 
-            <a href={`${GITHUB_REPO_URL}/blob/main/contracts/LabyrinthCore.sol`} target="_blank" rel="noopener noreferrer" className="bg-slate-900 p-4 rounded-xl border border-slate-800 hover:border-blue-500/50 transition-all font-mono text-xs text-slate-300 space-y-2 block">
+            <a href={`${GITHUB_REPO_URL}/blob/main/contracts/LabyrinthCore.sol`} target="_blank" rel="noopener noreferrer" className="bg-slate-900 p-4 rounded-xl border border-slate-800 hover:border-blue-500/50 transition-all font-mono text-xs text-slate-300 space-y-2 block scroll-reveal scroll-reveal-delay-2">
               <div className="flex items-center justify-between text-indigo-400 font-bold">
                 <span className="flex items-center gap-1.5">
                   <FileCode2 className="w-4 h-4" /> LabyrinthCore.sol
@@ -215,7 +241,7 @@ const LandingPage = ({ onEnterApp, t }) => {
               <p className="text-[11px] text-slate-500 font-sans">ZK Privacy Pool, Poseidon Hashes & Merkle Trees</p>
             </a>
 
-            <a href={`${GITHUB_REPO_URL}/blob/main/contracts/LabyrinthGovernance.sol`} target="_blank" rel="noopener noreferrer" className="bg-slate-900 p-4 rounded-xl border border-slate-800 hover:border-blue-500/50 transition-all font-mono text-xs text-slate-300 space-y-2 block">
+            <a href={`${GITHUB_REPO_URL}/blob/main/contracts/LabyrinthGovernance.sol`} target="_blank" rel="noopener noreferrer" className="bg-slate-900 p-4 rounded-xl border border-slate-800 hover:border-blue-500/50 transition-all font-mono text-xs text-slate-300 space-y-2 block scroll-reveal scroll-reveal-delay-3">
               <div className="flex items-center justify-between text-emerald-400 font-bold">
                 <span className="flex items-center gap-1.5">
                   <FileCode2 className="w-4 h-4" /> Governance.sol
@@ -225,7 +251,7 @@ const LandingPage = ({ onEnterApp, t }) => {
               <p className="text-[11px] text-slate-500 font-sans">Real Yield Staking & Revenue Distribution</p>
             </a>
 
-            <a href={`${GITHUB_REPO_URL}/blob/main/contracts/LabyrinthRelayer.sol`} target="_blank" rel="noopener noreferrer" className="bg-slate-900 p-4 rounded-xl border border-slate-800 hover:border-blue-500/50 transition-all font-mono text-xs text-slate-300 space-y-2 block">
+            <a href={`${GITHUB_REPO_URL}/blob/main/contracts/LabyrinthRelayer.sol`} target="_blank" rel="noopener noreferrer" className="bg-slate-900 p-4 rounded-xl border border-slate-800 hover:border-blue-500/50 transition-all font-mono text-xs text-slate-300 space-y-2 block scroll-reveal scroll-reveal-delay-4">
               <div className="flex items-center justify-between text-violet-400 font-bold">
                 <span className="flex items-center gap-1.5">
                   <FileCode2 className="w-4 h-4" /> Relayer.sol
@@ -241,7 +267,7 @@ const LandingPage = ({ onEnterApp, t }) => {
       {/* ========================================================================= */}
       {/* 4. TOKENOMICS & COMMUNITY DISTRIBUTION */}
       {/* ========================================================================= */}
-      <section id="tokenomics" className="max-w-6xl mx-auto px-4 space-y-10 scroll-mt-24">
+      <section id="tokenomics" className="max-w-6xl mx-auto px-4 space-y-10 scroll-mt-24 scroll-reveal">
         <div className="text-center space-y-3 max-w-2xl mx-auto">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 text-xs font-bold uppercase tracking-wider">
             <Coins className="w-3.5 h-3.5" />
@@ -256,32 +282,32 @@ const LandingPage = ({ onEnterApp, t }) => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="glass-panel p-6 space-y-2 border-blue-500/40">
+          <div className="glass-panel p-6 space-y-2 border-blue-500/40 scroll-reveal scroll-reveal-delay-1">
             <div className="text-2xl font-black text-blue-600 dark:text-blue-400 font-mono">12.0%</div>
             <h4 className="font-bold text-slate-900 dark:text-white">{tLand.founderAlloc}</h4>
             <p className="text-xs text-slate-500 dark:text-slate-400">120,000,000 $LAB</p>
           </div>
 
-          <div className="glass-panel p-6 space-y-2 border-indigo-500/40">
+          <div className="glass-panel p-6 space-y-2 border-indigo-500/40 scroll-reveal scroll-reveal-delay-2">
             <div className="text-2xl font-black text-indigo-600 dark:text-indigo-400 font-mono">10.0%</div>
             <h4 className="font-bold text-slate-900 dark:text-white">{tLand.devAlloc}</h4>
             <p className="text-xs text-slate-500 dark:text-slate-400">100,000,000 $LAB</p>
           </div>
 
-          <div className="glass-panel p-6 space-y-2 border-violet-500/40">
+          <div className="glass-panel p-6 space-y-2 border-violet-500/40 scroll-reveal scroll-reveal-delay-3">
             <div className="text-2xl font-black text-violet-600 dark:text-violet-400 font-mono">53.0%</div>
             <h4 className="font-bold text-slate-900 dark:text-white">{tLand.daoAlloc}</h4>
             <p className="text-xs text-slate-500 dark:text-slate-400">530,000,000 $LAB</p>
           </div>
 
-          <div className="glass-panel p-6 space-y-2 border-emerald-500/40">
+          <div className="glass-panel p-6 space-y-2 border-emerald-500/40 scroll-reveal scroll-reveal-delay-4">
             <div className="text-2xl font-black text-emerald-600 dark:text-emerald-400 font-mono">25.0%</div>
             <h4 className="font-bold text-slate-900 dark:text-white">{tLand.miningAlloc}</h4>
             <p className="text-xs text-slate-500 dark:text-slate-400">250,000,000 $LAB</p>
           </div>
         </div>
 
-        <div className="bg-slate-100 dark:bg-slate-950 p-4 rounded-xl border border-blue-500/30 text-xs text-slate-700 dark:text-slate-300 text-center leading-relaxed">
+        <div className="bg-slate-100 dark:bg-slate-950 p-4 rounded-xl border border-blue-500/30 text-xs text-slate-700 dark:text-slate-300 text-center leading-relaxed scroll-reveal">
           {tLand.combinedNotice}
         </div>
       </section>
@@ -289,7 +315,7 @@ const LandingPage = ({ onEnterApp, t }) => {
       {/* ========================================================================= */}
       {/* 5. FINAL CTA FOOTER */}
       {/* ========================================================================= */}
-      <section className="max-w-4xl mx-auto px-4 text-center">
+      <section className="max-w-4xl mx-auto px-4 text-center scroll-reveal">
         <div className="glass-panel p-8 sm:p-12 relative overflow-hidden space-y-6 border-blue-500/40 shadow-2xl">
           <AbstractLabyrinthLogo className="w-14 h-14 mx-auto" />
           <h2 className="text-3xl font-black text-slate-900 dark:text-white">
