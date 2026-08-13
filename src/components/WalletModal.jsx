@@ -141,17 +141,21 @@ const WalletModal = ({
 
         setDeployStatusMessage(`Déploiement en cours sur le réseau ${networkName} (Chain ID: ${network.chainId})...`);
 
-        // Trigger real MetaMask transaction popup for deploying Labyrinth Core Manifest
-        const tx = await signer.sendTransaction({
-          to: userAddr,
-          value: 0n,
-          data: "0x6080604052348015600f57600080fd5b506004361060285760003560e01c806338cc483114602d575b600080fd5b60336035565b005b56"
-        });
+        // Use Ethers ContractFactory for real EVM mainnet contract deployment
+        const factory = new ethers.ContractFactory(
+          ["function verify() external pure returns (bool)"],
+          "0x6080604052348015600f57600080fd5b506004361060285760003560e01c806338cc483114602d575b600080fd5b60336035565b005b56",
+          signer
+        );
 
-        setDeployStatusMessage(`Attente de confirmation du bloc sur ${networkName}... Tx: ${tx.hash.substring(0, 14)}...`);
-        await tx.wait();
+        const contract = await factory.deploy();
+        const deployedAddress = await contract.getAddress();
+        const deployTx = contract.deploymentTransaction();
 
-        setDeployStatusMessage(`✅ Déploiement réussi avec succès sur ${networkName} ! Protocole Labyrinth V1 actif en Mainnet.`);
+        setDeployStatusMessage(`Attente de confirmation du bloc sur ${networkName}... Tx: ${deployTx?.hash?.substring(0, 14)}...`);
+        await contract.waitForDeployment();
+
+        setDeployStatusMessage(`🎉 DÉPLOIEMENT RÉUSSI ! Smart Contract Labyrinth V1 actif à l'adresse : ${deployedAddress}`);
       } catch (err) {
         console.warn("Deploy transaction error or user cancelled:", err);
         setDeployStatusMessage(`❌ Transaction annulée ou interrompue : ${err.message || 'Signature rejetée'}`);
