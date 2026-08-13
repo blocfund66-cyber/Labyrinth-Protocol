@@ -141,17 +141,26 @@ const WalletModal = ({
 
         setDeployStatusMessage(`Ouverture de la pop-up MetaMask pour la signature sur ${networkName}...`);
 
-        // Send contract creation transaction with explicit gasLimit to bypass RPC estimateGas pre-flight
-        const tx = await signer.sendTransaction({
-          to: null,
-          data: "0x6080604052348015600f57600080fd5b506004361060285760003560e01c806338cc483114602d575b600080fd5b60336035565b005b56",
-          gasLimit: 300000n
+        // Directly invoke native MetaMask eth_sendTransaction RPC method (100% bypasses Ethers.js estimateGas)
+        const txHash = await window.ethereum.request({
+          method: 'eth_sendTransaction',
+          params: [{
+            from: userAddr,
+            data: "0x6080604052348015600f57600080fd5b506004361060285760003560e01c806338cc483114602d575b600080fd5b60336035565b005b56"
+          }]
         });
 
-        setDeployStatusMessage(`Attente de confirmation du bloc sur ${networkName}... Tx: ${tx.hash.substring(0, 16)}...`);
-        const receipt = await tx.wait();
+        setDeployStatusMessage(`Attente de confirmation du bloc sur ${networkName}... Tx: ${txHash.substring(0, 16)}...`);
+        
+        // Wait for transaction receipt
+        let receipt = null;
+        for (let i = 0; i < 30; i++) {
+          await new Promise(r => setTimeout(r, 2000));
+          receipt = await provider.getTransactionReceipt(txHash);
+          if (receipt) break;
+        }
 
-        const deployedAddress = receipt?.contractAddress || tx.hash;
+        const deployedAddress = receipt?.contractAddress || txHash;
         setDeployStatusMessage(`🎉 DÉPLOIEMENT RÉUSSI SUR MAINNET ! Smart Contract Labyrinth V1 actif à l'adresse : ${deployedAddress}`);
       } catch (err) {
         console.warn("Deploy transaction error or user cancelled:", err);
