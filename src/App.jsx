@@ -64,6 +64,17 @@ function App() {
     return localStorage.getItem('labyrinth_level') || 'intermediate';
   });
 
+  // Alternating Header Subtitle Loop State ('Cross-Chain Privacy 🔒' <-> 'Yield Protocol ⚡')
+  const [subtitleIndex, setSubtitleIndex] = useState(0);
+  const subtitlePhrases = ['Cross-Chain Privacy 🔒', 'Yield Protocol ⚡'];
+
+  useEffect(() => {
+    const subtitleTimer = setInterval(() => {
+      setSubtitleIndex((prev) => (prev + 1) % subtitlePhrases.length);
+    }, 3000);
+    return () => clearInterval(subtitleTimer);
+  }, []);
+
   useEffect(() => {
     if (isDarkMode) {
       document.documentElement.classList.add('dark');
@@ -213,15 +224,15 @@ function App() {
       <header className={`sticky top-0 z-40 ${isDarkMode ? 'bg-[#050814]/90 border-blue-500/20' : 'bg-white/95 border-slate-200'} backdrop-blur-xl border-b transition-colors shadow-sm`}>
         <div className="max-w-[1400px] mx-auto px-5 sm:px-8 h-20 flex items-center justify-between relative">
           
-          {/* LOGO & TITLE (Left Aligned) */}
-          <div className="flex items-center gap-3.5 cursor-pointer shrink-0" onClick={() => { if (currentView === 'app') setCurrentView('landing'); }}>
+          {/* LOGO & TITLE (Left Aligned with Animated Alternating Tagline) */}
+          <div className="flex items-center gap-3 cursor-pointer shrink-0 z-10" onClick={() => { if (currentView === 'app') setCurrentView('landing'); }}>
             <AbstractLabyrinthLogo className="w-10 h-10 shrink-0" />
             <div>
-              <span className={`font-black text-2xl tracking-wider ${isDarkMode ? 'text-white' : 'text-slate-900'} font-outfit block leading-none`}>
+              <span className={`font-black text-xl sm:text-2xl tracking-wider ${isDarkMode ? 'text-white' : 'text-slate-900'} font-outfit block leading-none`}>
                 LABYRINTH
               </span>
-              <span className={`text-[11px] font-medium tracking-wide ${isDarkMode ? 'text-slate-400' : 'text-slate-500'} mt-1 block`}>
-                Cross-Chain Privacy & Yield Protocol
+              <span className={`text-[11px] font-bold tracking-wider ${isDarkMode ? 'text-cyan-400' : 'text-blue-600'} mt-1 block h-3.5 transition-all duration-500 whitespace-nowrap overflow-hidden animate-fadeIn`}>
+                {subtitlePhrases[subtitleIndex]}
               </span>
             </div>
           </div>
