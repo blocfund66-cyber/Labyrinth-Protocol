@@ -51,6 +51,11 @@ export default {
       type: "http",
       url: process.env.AVAX_RPC_URL || "https://api.avax.network/ext/bc/C/rpc",
       accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
+    },
+    base: {
+      type: "http",
+      url: process.env.BASE_RPC_URL || "https://mainnet.base.org",
+      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
     }
   },
   etherscan: {
