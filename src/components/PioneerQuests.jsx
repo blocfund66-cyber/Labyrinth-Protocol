@@ -330,7 +330,7 @@ const PioneerQuests = ({ isConnected, walletAddress, activeTab, setActiveTab, t 
           <button
             onClick={handleMintBadge}
             disabled={!isEligibleForMint || isMintingNft || nftMinted}
-            className={`py-4 px-10 rounded-2xl font-black text-sm flex items-center justify-center gap-3 transition-all shadow-2xl ${
+            className={`py-4 px-10 rounded-2xl font-black text-sm flex items-center justify-center gap-3 transition-all shadow-sm ${
               nftMinted
                 ? 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/50 cursor-default'
                 : isEligibleForMint
