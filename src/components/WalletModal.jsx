@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import { X, Copy, ExternalLink, LogOut, Check, Wallet, ShieldCheck, RefreshCw, AlertCircle, ArrowUpRight, Loader2, Rocket } from 'lucide-react';
-import { CONTRACT_ADDRESSES, LAB_TOKEN_ABI } from '../contracts/config';
+import { CONTRACT_ADDRESSES, LAB_TOKEN_ABI, LOW_FEE_CHAINS } from '../contracts/config';
 
 const WalletModal = ({ 
   isOpen, 
@@ -175,6 +175,26 @@ const WalletModal = ({
     }
   };
 
+  const handleSwitchChain = async (chainKey) => {
+    try {
+      const chainInfo = LOW_FEE_CHAINS[chainKey];
+      if (chainInfo && window.ethereum) {
+        await window.ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: chainInfo.chainId }],
+        });
+      }
+    } catch (switchError) {
+      if (switchError.code === 4902 && LOW_FEE_CHAINS[chainKey]) {
+        const chainInfo = LOW_FEE_CHAINS[chainKey];
+        await window.ethereum.request({
+          method: 'wallet_addEthereumChain',
+          params: [chainInfo],
+        });
+      }
+    }
+  };
+
   const handleCopyAddress = () => {
     if (fullAddress) {
       navigator.clipboard.writeText(fullAddress);
@@ -280,6 +300,18 @@ const WalletModal = ({
               <p className="text-xs text-slate-300 leading-relaxed">
                 Réseau sélectionné : <strong className="text-white">{networkName}</strong>. Cliquez pour inscrire les smart contracts en direct sur la blockchain via MetaMask.
               </p>
+
+              {/* Network Switcher Pills */}
+              <div className="space-y-1.5 pt-1">
+                <span className="text-[11px] font-semibold text-slate-400 block">Changer de réseau pour déployer la suite :</span>
+                <div className="flex flex-wrap gap-1.5">
+                  <button onClick={() => handleSwitchChain('base')} className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-[11px] font-bold text-cyan-400">🔵 Base L2</button>
+                  <button onClick={() => handleSwitchChain('arbitrum')} className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-[11px] font-bold text-blue-400">🔷 Arbitrum</button>
+                  <button onClick={() => handleSwitchChain('optimism')} className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-[11px] font-bold text-red-400">🔴 Optimism</button>
+                  <button onClick={() => handleSwitchChain('polygon')} className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-[11px] font-bold text-purple-400">🟣 Polygon</button>
+                  <button onClick={() => handleSwitchChain('bsc')} className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-[11px] font-bold text-amber-400">🟡 BNB Chain</button>
+                </div>
+              </div>
 
               <button
                 onClick={handleDeployMainnetContracts}
