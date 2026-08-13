@@ -233,3 +233,31 @@ body {
 .animate-pulseGlow {
   animation: pulseGlow 3s ease-in-out infinite;
 }
+
+/* Sleek Smooth Subtitle Morphing & Vertical Slide Animation */
+@keyframes subtitleMorph {
+  0% {
+    opacity: 0;
+    transform: translateY(6px) scale(0.96);
+    filter: blur(2.5px);
+  }
+  15% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0px);
+  }
+  85% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.96);
+    filter: blur(2.5px);
+  }
+}
+
+.animate-subtitleMorph {
+  animation: subtitleMorph 3s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+}

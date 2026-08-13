@@ -231,7 +231,10 @@ function App() {
               <span className={`font-black text-xl sm:text-2xl tracking-wider ${isDarkMode ? 'text-white' : 'text-slate-900'} font-outfit block leading-none`}>
                 LABYRINTH
               </span>
-              <span className={`text-[11px] font-bold tracking-wider ${isDarkMode ? 'text-cyan-400' : 'text-blue-600'} mt-1 block h-3.5 transition-all duration-500 whitespace-nowrap overflow-hidden animate-fadeIn`}>
+              <span 
+                key={subtitleIndex}
+                className={`text-[11px] font-extrabold tracking-wider ${isDarkMode ? 'text-cyan-400 drop-shadow-[0_0_8px_rgba(0,240,255,0.4)]' : 'text-blue-600'} mt-1 block h-4 whitespace-nowrap overflow-hidden animate-subtitleMorph`}
+              >
                 {subtitlePhrases[subtitleIndex]}
               </span>
             </div>
