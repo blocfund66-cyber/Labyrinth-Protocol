@@ -126,11 +126,11 @@ export const WbtcIcon = ({ className = "w-5 h-5" }) => (
 
 // 13. Protocol Main Brand Logo Component — Direct original image file imported into Vite bundle
 export const AbstractLabyrinthLogo = ({ className = "w-10 h-10" }) => (
-  <div className={`${className} relative rounded-xl overflow-hidden border border-blue-500/40 shadow-md shadow-blue-500/20 bg-slate-950 flex items-center justify-center p-0.5 group transition-all`}>
+  <div className={`${className} relative rounded-xl overflow-hidden shadow-lg shadow-cyan-500/20 bg-[#050814] flex items-center justify-center p-0.5 group transition-all shrink-0`}>
     <img 
       src={logoImg} 
-      alt="Labyrinth Logo" 
-      className="w-full h-full object-contain rounded-xl transform group-hover:scale-105 transition-transform" 
+      alt="Labyrinth Protocol Logo" 
+      className="w-full h-full object-cover rounded-lg transform group-hover:scale-105 transition-transform" 
     />
   </div>
 );
