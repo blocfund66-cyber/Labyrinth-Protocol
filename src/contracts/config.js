@@ -8,6 +8,13 @@ export const HARDHAT_CHAIN_ID = 31337;
 
 // Live Sepolia & Multi-Chain Deployed Addresses
 export const CONTRACT_ADDRESSES = {
+  base: {
+    LabToken: '0xA578a06f60a7D2e79817128A88a0E3eCc5bb4c8B',
+    LabyrinthGovernance: '0x0C30AE652AcD707F58F4384AB0E0aD087Ab667bd',
+    MockVerifier: '0xA578a06f60a7D2e79817128A88a0E3eCc5bb4c8B',
+    LabyrinthCore: '0xd7D96196a13aEF68048d46F8eD176d3740878a37',
+    LabyrinthRelayer: '0x991396A68619897e6641C40026139982B71ac991'
+  },
   sepolia: deployedAddresses.contracts || {
     LabToken: '0xA578a06f60a7D2e79817128A88a0E3eCc5bb4c8B',
     LabyrinthGovernance: '0x0C30AE652AcD707F58F4384AB0E0aD087Ab667bd',
