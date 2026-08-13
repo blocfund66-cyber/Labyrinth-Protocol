@@ -32,6 +32,7 @@ import {
   DaiIcon, 
   WbtcIcon 
 } from './Icons';
+import { switchNetworkInMetaMask, LOW_FEE_CHAINS } from '../contracts/config';
 
 const PrivacyMixer = ({ experienceLevel = 'intermediate', t }) => {
   const tMixer = t.mixer;
@@ -278,26 +279,54 @@ const PrivacyMixer = ({ experienceLevel = 'intermediate', t }) => {
               <>
                 {/* 1. Select Source Blockchain */}
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-3">
-                    {tMixer.selectChain}
-                  </label>
+                  <div className="flex items-center justify-between mb-3">
+                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
+                      {tMixer.selectChain}
+                    </label>
+                    <span className="text-[11px] font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/30">
+                      🟢 Base L2 Mainnet Actif
+                    </span>
+                  </div>
+
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                     {chains.map((chain) => (
                       <button
                         key={chain.id}
                         type="button"
                         onClick={() => handleChainChange(chain.id)}
-                        className={`p-3 rounded-xl border text-left transition-all flex items-center gap-2.5 ${
+                        className={`p-3 rounded-xl border text-left transition-all flex flex-col gap-1.5 relative overflow-hidden ${
                           sourceChain === chain.id
                             ? 'glass-card-selected'
                             : 'card-item-btn'
                         }`}
                       >
-                        <span className="shrink-0">{chain.icon}</span>
-                        <span className="text-xs font-bold">{chain.name}</span>
+                        <div className="flex items-center justify-between w-full">
+                          <div className="flex items-center gap-2">
+                            <span className="shrink-0">{chain.icon}</span>
+                            <span className="text-xs font-bold">{chain.name}</span>
+                          </div>
+                          {chain.id === 'base' ? (
+                            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" title="Mainnet Actif"></span>
+                          ) : (
+                            <span className="text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase bg-slate-200 dark:bg-slate-800 px-1.5 py-0.5 rounded">Phase 2</span>
+                          )}
+                        </div>
                       </button>
                     ))}
                   </div>
+
+                  {/* Phased Multi-Chain Rollout Notice for Upcoming Chains */}
+                  {sourceChain !== 'base' && (
+                    <div className="mt-3 p-4 rounded-xl bg-blue-500/10 border border-blue-500/30 text-xs text-blue-600 dark:text-blue-300 flex items-start gap-3 backdrop-blur-md">
+                      <Sparkles className="w-5 h-5 text-cyan-500 dark:text-cyan-400 shrink-0 mt-0.5 animate-pulse" />
+                      <div>
+                        <strong className="block text-slate-900 dark:text-white font-bold text-sm mb-1">
+                          🌐 Déploiement Multi-Chain Phase 2 en cours sur {chains.find(c => c.id === sourceChain)?.name} !
+                        </strong>
+                        Le Smart Contract principal de Labyrinth Protocol V1 est actuellement <strong className="text-emerald-500 dark:text-emerald-400">100% actif et fonctionnel sur Base Mainnet</strong> (`0xA578a06f...`). Le déploiement sur {chains.find(c => c.id === sourceChain)?.name} est programmé dans la Phase 2. Basculez sur <strong className="text-cyan-600 dark:text-cyan-400 cursor-pointer underline" onClick={() => handleChainChange('base')}>Base L2</strong> pour exécuter vos mixages anonymes dès maintenant !
+                      </div>
+                    </div>
+                  )}
 
                   {experienceLevel === 'beginner' && (
                     <div className="mt-2 bg-blue-50 dark:bg-blue-950/30 p-3 rounded-xl border border-blue-200 dark:border-blue-500/20 text-xs text-blue-800 dark:text-blue-300 flex items-center gap-2">
