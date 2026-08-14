@@ -129,7 +129,7 @@ const PioneerQuests = ({ isConnected, walletAddress, activeTab, setActiveTab, t 
             <div className="space-y-1">
               <strong className="block text-slate-900 dark:text-white font-bold text-sm">🔥 80% des Frais de Relayeurs Reversés en Staking Pendant 2 Ans (24 Mois) !</strong>
               <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
-                En stakant vos 1 000 $LAB attribués, vous devenez éligible à la distribution de dividende : <strong className="text-amber-600 dark:text-amber-400">80% de TOUS les frais de transaction perçus par les relayeurs sur les 7 blockchains (Solana, Arbitrum, Base, OP, Polygon, BNB Chain, Avalanche)</strong> vous sont directement <strong className="text-cyan-600 dark:text-cyan-400 font-bold">reversés en Real Yield pendant 2 ans (24 mois garantis)</strong> !
+                En stakant vos 1 000 $LAB attribués, vous devenez éligible à la distribution de dividende : <strong className="text-amber-600 dark:text-amber-400">80% de TOUS les frais de transaction perçus par les relayeurs sur les 8 blockchains (Ethereum, Solana, Arbitrum, Base, Optimism, Polygon, BNB Chain, Avalanche)</strong> vous sont directement <strong className="text-cyan-600 dark:text-cyan-400 font-bold">reversés en Real Yield pendant 2 ans (24 mois garantis)</strong> !
               </p>
             </div>
           </div>
