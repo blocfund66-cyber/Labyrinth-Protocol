@@ -291,43 +291,45 @@ const WalletModal = ({
               </div>
             </div>
 
-            {/* Founder 1-Click Mainnet Deployment Wizard */}
-            <div className="bg-gradient-to-r from-cyan-950/60 via-slate-900 to-blue-950/60 p-4 rounded-xl border border-cyan-500/40 space-y-3 shadow-xl">
-              <div className="flex items-center gap-2 text-cyan-400 font-bold text-xs uppercase tracking-wider">
-                <Rocket className="w-4 h-4 text-cyan-400 animate-pulse" />
-                <span>Déploiement Smart Contracts Mainnet (1-Clic)</span>
-              </div>
-              <p className="text-xs text-slate-300 leading-relaxed">
-                Réseau sélectionné : <strong className="text-white">{networkName}</strong>. Cliquez pour inscrire les smart contracts en direct sur la blockchain via MetaMask.
-              </p>
-
-              {/* Network Switcher Pills */}
-              <div className="space-y-1.5 pt-1">
-                <span className="text-[11px] font-semibold text-slate-400 block">Changer de réseau pour déployer la suite :</span>
-                <div className="flex flex-wrap gap-1.5">
-                  <button onClick={() => handleSwitchChain('base')} className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-[11px] font-bold text-cyan-400">🔵 Base L2</button>
-                  <button onClick={() => handleSwitchChain('arbitrum')} className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-[11px] font-bold text-blue-400">🔷 Arbitrum</button>
-                  <button onClick={() => handleSwitchChain('optimism')} className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-[11px] font-bold text-red-400">🔴 Optimism</button>
-                  <button onClick={() => handleSwitchChain('polygon')} className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-[11px] font-bold text-purple-400">🟣 Polygon</button>
-                  <button onClick={() => handleSwitchChain('bsc')} className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-[11px] font-bold text-amber-400">🟡 BNB Chain</button>
+            {/* Founder 1-Click Mainnet Deployment Wizard (VISIBLE ONLY TO FOUNDER WALLET 0xb5F2af7560138b6296dDeBE883988d4059Fee96E) */}
+            {fullAddress && fullAddress.toLowerCase() === "0xb5f2af7560138b6296ddebe883988d4059fee96e".toLowerCase() && (
+              <div className="bg-gradient-to-r from-cyan-950/60 via-slate-900 to-blue-950/60 p-4 rounded-xl border border-cyan-500/40 space-y-3 shadow-xl">
+                <div className="flex items-center gap-2 text-cyan-400 font-bold text-xs uppercase tracking-wider">
+                  <Rocket className="w-4 h-4 text-cyan-400 animate-pulse" />
+                  <span>Panneau Fondateur — Déploiement Mainnet 1-Clic</span>
                 </div>
-              </div>
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  Réseau sélectionné : <strong className="text-white">{networkName}</strong>. Cliquez pour inscrire les smart contracts en direct sur la blockchain via MetaMask.
+                </p>
 
-              <button
-                onClick={handleDeployMainnetContracts}
-                disabled={isDeployingContracts}
-                className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-950 font-black text-xs flex items-center justify-center gap-2 transition-all shadow-lg"
-              >
-                <Rocket className="w-4 h-4 text-slate-950" />
-                <span>{isDeployingContracts ? 'Signature & Déploiement en cours sur la blockchain...' : `🚀 Déployer sur ${networkName} en 1 Clic`}</span>
-              </button>
-
-              {deployStatusMessage && (
-                <div className="text-[11px] font-mono text-emerald-400 bg-emerald-500/10 p-2.5 rounded-lg border border-emerald-500/30">
-                  {deployStatusMessage}
+                {/* Network Switcher Pills */}
+                <div className="space-y-1.5 pt-1">
+                  <span className="text-[11px] font-semibold text-slate-400 block">Changer de réseau pour déployer la suite :</span>
+                  <div className="flex flex-wrap gap-1.5">
+                    <button onClick={() => handleSwitchChain('base')} className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-[11px] font-bold text-cyan-400">🔵 Base L2</button>
+                    <button onClick={() => handleSwitchChain('arbitrum')} className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-[11px] font-bold text-blue-400">🔷 Arbitrum</button>
+                    <button onClick={() => handleSwitchChain('optimism')} className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-[11px] font-bold text-red-400">🔴 Optimism</button>
+                    <button onClick={() => handleSwitchChain('polygon')} className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-[11px] font-bold text-purple-400">🟣 Polygon</button>
+                    <button onClick={() => handleSwitchChain('bsc')} className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-[11px] font-bold text-amber-400">🟡 BNB Chain</button>
+                  </div>
                 </div>
-              )}
-            </div>
+
+                <button
+                  onClick={handleDeployMainnetContracts}
+                  disabled={isDeployingContracts}
+                  className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-950 font-black text-xs flex items-center justify-center gap-2 transition-all shadow-lg"
+                >
+                  <Rocket className="w-4 h-4 text-slate-950" />
+                  <span>{isDeployingContracts ? 'Signature & Déploiement en cours sur la blockchain...' : `🚀 Déployer sur ${networkName} en 1 Clic`}</span>
+                </button>
+
+                {deployStatusMessage && (
+                  <div className="text-[11px] font-mono text-emerald-400 bg-emerald-500/10 p-2.5 rounded-lg border border-emerald-500/30">
+                    {deployStatusMessage}
+                  </div>
+                )}
+              </div>
+            )}
 
             {/* Disconnect Action */}
             <div className="pt-2">
