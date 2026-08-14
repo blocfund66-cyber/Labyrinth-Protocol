@@ -121,6 +121,27 @@ const ProofOfInnocence = ({ t }) => {
           </div>
         )}
       </div>
+
+      {/* Doctrine d'Anonymat Total Cypherpunk & Protection Anti-Tornado Cash */}
+      <div className="glass-panel p-6 sm:p-8 space-y-4 border-amber-500/30 bg-amber-500/5">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-500 shrink-0">
+            <Lock className="w-5 h-5" />
+          </div>
+          <div>
+            <h3 className="text-lg font-black text-slate-900 dark:text-white">
+              Doctrine d'Anonymat Cypherpunk & Immunité Décentralisée
+            </h3>
+            <span className="text-xs text-amber-600 dark:text-amber-400 font-bold">
+              Protection Souveraine des Fondateurs, Développeurs & Utilisateurs
+            </span>
+          </div>
+        </div>
+
+        <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
+          Tirant les leçons juridiques de l'écosystème Tornado Cash, <strong>Labyrinth Protocol fonctionne selon la doctrine du Zero-Knowledge Absolu</strong>. Le protocole est conçu pour être une infrastructure mathématique autonome et immuable sur la blockchain. <strong>Les fondateurs et développeurs opèrent sous anonymat cryptographique total</strong> sans aucun compte de réseau social centralisé, protégeant ainsi l'écosystème contre tout risque de coercition tout en garantissant un anonymat souverain à ses utilisateurs.
+        </p>
+      </div>
     </div>
   );
 };
