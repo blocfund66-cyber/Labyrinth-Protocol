@@ -54,7 +54,7 @@ const TokenomicsDashboard = ({ t }) => {
         </div>
 
         {/* EIP-1559 Live Burn Counter Widget */}
-        <div className="bg-gradient-to-br from-slate-100 via-white to-rose-50 dark:from-slate-950 dark:via-slate-900 dark:to-rose-950/40 p-6 rounded-2xl border border-rose-300 dark:border-rose-500/40 text-center w-full md:w-auto shadow-2xl relative overflow-hidden">
+        <div className="bg-gradient-to-br from-slate-100 via-white to-rose-50 dark:from-slate-950 dark:via-slate-900 dark:to-rose-950/40 p-6 rounded-2xl border border-rose-300 dark:border-rose-500/40 text-center w-full md:w-auto shadow-sm relative overflow-hidden">
           <div className="absolute top-0 right-0 w-24 h-24 bg-rose-500/10 rounded-full blur-2xl"></div>
           <div className="flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-widest text-rose-600 dark:text-rose-400 mb-2">
             <Flame className="w-4 h-4 text-rose-500 animate-pulse" />
