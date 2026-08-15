@@ -28,6 +28,7 @@ import {
   ShieldCheck,
   Rocket,
   Vote,
+  Trophy,
   Menu,
   X,
   Twitter,
