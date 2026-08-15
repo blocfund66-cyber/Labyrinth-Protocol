@@ -113,7 +113,7 @@ const LandingPage = ({ onEnterApp, t }) => {
 
           <div className="glass-panel p-3.5 sm:p-4 text-center border-emerald-500/20 overflow-hidden scroll-reveal scroll-reveal-delay-3">
             <span className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider block truncate">{tLand.statsChains}</span>
-            <span className="text-base sm:text-2xl lg:text-3xl font-black text-emerald-600 dark:text-emerald-400 mt-1 font-mono block truncate">7 Chains</span>
+            <span className="text-base sm:text-2xl lg:text-3xl font-black text-emerald-600 dark:text-emerald-400 mt-1 font-mono block truncate">8 Chains</span>
           </div>
 
           <div className="glass-panel p-3.5 sm:p-4 text-center border-violet-500/20 overflow-hidden scroll-reveal scroll-reveal-delay-4">
