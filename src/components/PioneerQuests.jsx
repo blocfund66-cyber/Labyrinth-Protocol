@@ -138,7 +138,7 @@ const PioneerQuests = ({ isConnected, walletAddress, activeTab, setActiveTab, t 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-semibold pt-2 w-full">
             <div className="flex items-center gap-2.5 bg-slate-100 dark:bg-slate-950/80 px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden">
               <Users className="w-4 h-4 text-cyan-500 shrink-0" />
-              <span className="truncate text-slate-700 dark:text-slate-300">Ambassadeurs : <strong className="text-slate-900 dark:text-white">4,820 / 20,000</strong></span>
+              <span className="truncate text-slate-700 dark:text-slate-300">Ambassadeurs : <strong className="text-slate-900 dark:text-white">{nftMinted ? '1' : '0'} / 20,000</strong></span>
             </div>
             <div className="flex items-center gap-2.5 bg-slate-100 dark:bg-slate-950/80 px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden">
               <Award className="w-4 h-4 text-amber-500 shrink-0" />
