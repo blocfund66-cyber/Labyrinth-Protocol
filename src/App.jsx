@@ -9,7 +9,7 @@ import ProofOfInnocence from './components/ProofOfInnocence';
 import PioneerQuests from './components/PioneerQuests';
 import OnboardingModal from './components/OnboardingModal';
 import WalletModal from './components/WalletModal';
-import { AbstractLabyrinthLogo } from './components/Icons';
+import { AbstractLabyrinthLogo, XLogoIcon } from './components/Icons';
 import { translations, detectBrowserLanguage } from './i18n/translations';
 import { 
   Lock, 
@@ -602,55 +602,23 @@ function App() {
               </span>
             </button>
 
-            {/* 3. Official Twitter / X Link Button */}
+            {/* 3. Official X (Formerly Twitter) Link Button with Official X Brand Logo */}
             <a
               href="https://x.com/labyrinthXY"
               target="_blank"
               rel="noopener noreferrer"
               className={`p-2 rounded-xl border font-bold transition-all shadow-sm flex items-center justify-center ${
                 isDarkMode 
-                  ? 'bg-slate-900 border-blue-500/40 text-blue-400 hover:bg-slate-800 hover:border-blue-400' 
-                  : 'bg-slate-100 border-slate-300 text-blue-600 hover:bg-slate-200'
-              }`}
-              title="Compte Officiel X (Twitter) @labyrinthXY"
-              aria-label="X Twitter Profile"
-            >
-              <Twitter className="w-4 h-4 text-blue-400 dark:text-blue-400" />
-            </a>
-
-            {/* 4. Discord Community Link Button */}
-            <a
-              href="https://discord.gg/labyrinth"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`p-2 rounded-xl border font-bold transition-all shadow-sm flex items-center justify-center ${
-                isDarkMode 
-                  ? 'bg-slate-900 border-indigo-500/40 text-indigo-400 hover:bg-slate-800 hover:border-indigo-400' 
-                  : 'bg-slate-100 border-slate-300 text-indigo-600 hover:bg-slate-200'
-              }`}
-              title="Communauté Officielle Discord (Lancement Prochain)"
-              aria-label="Discord Server"
-            >
-              <MessageSquare className="w-4 h-4 text-indigo-400 dark:text-indigo-400" />
-            </a>
-
-            {/* 5. Telegram Official Channel Button */}
-            <a
-              href="https://t.me/labyrinth_protocol"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`p-2 rounded-xl border font-bold transition-all shadow-sm flex items-center justify-center ${
-                isDarkMode 
                   ? 'bg-slate-900 border-cyan-500/40 text-cyan-400 hover:bg-slate-800 hover:border-cyan-400' 
-                  : 'bg-slate-100 border-slate-300 text-cyan-600 hover:bg-slate-200'
+                  : 'bg-slate-100 border-slate-300 text-slate-900 hover:bg-slate-200'
               }`}
-              title="Canal Officiel Telegram (Lancement Prochain)"
-              aria-label="Telegram Channel"
+              title="Compte Officiel X @labyrinthXY"
+              aria-label="X Profile"
             >
-              <Send className="w-4 h-4 text-cyan-400 dark:text-cyan-400" />
+              <XLogoIcon className="w-4 h-4 text-cyan-400 dark:text-cyan-400" />
             </a>
 
-            {/* 6. QuestN Ambassador Quests Button */}
+            {/* 4. QuestN Ambassador Quests Active Link */}
             <a
               href="https://questn.com/c/labyrinth"
               target="_blank"
