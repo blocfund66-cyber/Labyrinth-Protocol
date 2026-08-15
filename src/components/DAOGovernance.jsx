@@ -644,8 +644,8 @@ const DAOGovernance = ({ isConnected, walletAddress, connectWallet, t }) => {
 
       {/* Create Proposal Modal (Supports Standard & Multiple Choice Questions) */}
       {showCreateModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-fadeIn overflow-y-auto">
-          <div className="glass-panel max-w-lg w-full p-6 sm:p-8 space-y-6 border-blue-500/40 shadow-2xl relative my-8">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-fadeIn">
+          <div className="glass-panel max-w-lg w-full max-h-[85vh] overflow-y-auto p-6 sm:p-8 space-y-5 border-blue-500/40 shadow-2xl relative">
             <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
               <PlusCircle className="w-5 h-5 text-blue-500 dark:text-blue-400" />
               {tDao.createModalTitle}
