@@ -28,9 +28,11 @@ import {
   ShieldCheck,
   Rocket,
   Vote,
-  Trophy,
   Menu,
-  X
+  X,
+  Twitter,
+  MessageSquare,
+  Send
 } from 'lucide-react';
 
 function App() {
@@ -599,7 +601,71 @@ function App() {
               </span>
             </button>
 
-            {/* 3. GitHub Icon-Only Framed Button */}
+            {/* 3. Official Twitter / X Link Button */}
+            <a
+              href="https://x.com/labyrinthXY"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`p-2 rounded-xl border font-bold transition-all shadow-sm flex items-center justify-center ${
+                isDarkMode 
+                  ? 'bg-slate-900 border-blue-500/40 text-blue-400 hover:bg-slate-800 hover:border-blue-400' 
+                  : 'bg-slate-100 border-slate-300 text-blue-600 hover:bg-slate-200'
+              }`}
+              title="Compte Officiel X (Twitter) @labyrinthXY"
+              aria-label="X Twitter Profile"
+            >
+              <Twitter className="w-4 h-4 text-blue-400 dark:text-blue-400" />
+            </a>
+
+            {/* 4. Discord Community Link Button */}
+            <a
+              href="https://discord.gg/labyrinth"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`p-2 rounded-xl border font-bold transition-all shadow-sm flex items-center justify-center ${
+                isDarkMode 
+                  ? 'bg-slate-900 border-indigo-500/40 text-indigo-400 hover:bg-slate-800 hover:border-indigo-400' 
+                  : 'bg-slate-100 border-slate-300 text-indigo-600 hover:bg-slate-200'
+              }`}
+              title="Communauté Officielle Discord (Lancement Prochain)"
+              aria-label="Discord Server"
+            >
+              <MessageSquare className="w-4 h-4 text-indigo-400 dark:text-indigo-400" />
+            </a>
+
+            {/* 5. Telegram Official Channel Button */}
+            <a
+              href="https://t.me/labyrinth_protocol"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`p-2 rounded-xl border font-bold transition-all shadow-sm flex items-center justify-center ${
+                isDarkMode 
+                  ? 'bg-slate-900 border-cyan-500/40 text-cyan-400 hover:bg-slate-800 hover:border-cyan-400' 
+                  : 'bg-slate-100 border-slate-300 text-cyan-600 hover:bg-slate-200'
+              }`}
+              title="Canal Officiel Telegram (Lancement Prochain)"
+              aria-label="Telegram Channel"
+            >
+              <Send className="w-4 h-4 text-cyan-400 dark:text-cyan-400" />
+            </a>
+
+            {/* 6. QuestN Ambassador Quests Button */}
+            <a
+              href="https://questn.com/c/labyrinth"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`p-2 rounded-xl border font-bold transition-all shadow-sm flex items-center justify-center ${
+                isDarkMode 
+                  ? 'bg-slate-900 border-amber-500/40 text-amber-400 hover:bg-slate-800 hover:border-amber-400' 
+                  : 'bg-slate-100 border-slate-300 text-amber-600 hover:bg-slate-200'
+              }`}
+              title="Quêtes Ambassadeurs sur QuestN"
+              aria-label="QuestN Ambassador Quests"
+            >
+              <Trophy className="w-4 h-4 text-amber-400 dark:text-amber-400" />
+            </a>
+
+            {/* 7. GitHub Icon-Only Framed Button */}
             <a
               href={GITHUB_REPO_URL}
               target="_blank"
