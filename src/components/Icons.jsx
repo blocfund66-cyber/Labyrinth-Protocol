@@ -142,35 +142,49 @@ export const XLogoIcon = ({ className = "w-4 h-4" }) => (
   </svg>
 );
 
-// 15. Minotorus Authentic Geometric Bull Vector Logo (Exact Replica of Reference VectorStock 60696582)
+// 15. Minotorus Authentic Geometric Bull Vector Logo (Prominent, Imposing Horns)
 export const BullHeadIcon = ({ className = "w-6 h-6" }) => (
   <svg className={className} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    {/* Left Angular Horn */}
-    <polygon points="35,18 20,34 26,42 34,42 29,34 37,34" fill="currentColor" />
+    {/* Left Huge Prominent Horn */}
+    <polygon 
+      points="20,8 6,28 16,38 28,38 22,28 32,28" 
+      fill="currentColor" 
+    />
+    <polygon 
+      points="20,8 12,20 18,22 24,16" 
+      fill="#F59E0B" 
+    />
     
-    {/* Right Angular Horn */}
-    <polygon points="65,18 80,34 74,42 66,42 71,34 63,34" fill="currentColor" />
+    {/* Right Huge Prominent Horn */}
+    <polygon 
+      points="80,8 94,28 84,38 72,38 78,28 68,28" 
+      fill="currentColor" 
+    />
+    <polygon 
+      points="80,8 88,20 82,22 76,16" 
+      fill="#F59E0B" 
+    />
 
     {/* Left Ear */}
-    <polygon points="23,45 34,45 31,50 25,50" fill="currentColor" />
+    <polygon points="12,42 26,42 23,48 15,48" fill="currentColor" />
 
     {/* Right Ear */}
-    <polygon points="77,45 66,45 69,50 75,50" fill="currentColor" />
+    <polygon points="88,42 74,42 77,48 85,48" fill="currentColor" />
 
     {/* Center Crown / Forehead & Muzzle Core */}
-    <polygon points="40,34 60,34 65,42 54,51 54,61 60,64 57,69 43,69 40,64 46,61 46,51 35,42" fill="currentColor" />
+    <polygon points="36,30 64,30 70,40 56,52 56,64 62,68 58,74 42,74 38,68 44,64 44,52 30,40" fill="currentColor" />
 
     {/* Left Cheek */}
-    <polygon points="36,46 44,52 44,60 37,51" fill="currentColor" />
+    <polygon points="32,44 42,52 42,62 33,52" fill="currentColor" />
 
     {/* Right Cheek */}
-    <polygon points="64,46 56,52 56,60 63,51" fill="currentColor" />
+    <polygon points="68,44 58,52 58,62 67,52" fill="currentColor" />
 
     {/* Nostril Negative Space Cutouts */}
-    <polygon points="44,63 47,63 46,67 43,67" fill="#050814" />
-    <polygon points="56,63 53,63 54,67 57,67" fill="#050814" />
+    <polygon points="44,67 48,67 47,72 43,72" fill="#050814" />
+    <polygon points="56,67 52,67 53,72 57,72" fill="#050814" />
 
     {/* Lower Chin / Jaw Segment */}
-    <polygon points="44,72 56,72 54,76 46,76" fill="currentColor" />
+    <polygon points="44,78 56,78 53,83 47,83" fill="currentColor" />
   </svg>
 );
