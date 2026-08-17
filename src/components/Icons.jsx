@@ -142,49 +142,35 @@ export const XLogoIcon = ({ className = "w-4 h-4" }) => (
   </svg>
 );
 
-// 15. Minotorus Authentic Geometric Bull Vector Logo (Wide Horizontal Horn Sweep)
+// 15. Minotorus Authentic Geometric Bull Vector Logo (Exact Clean Reference)
 export const BullHeadIcon = ({ className = "w-6 h-6" }) => (
-  <svg className={className} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    {/* Left Horn: Long horizontal side extension before bending upward */}
-    <polygon 
-      points="22,14 4,34 8,43 28,43 18,34 32,26" 
-      fill="currentColor" 
-    />
-    <polygon 
-      points="22,14 10,26 18,28 26,20" 
-      fill="#F59E0B" 
-    />
-    
-    {/* Right Horn: Long horizontal side extension before bending upward */}
-    <polygon 
-      points="78,14 96,34 92,43 72,43 82,34 68,26" 
-      fill="currentColor" 
-    />
-    <polygon 
-      points="78,14 90,26 82,28 74,20" 
-      fill="#F59E0B" 
-    />
+  <svg className={className} viewBox="0 0 100 100" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    {/* Left Horn - Sweeps outward then curves sharply upward to a needle point */}
+    <path d="M36 36L28 44H12C8 44 6 38 12 30L26 12C28 9 30 11 28 16L20 30C18 34 22 36 26 36H36Z" />
+
+    {/* Right Horn - Symmetrical outward sweep curving upward */}
+    <path d="M64 36L72 44H88C92 44 94 38 88 30L74 12C72 9 70 11 72 16L80 30C82 34 78 36 74 36H64Z" />
 
     {/* Left Ear */}
-    <polygon points="12,47 26,47 23,53 15,53" fill="currentColor" />
+    <polygon points="12,48 24,48 21,54 14,54" />
 
     {/* Right Ear */}
-    <polygon points="88,47 74,47 77,53 85,53" fill="currentColor" />
+    <polygon points="88,48 76,48 79,54 86,54" />
 
-    {/* Center Crown / Forehead & Muzzle Core */}
-    <polygon points="36,30 64,30 70,40 56,52 56,64 62,68 58,74 42,74 38,68 44,64 44,52 30,40" fill="currentColor" />
+    {/* Forehead Crown & Muzzle Core */}
+    <polygon points="38,36 62,36 67,45 54,54 54,63 60,67 56,73 44,73 40,67 46,63 46,54 33,45" />
 
     {/* Left Cheek */}
-    <polygon points="32,44 42,52 42,62 33,52" fill="currentColor" />
+    <polygon points="32,48 42,55 42,63 33,54" />
 
     {/* Right Cheek */}
-    <polygon points="68,44 58,52 58,62 67,52" fill="currentColor" />
+    <polygon points="68,48 58,55 58,63 67,54" />
 
-    {/* Nostril Negative Space Cutouts */}
-    <polygon points="44,67 48,67 47,72 43,72" fill="#050814" />
-    <polygon points="56,67 52,67 53,72 57,72" fill="#050814" />
+    {/* Nostril Negative Space Cuts */}
+    <polygon points="44,66 47,66 46,70 43,70" fill="#050814" />
+    <polygon points="56,66 53,66 54,70 57,70" fill="#050814" />
 
-    {/* Lower Chin / Jaw Segment */}
-    <polygon points="44,78 56,78 53,83 47,83" fill="currentColor" />
+    {/* Lower Chin Bar */}
+    <polygon points="44,77 56,77 53,81 47,81" />
   </svg>
 );
