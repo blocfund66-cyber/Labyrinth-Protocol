@@ -25,11 +25,10 @@ import {
   OptimismIcon, 
   BaseIcon, 
   SolanaIcon, 
-  UsdcIcon,
   BullHeadIcon 
 } from './Icons';
 
-// Exact 8 Assets matching the 8 Platform Blockchains
+// Exact 7 Sovereign Non-Censorable Native Assets
 const SUPPORTED_ASSETS = [
   { id: 'ETH', name: 'Ethereum / Base (ETH)', icon: EthIcon, defaultAmounts: [0.1, 0.5, 1.0, 5.0], unit: 'ETH' },
   { id: 'SOL', name: 'Solana (SOL)', icon: SolanaIcon, defaultAmounts: [1, 5, 10, 50], unit: 'SOL' },
@@ -37,8 +36,7 @@ const SUPPORTED_ASSETS = [
   { id: 'ARB', name: 'Arbitrum (ARB)', icon: ArbitrumIcon, defaultAmounts: [100, 500, 1000, 5000], unit: 'ARB' },
   { id: 'OP', name: 'Optimism (OP)', icon: OptimismIcon, defaultAmounts: [50, 200, 500, 1000], unit: 'OP' },
   { id: 'AVAX', name: 'Avalanche (AVAX)', icon: AvaxIcon, defaultAmounts: [5, 10, 25, 50], unit: 'AVAX' },
-  { id: 'POL', name: 'Polygon (POL)', icon: PolygonIcon, defaultAmounts: [100, 500, 1000, 2500], unit: 'POL' },
-  { id: 'USDC', name: 'USD Coin (USDC)', icon: UsdcIcon, defaultAmounts: [100, 500, 1000, 5000], unit: 'USDC' }
+  { id: 'POL', name: 'Polygon (POL)', icon: PolygonIcon, defaultAmounts: [100, 500, 1000, 2500], unit: 'POL' }
 ];
 
 // Exact 8 Supported Blockchains matching the platform mixer
