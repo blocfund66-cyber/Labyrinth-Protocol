@@ -682,8 +682,8 @@ function App() {
         onDisconnect={handleDisconnectWallet}
       />
 
-      {/* 🐂 Minotorus Floating Action Bot (Automated ZK Mixing Guide) */}
-      <MinotorusBot isDarkMode={isDarkMode} />
+      {/* 🐂 Minotorus Floating Action Bot (Automated ZK Mixing Guide - Only displayed inside DApp, never on presentation page) */}
+      {currentView === 'app' && <MinotorusBot isDarkMode={isDarkMode} />}
     </div>
   );
 }
