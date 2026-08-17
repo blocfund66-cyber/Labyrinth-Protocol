@@ -14,7 +14,10 @@ import {
   Lock,
   MousePointerClick,
   Info,
-  Check
+  Check,
+  TrendingUp,
+  Flame,
+  Droplets
 } from 'lucide-react';
 import { 
   EthIcon, 
@@ -51,19 +54,35 @@ const SUPPORTED_CHAINS = [
   { id: 'avalanche', name: 'Avalanche C-Chain', icon: AvaxIcon }
 ];
 
-const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
+const STAKING_TIERS = [
+  { amount: 1000, label: '1 000 $LAB', apy: '18.4% APY', estReward: '~184 $LAB/an + Dividendes Relayeurs' },
+  { amount: 5000, label: '5 000 $LAB', apy: '24.2% APY', estReward: '~1 210 $LAB/an + Dividendes Relayeurs' },
+  { amount: 10000, label: '10 000 $LAB', apy: '31.5% APY', estReward: '~3 150 $LAB/an + Dividendes Relayeurs' },
+  { amount: 40000, label: '40 000 $LAB (Genesis)', apy: '48.0% APY', estReward: '~19 200 $LAB/an + 80% Frais Relayeurs' }
+];
+
+const YIELD_POOLS = [
+  { chain: 'Base L2', asset: 'ETH', apy: '14.2% APY', tvl: '$4.2M' },
+  { chain: 'Solana', asset: 'SOL', apy: '12.8% APY', tvl: '$2.8M' },
+  { chain: 'BNB Chain', asset: 'BNB', apy: '11.5% APY', tvl: '$1.9M' }
+];
+
+const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null, onNavigateTab = null }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [step, setStep] = useState('GREETING'); // GREETING, SELECT_INPUT, SELECT_AMOUNT, SELECT_OUTPUT, INPUT_WALLET, CONFIRM, EXECUTING, COMPLETED
+  const [step, setStep] = useState('ACTION_SELECT'); // ACTION_SELECT, SELECT_INPUT, SELECT_AMOUNT, SELECT_OUTPUT, INPUT_WALLET, CONFIRM, EXECUTING, COMPLETED, STAKING_SELECT, STAKING_CONFIRM, POOLS_VIEW
   
-  // Selected user options through the guided schema
+  // Selected user options for mixing
   const [inputAsset, setInputAsset] = useState(null);
   const [inputAmountNum, setInputAmountNum] = useState(1.0);
   const [inputAmountStr, setInputAmountStr] = useState('');
   const [outputChain, setOutputChain] = useState(null);
   const [recipientWallet, setRecipientWallet] = useState('');
-
   const [generatedSecretNote, setGeneratedSecretNote] = useState('');
   const [copiedNote, setCopiedNote] = useState(false);
+
+  // Selected option for staking
+  const [selectedStakingTier, setSelectedStakingTier] = useState(null);
+
   const [unreadCount, setUnreadCount] = useState(1);
 
   // Chat message history
@@ -71,20 +90,19 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
     {
       id: 'welcome-1',
       sender: 'minotorus',
-      text: "Salutations ! Je suis Minotorus 🐂, le guide de mixage du Labyrinthe.",
+      text: "Salutations ! Je suis Minotorus 🐂, le guide financier et de confidentialité du Labyrinthe.",
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     },
     {
       id: 'welcome-2',
       sender: 'minotorus',
-      text: "Je vais automatiser votre parcours de confidentialité Zero-Knowledge de bout en bout. Quelle cryptomonnaie souhaitez-vous mixer ?",
+      text: "Que souhaitez-vous effectuer aujourd'hui sur le protocole ?",
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     }
   ]);
 
   const messagesEndRef = useRef(null);
 
-  // Auto-scroll chat to bottom on new message
   useEffect(() => {
     if (isOpen) {
       messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -122,13 +140,35 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
     ]);
   };
 
+  // Main Action Choice
+  const handleSelectMainAction = (action) => {
+    if (action === 'MIXING') {
+      addUserMessage("Je souhaite effectuer un Mixage Anonyme ZK.");
+      setTimeout(() => {
+        addBotMessage("Excellent choix. Quelle cryptomonnaie native souhaitez-vous déposer dans le pool de confidentialité ?");
+        setStep('SELECT_INPUT');
+      }, 300);
+    } else if (action === 'STAKING') {
+      addUserMessage("Je souhaite staker des $LAB pour toucher du Real Yield.");
+      setTimeout(() => {
+        addBotMessage("Parfait ! Le staking de $LAB vous reverse directement 80% des frais de relayeurs perçus sur les 8 blockchains. Quel montant souhaitez-vous staker ?");
+        setStep('STAKING_SELECT');
+      }, 300);
+    } else if (action === 'POOLS') {
+      addUserMessage("Je souhaite consulter les Yield Pools de Liquidité.");
+      setTimeout(() => {
+        addBotMessage("Voici les Yield Pools de confidentialité actuellement actives et leurs rendements annuels (APY) :");
+        setStep('POOLS_VIEW');
+      }, 300);
+    }
+  };
+
   // 1. User picks Input Crypto
   const handleSelectInputAsset = (asset) => {
     setInputAsset(asset);
     addUserMessage(`Je souhaite mixer du ${asset.name}.`);
-    
     setTimeout(() => {
-      addBotMessage(`Parfait ! Quel montant de ${asset.id} voulez-vous déposer dans le pool de confidentialité ?`);
+      addBotMessage(`Parfait ! Quel montant de ${asset.id} voulez-vous déposer ?`);
       setStep('SELECT_AMOUNT');
     }, 300);
   };
@@ -138,9 +178,8 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
     setInputAmountNum(amountVal);
     setInputAmountStr(amountLabel);
     addUserMessage(`Montant sélectionné : ${amountLabel}`);
-
     setTimeout(() => {
-      addBotMessage(`Très bien. Sur quelle blockchain de destination souhaitez-vous que vos fonds anonymisés ressortent ?`);
+      addBotMessage(`Très bien. Sur quelle blockchain de destination souhaitez-vous que vos fonds ressortent ?`);
       setStep('SELECT_OUTPUT');
     }, 300);
   };
@@ -149,9 +188,8 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
   const handleSelectOutputChain = (chain) => {
     setOutputChain(chain);
     addUserMessage(`Je veux ressortir sur ${chain.name}.`);
-
     setTimeout(() => {
-      addBotMessage(`Veuillez renseigner votre adresse de réception sécurisée sur le réseau ${chain.name} :`);
+      addBotMessage(`Veuillez renseigner votre adresse de réception sur le réseau ${chain.name} :`);
       setStep('INPUT_WALLET');
     }, 300);
   };
@@ -160,11 +198,9 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
   const handleConfirmWallet = (e) => {
     e?.preventDefault();
     if (!recipientWallet.trim() || recipientWallet.length < 8) return;
-
-    addUserMessage(`Adresse de réception : ${recipientWallet.substring(0, 8)}...${recipientWallet.substring(recipientWallet.length - 6)}`);
-
+    addUserMessage(`Adresse : ${recipientWallet.substring(0, 8)}...${recipientWallet.substring(recipientWallet.length - 6)}`);
     setTimeout(() => {
-      addBotMessage(`Voici le récapitulatif de votre opération. Vérifiez les informations avant de déclencher le mixage ZK :`);
+      addBotMessage(`Voici le récapitulatif de votre opération. Vérifiez les informations avant d'exécuter :`);
       setStep('CONFIRM');
     }, 350);
   };
@@ -173,14 +209,11 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
   const handleExecuteMix = () => {
     setStep('EXECUTING');
     addUserMessage("Confirmer et exécuter le mixage ZK.");
-
     setTimeout(() => {
-      // Generate unique cryptographic secret note
       const secretNote = `labyrinth-v1-zk-${Math.random().toString(36).substring(2, 12)}-${Math.random().toString(36).substring(2, 10)}`;
       setGeneratedSecretNote(secretNote);
       setStep('COMPLETED');
       addBotMessage(`Mixage Zero-Knowledge exécuté avec succès ! Conservez précieusement votre Note Secrète cryptographique.`);
-      
       if (onTriggerMix) {
         onTriggerMix({
           asset: inputAsset?.id,
@@ -193,9 +226,28 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
     }, 1400);
   };
 
-  // Reset conversation to initial state
+  // Staking Flow
+  const handleSelectStakingTier = (tier) => {
+    setSelectedStakingTier(tier);
+    addUserMessage(`Je souhaite staker ${tier.label}.`);
+    setTimeout(() => {
+      addBotMessage(`Confirmation du Staking : ${tier.label} avec un rendement estimé de ${tier.apy}.`);
+      setStep('STAKING_CONFIRM');
+    }, 300);
+  };
+
+  const handleExecuteStaking = () => {
+    setStep('EXECUTING');
+    addUserMessage(`Valider le verrouillage de ${selectedStakingTier?.label}.`);
+    setTimeout(() => {
+      setStep('COMPLETED');
+      addBotMessage(`Staking activé avec succès ! Vos récompenses en Real Yield (frais de relayeurs) s'accumulent désormais en direct.`);
+    }, 1400);
+  };
+
+  // Reset conversation
   const handleReset = () => {
-    setStep('GREETING');
+    setStep('ACTION_SELECT');
     setInputAsset(null);
     setInputAmountNum(1.0);
     setInputAmountStr('');
@@ -203,11 +255,12 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
     setRecipientWallet('');
     setGeneratedSecretNote('');
     setCopiedNote(false);
+    setSelectedStakingTier(null);
     setMessages([
       {
         id: `reset-${Date.now()}`,
         sender: 'minotorus',
-        text: "Parcours réinitialisé. Quelle cryptomonnaie souhaitez-vous mixer ?",
+        text: "Menu principal réinitialisé. Que souhaitez-vous effectuer sur le protocole ?",
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       }
     ]);
@@ -223,16 +276,16 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
   return (
     <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end pointer-events-none">
       
-      {/* 💬 FLOATING CHAT BOX (Opens directly above the floating bottom button) */}
+      {/* 💬 FLOATING CHAT BOX */}
       {isOpen && (
         <div 
-          className={`pointer-events-auto w-[340px] sm:w-[410px] h-[550px] max-h-[82vh] mb-3 rounded-2xl shadow-2xl border flex flex-col overflow-hidden animate-fadeIn transition-colors ${
+          className={`pointer-events-auto w-[340px] sm:w-[410px] h-[560px] max-h-[84vh] mb-3 rounded-2xl shadow-2xl border flex flex-col overflow-hidden animate-fadeIn transition-colors ${
             isDarkMode 
               ? 'bg-slate-950/95 border-cyan-500/40 text-slate-100 shadow-[0_20px_50px_rgba(0,210,255,0.25)]' 
               : 'bg-white/95 border-blue-400/40 text-slate-900 shadow-[0_20px_50px_rgba(37,99,235,0.2)]'
           }`}
         >
-          {/* Header with Minotaur Bull Profile */}
+          {/* Header */}
           <div className={`p-3.5 border-b flex items-center justify-between transition-colors ${
             isDarkMode 
               ? 'bg-gradient-to-r from-slate-900 via-cyan-950/80 to-slate-900 border-cyan-500/30' 
@@ -254,7 +307,7 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
                   <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                 </div>
                 <p className={`text-[10px] font-mono ${isDarkMode ? 'text-cyan-400' : 'text-blue-600'}`}>
-                  Guide de Confidentialité Zero-Knowledge
+                  Guide Financier & Confidentialité ZK
                 </p>
               </div>
             </div>
@@ -262,7 +315,7 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
             <div className="flex items-center gap-1">
               <button
                 onClick={handleReset}
-                title="Recommencer"
+                title="Menu Principal"
                 className={`p-1.5 rounded-lg transition-all text-xs flex items-center gap-1 ${
                   isDarkMode ? 'text-slate-400 hover:text-white hover:bg-slate-800/60' : 'text-slate-500 hover:text-slate-900 hover:bg-slate-200/80'
                 }`}
@@ -281,7 +334,7 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
             </div>
           </div>
 
-          {/* Privacy Trust Bar */}
+          {/* Privacy & Financial Trust Bar */}
           <div className={`px-3 py-1.5 border-b flex items-center justify-between text-[10px] font-mono transition-colors ${
             isDarkMode ? 'bg-slate-900/90 border-slate-800 text-slate-300' : 'bg-slate-100 border-slate-200 text-slate-700'
           }`}>
@@ -289,7 +342,7 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
               <ShieldCheck className="w-3.5 h-3.5" /> 100% Non-Custodial
             </span>
             <span className={`flex items-center gap-1 font-semibold ${isDarkMode ? 'text-cyan-400' : 'text-blue-600'}`}>
-              <Lock className="w-3 h-3" /> Zéro Logs
+              <Coins className="w-3 h-3" /> 80% Real Yield
             </span>
           </div>
 
@@ -325,8 +378,74 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
               </div>
             ))}
 
-            {/* 🪙 STEP 1: Interactive Selection of the 8 Exact Platform Assets */}
-            {(step === 'GREETING' || step === 'SELECT_INPUT') && (
+            {/* 🎯 STEP 0: MAIN FINANCIAL ACTION SELECTOR */}
+            {step === 'ACTION_SELECT' && (
+              <div className={`p-2.5 rounded-xl border space-y-2 mt-2 ${
+                isDarkMode ? 'bg-slate-900/70 border-cyan-500/20' : 'bg-slate-50 border-blue-200'
+              }`}>
+                <span className={`text-[11px] font-bold block ${isDarkMode ? 'text-cyan-300' : 'text-blue-700'}`}>
+                  Sélectionnez votre opération financière :
+                </span>
+                <div className="grid grid-cols-1 gap-2">
+                  <button
+                    onClick={() => handleSelectMainAction('MIXING')}
+                    className={`flex items-center justify-between p-2.5 rounded-xl border text-left transition-all text-xs font-bold ${
+                      isDarkMode 
+                        ? 'bg-slate-800/80 hover:bg-cyan-600/20 border-slate-700 hover:border-cyan-500 text-slate-200' 
+                        : 'bg-white hover:bg-blue-50 border-slate-200 hover:border-blue-500 text-slate-800 shadow-sm'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2">
+                      <ShieldCheck className="w-4 h-4 text-cyan-400 shrink-0" />
+                      <div>
+                        <span className="block">Mixage Anonyme ZK</span>
+                        <span className="text-[10px] opacity-60 font-normal">7 cryptos natives souveraines</span>
+                      </div>
+                    </div>
+                    <ArrowRight className="w-4 h-4 text-cyan-400" />
+                  </button>
+
+                  <button
+                    onClick={() => handleSelectMainAction('STAKING')}
+                    className={`flex items-center justify-between p-2.5 rounded-xl border text-left transition-all text-xs font-bold ${
+                      isDarkMode 
+                        ? 'bg-slate-800/80 hover:bg-blue-600/20 border-slate-700 hover:border-blue-500 text-slate-200' 
+                        : 'bg-white hover:bg-blue-50 border-slate-200 hover:border-blue-500 text-slate-800 shadow-sm'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2">
+                      <Coins className="w-4 h-4 text-blue-400 shrink-0" />
+                      <div>
+                        <span className="block">Staking $LAB (Real Yield)</span>
+                        <span className="text-[10px] opacity-60 font-normal">80% des frais de relayeurs redistribués</span>
+                      </div>
+                    </div>
+                    <ArrowRight className="w-4 h-4 text-blue-400" />
+                  </button>
+
+                  <button
+                    onClick={() => handleSelectMainAction('POOLS')}
+                    className={`flex items-center justify-between p-2.5 rounded-xl border text-left transition-all text-xs font-bold ${
+                      isDarkMode 
+                        ? 'bg-slate-800/80 hover:bg-indigo-600/20 border-slate-700 hover:border-indigo-500 text-slate-200' 
+                        : 'bg-white hover:bg-blue-50 border-slate-200 hover:border-blue-500 text-slate-800 shadow-sm'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2">
+                      <Droplets className="w-4 h-4 text-indigo-400 shrink-0" />
+                      <div>
+                        <span className="block">Yield Pools Privées</span>
+                        <span className="text-[10px] opacity-60 font-normal">Rendement passif et minage d'anonymat</span>
+                      </div>
+                    </div>
+                    <ArrowRight className="w-4 h-4 text-indigo-400" />
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* 🪙 STEP 1: Select 1 of 7 Sovereign Native Assets for Mixing */}
+            {step === 'SELECT_INPUT' && (
               <div className={`p-2.5 rounded-xl border space-y-2 mt-2 ${
                 isDarkMode ? 'bg-slate-900/70 border-cyan-500/20' : 'bg-slate-50 border-blue-200'
               }`}>
@@ -384,7 +503,7 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
               </div>
             )}
 
-            {/* 🔄 STEP 3: Interactive Output Chain Selection (8 Chains) */}
+            {/* 🔄 STEP 3: Interactive Output Chain Selection */}
             {step === 'SELECT_OUTPUT' && (
               <div className={`p-2.5 rounded-xl border space-y-2 mt-2 ${
                 isDarkMode ? 'bg-slate-900/70 border-cyan-500/20' : 'bg-slate-50 border-blue-200'
@@ -444,7 +563,7 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
               </form>
             )}
 
-            {/* ⚡ STEP 5: Final Summary & Execute */}
+            {/* ⚡ STEP 5: Final Summary & Execute Mixing */}
             {step === 'CONFIRM' && (
               <div className={`p-3 rounded-xl border space-y-2.5 mt-2 ${
                 isDarkMode ? 'bg-cyan-950/30 border-cyan-500/40' : 'bg-blue-50 border-blue-200'
@@ -485,6 +604,106 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
               </div>
             )}
 
+            {/* 🥩 STAKING STEP 1: Select Tier */}
+            {step === 'STAKING_SELECT' && (
+              <div className={`p-2.5 rounded-xl border space-y-2 mt-2 ${
+                isDarkMode ? 'bg-slate-900/70 border-cyan-500/20' : 'bg-slate-50 border-blue-200'
+              }`}>
+                <span className={`text-[11px] font-bold block ${isDarkMode ? 'text-cyan-300' : 'text-blue-700'}`}>
+                  Choisissez votre palier de Staking $LAB :
+                </span>
+                <div className="grid grid-cols-1 gap-1.5">
+                  {STAKING_TIERS.map((tier) => (
+                    <button
+                      key={tier.amount}
+                      onClick={() => handleSelectStakingTier(tier)}
+                      className={`p-2.5 rounded-xl border text-left transition-all text-xs ${
+                        isDarkMode 
+                          ? 'bg-slate-800/80 hover:bg-blue-600/20 border-slate-700 hover:border-blue-500 text-slate-200' 
+                          : 'bg-white hover:bg-blue-50 border-slate-200 hover:border-blue-500 text-slate-800 shadow-sm'
+                      }`}
+                    >
+                      <div className="flex justify-between items-center">
+                        <strong className="font-bold">{tier.label}</strong>
+                        <span className="text-emerald-500 font-extrabold">{tier.apy}</span>
+                      </div>
+                      <span className="text-[10px] opacity-60 block mt-0.5">{tier.estReward}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* 🥩 STAKING STEP 2: Confirm Staking */}
+            {step === 'STAKING_CONFIRM' && selectedStakingTier && (
+              <div className={`p-3 rounded-xl border space-y-2.5 mt-2 ${
+                isDarkMode ? 'bg-blue-950/30 border-blue-500/40' : 'bg-blue-50 border-blue-200'
+              }`}>
+                <span className={`text-[11px] font-bold block flex items-center gap-1.5 ${isDarkMode ? 'text-cyan-300' : 'text-blue-800'}`}>
+                  <Coins className="w-3.5 h-3.5" />
+                  Récapitulatif de votre Staking :
+                </span>
+
+                <div className={`space-y-1.5 text-[11px] font-mono p-2.5 rounded-lg border ${
+                  isDarkMode ? 'bg-slate-950/80 border-slate-800 text-slate-300' : 'bg-white border-slate-200 text-slate-700'
+                }`}>
+                  <div className="flex justify-between">
+                    <span className="opacity-60">Montant Verrouillé :</span>
+                    <strong className={isDarkMode ? 'text-white' : 'text-slate-900'}>{selectedStakingTier.label}</strong>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="opacity-60">Taux de Rendement :</span>
+                    <strong className="text-emerald-500 font-bold">{selectedStakingTier.apy}</strong>
+                  </div>
+                  <div className="flex justify-between pt-1 border-t border-slate-700/50">
+                    <span className="opacity-60">Dividendes Relayeurs :</span>
+                    <span className="text-cyan-400 font-bold">80% des Frais Omnichain</span>
+                  </div>
+                </div>
+
+                <button
+                  onClick={handleExecuteStaking}
+                  className="w-full py-2.5 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-bold text-xs rounded-lg shadow-md flex items-center justify-center gap-2 transition-all"
+                >
+                  <Coins className="w-4 h-4 text-white" />
+                  <span>Confirmer le Verrouillage $LAB</span>
+                </button>
+              </div>
+            )}
+
+            {/* 💧 POOLS VIEW */}
+            {step === 'POOLS_VIEW' && (
+              <div className={`p-2.5 rounded-xl border space-y-2 mt-2 ${
+                isDarkMode ? 'bg-slate-900/70 border-cyan-500/20' : 'bg-slate-50 border-blue-200'
+              }`}>
+                <span className={`text-[11px] font-bold block ${isDarkMode ? 'text-cyan-300' : 'text-blue-700'}`}>
+                  Yield Pools de Confidentialité Actives :
+                </span>
+                <div className="grid grid-cols-1 gap-1.5">
+                  {YIELD_POOLS.map((pool) => (
+                    <div
+                      key={pool.chain}
+                      className={`p-2.5 rounded-xl border text-xs flex justify-between items-center ${
+                        isDarkMode ? 'bg-slate-800/80 border-slate-700' : 'bg-white border-slate-200 shadow-sm'
+                      }`}
+                    >
+                      <div>
+                        <strong className="block text-slate-200 dark:text-white">{pool.chain} ({pool.asset})</strong>
+                        <span className="text-[10px] opacity-60">TVL: {pool.tvl}</span>
+                      </div>
+                      <span className="text-emerald-500 font-extrabold">{pool.apy}</span>
+                    </div>
+                  ))}
+                </div>
+                <button
+                  onClick={handleReset}
+                  className="w-full py-2 mt-1 bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs rounded-lg transition-all"
+                >
+                  ← Retour au Menu Principal
+                </button>
+              </div>
+            )}
+
             {/* ⏳ Executing state */}
             {step === 'EXECUTING' && (
               <div className={`p-4 rounded-xl border text-center space-y-2 ${
@@ -494,40 +713,42 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
                   isDarkMode ? 'border-cyan-500' : 'border-blue-600'
                 }`}></div>
                 <p className={`text-xs font-mono ${isDarkMode ? 'text-cyan-300' : 'text-blue-700'}`}>
-                  Génération de la preuve cryptographique ZK-SNARK...
+                  Traitement cryptographique en cours...
                 </p>
               </div>
             )}
 
-            {/* 🎉 STEP 6: Completed Result */}
+            {/* 🎉 Completed Result */}
             {step === 'COMPLETED' && (
               <div className={`p-3 rounded-xl border space-y-2.5 mt-2 ${
                 isDarkMode ? 'bg-emerald-950/30 border-emerald-500/40' : 'bg-emerald-50 border-emerald-300'
               }`}>
                 <div className="flex items-center gap-1.5 text-emerald-500 font-bold text-xs">
                   <CheckCircle2 className="w-4 h-4" />
-                  <span>Mixage ZK Exécuté avec Succès !</span>
+                  <span>Opération Validée avec Succès !</span>
                 </div>
 
-                <div className={`space-y-1 p-2.5 rounded-lg border ${
-                  isDarkMode ? 'bg-slate-950 border-slate-800' : 'bg-white border-slate-200'
-                }`}>
-                  <span className="text-[10px] text-slate-400 block font-mono">Votre Note Secrète ZK :</span>
-                  <div className={`flex items-center justify-between gap-1 text-[11px] font-mono truncate ${
-                    isDarkMode ? 'text-cyan-400' : 'text-blue-600 font-bold'
+                {generatedSecretNote && (
+                  <div className={`space-y-1 p-2.5 rounded-lg border ${
+                    isDarkMode ? 'bg-slate-950 border-slate-800' : 'bg-white border-slate-200'
                   }`}>
-                    <span className="truncate">{generatedSecretNote}</span>
-                    <button
-                      onClick={handleCopyNote}
-                      className={`p-1 rounded transition-colors shrink-0 ${
-                        isDarkMode ? 'bg-slate-800 hover:bg-slate-700 text-slate-300' : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
-                      }`}
-                      title="Copier la note secrète"
-                    >
-                      <Copy className="w-3.5 h-3.5" />
-                    </button>
+                    <span className="text-[10px] text-slate-400 block font-mono">Votre Note Secrète ZK :</span>
+                    <div className={`flex items-center justify-between gap-1 text-[11px] font-mono truncate ${
+                      isDarkMode ? 'text-cyan-400' : 'text-blue-600 font-bold'
+                    }`}>
+                      <span className="truncate">{generatedSecretNote}</span>
+                      <button
+                        onClick={handleCopyNote}
+                        className={`p-1 rounded transition-colors shrink-0 ${
+                          isDarkMode ? 'bg-slate-800 hover:bg-slate-700 text-slate-300' : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+                        }`}
+                        title="Copier la note secrète"
+                      >
+                        <Copy className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
                   </div>
-                </div>
+                )}
 
                 {copiedNote && (
                   <span className="text-[10px] text-emerald-500 font-mono block text-center">
@@ -541,7 +762,7 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
                     isDarkMode ? 'bg-slate-800 hover:bg-slate-700 text-white' : 'bg-slate-200 hover:bg-slate-300 text-slate-800'
                   }`}
                 >
-                  Effectuer un Nouveau Mixage 🔄
+                  Effectuer une Autre Opération 🔄
                 </button>
               </div>
             )}
@@ -569,10 +790,9 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
             ? 'bg-gradient-to-tr from-slate-950 via-slate-900 to-cyan-950 text-cyan-300 border-cyan-400 shadow-[0_0_30px_rgba(0,210,255,0.4)]'
             : 'bg-gradient-to-tr from-blue-600 via-blue-700 to-cyan-600 text-white border-blue-400 shadow-[0_0_25px_rgba(37,99,235,0.35)]'
         }`}
-        title="Minotorus — Guide de Mixage Zero-Knowledge"
+        title="Minotorus — Guide Financier et de Mixage Zero-Knowledge"
         aria-label="Minotorus Bot"
       >
-        {/* Glowing Aura Ring */}
         <div className={`absolute -inset-1 rounded-2xl blur-sm opacity-60 group-hover:opacity-100 transition-opacity animate-pulse ${
           isDarkMode ? 'bg-gradient-to-r from-cyan-400 to-blue-500' : 'bg-gradient-to-r from-blue-400 to-cyan-400'
         }`}></div>
@@ -581,7 +801,6 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
           <BullHeadIcon className="w-7 h-7 sm:w-8 sm:h-8" />
         </div>
 
-        {/* Unread Message Pill Badge */}
         {!isOpen && unreadCount > 0 && (
           <span className={`absolute -top-1.5 -right-1.5 text-[10px] font-extrabold px-2 py-0.5 rounded-full border shadow-md animate-bounce ${
             isDarkMode 
