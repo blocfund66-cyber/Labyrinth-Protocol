@@ -142,64 +142,35 @@ export const XLogoIcon = ({ className = "w-4 h-4" }) => (
   </svg>
 );
 
-// 15. Minotorus Badass Geometric Cyber-Bull Head Vector Icon (Directly Inspired by Reference Images 1 & 2)
+// 15. Minotorus Authentic Geometric Bull Vector Logo (Exact Replica of Reference VectorStock 60696582)
 export const BullHeadIcon = ({ className = "w-6 h-6" }) => (
   <svg className={className} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     {/* Left Angular Horn */}
-    <path 
-      d="M20 16L32 34L22 44L14 36L14 26L20 16Z" 
-      fill="currentColor" 
-    />
-    <path 
-      d="M20 16L14 26L22 28L28 22L20 16Z" 
-      fill="#F59E0B" 
-    />
-
+    <polygon points="35,18 20,34 26,42 34,42 29,34 37,34" fill="currentColor" />
+    
     {/* Right Angular Horn */}
-    <path 
-      d="M80 16L68 34L78 44L86 36L86 26L80 16Z" 
-      fill="currentColor" 
-    />
-    <path 
-      d="M80 16L86 26L78 28L72 22L80 16Z" 
-      fill="#F59E0B" 
-    />
+    <polygon points="65,18 80,34 74,42 66,42 71,34 63,34" fill="currentColor" />
 
-    {/* Skull / Forehead Crown Plate */}
-    <path 
-      d="M34 34H66L72 44L50 60L28 44L34 34Z" 
-      fill="currentColor" 
-    />
+    {/* Left Ear */}
+    <polygon points="23,45 34,45 31,50 25,50" fill="currentColor" />
 
-    {/* Cheek Wings / Jaw Flares */}
-    <path 
-      d="M16 46L28 46L40 64L38 72L22 56L16 46Z" 
-      fill="currentColor" 
-    />
-    <path 
-      d="M84 46L72 46L60 64L62 72L78 56L84 46Z" 
-      fill="currentColor" 
-    />
+    {/* Right Ear */}
+    <polygon points="77,45 66,45 69,50 75,50" fill="currentColor" />
 
-    {/* Main Face Center Bridge */}
-    <path 
-      d="M42 56H58L56 72H44L42 56Z" 
-      fill="currentColor" 
-    />
+    {/* Center Crown / Forehead & Muzzle Core */}
+    <polygon points="40,34 60,34 65,42 54,51 54,61 60,64 57,69 43,69 40,64 46,61 46,51 35,42" fill="currentColor" />
 
-    {/* Fierce Aggressive Slanted Eyes (Amber / Glow) */}
-    <polygon points="32,48 42,54 36,58" fill="#F59E0B" />
-    <polygon points="68,48 58,54 64,58" fill="#F59E0B" />
+    {/* Left Cheek */}
+    <polygon points="36,46 44,52 44,60 37,51" fill="currentColor" />
 
-    {/* Geometric Muzzle / Snout */}
-    <path 
-      d="M38 74L50 68L62 74L58 88H42L38 74Z" 
-      fill="currentColor" 
-    />
+    {/* Right Cheek */}
+    <polygon points="64,46 56,52 56,60 63,51" fill="currentColor" />
 
-    {/* Nostril Slots */}
-    <polygon points="45,78 48,78 46,84 43,84" fill="#050814" />
-    <polygon points="55,78 52,78 54,84 57,84" fill="#050814" />
-    <path d="M44 86H56" stroke="#F59E0B" strokeWidth="2" strokeLinecap="round" />
+    {/* Nostril Negative Space Cutouts */}
+    <polygon points="44,63 47,63 46,67 43,67" fill="#050814" />
+    <polygon points="56,63 53,63 54,67 57,67" fill="#050814" />
+
+    {/* Lower Chin / Jaw Segment */}
+    <polygon points="44,72 56,72 54,76 46,76" fill="currentColor" />
   </svg>
 );
