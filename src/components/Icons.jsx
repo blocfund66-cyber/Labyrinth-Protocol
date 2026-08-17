@@ -145,11 +145,11 @@ export const XLogoIcon = ({ className = "w-4 h-4" }) => (
 // 15. Minotorus Authentic Geometric Bull Vector Logo (Exact Clean Reference)
 export const BullHeadIcon = ({ className = "w-6 h-6" }) => (
   <svg className={className} viewBox="0 0 100 100" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    {/* Left Horn - Sweeps outward then curves sharply upward to a needle point */}
-    <path d="M36 36L28 44H12C8 44 6 38 12 30L26 12C28 9 30 11 28 16L20 30C18 34 22 36 26 36H36Z" />
+    {/* Left Horn - Sweeps outward and rises upright with reduced inward convergence */}
+    <path d="M36 36L28 44H10C6 44 4 36 10 26L18 10C19 8 22 9 20 15L14 28C12 33 18 36 24 36H36Z" />
 
-    {/* Right Horn - Symmetrical outward sweep curving upward */}
-    <path d="M64 36L72 44H88C92 44 94 38 88 30L74 12C72 9 70 11 72 16L80 30C82 34 78 36 74 36H64Z" />
+    {/* Right Horn - Symmetrical outward and upright stance */}
+    <path d="M64 36L72 44H90C94 44 96 36 90 26L82 10C81 8 78 9 80 15L86 28C88 33 82 36 76 36H64Z" />
 
     {/* Left Ear */}
     <polygon points="12,48 24,48 21,54 14,54" />
