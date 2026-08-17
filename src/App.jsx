@@ -7,6 +7,7 @@ import TokenomicsDashboard from './components/TokenomicsDashboard';
 import DAOGovernance from './components/DAOGovernance';
 import ProofOfInnocence from './components/ProofOfInnocence';
 import PioneerQuests from './components/PioneerQuests';
+import MinotorusBot from './components/MinotorusBot';
 import OnboardingModal from './components/OnboardingModal';
 import WalletModal from './components/WalletModal';
 import { AbstractLabyrinthLogo, XLogoIcon } from './components/Icons';
@@ -680,6 +681,9 @@ function App() {
         onConnectSuccess={handleConnectSuccess}
         onDisconnect={handleDisconnectWallet}
       />
+
+      {/* 🐂 Minotorus Floating Action Bot (Automated ZK Mixing Guide) */}
+      <MinotorusBot isDarkMode={isDarkMode} />
     </div>
   );
 }
