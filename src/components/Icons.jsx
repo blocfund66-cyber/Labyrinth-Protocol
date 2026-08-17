@@ -142,34 +142,34 @@ export const XLogoIcon = ({ className = "w-4 h-4" }) => (
   </svg>
 );
 
-// 15. Minotorus Authentic Geometric Bull Vector Logo (Prominent, Imposing Horns)
+// 15. Minotorus Authentic Geometric Bull Vector Logo (Wide Horizontal Horn Sweep)
 export const BullHeadIcon = ({ className = "w-6 h-6" }) => (
   <svg className={className} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    {/* Left Huge Prominent Horn */}
+    {/* Left Horn: Long horizontal side extension before bending upward */}
     <polygon 
-      points="20,8 6,28 16,38 28,38 22,28 32,28" 
+      points="22,14 4,34 8,43 28,43 18,34 32,26" 
       fill="currentColor" 
     />
     <polygon 
-      points="20,8 12,20 18,22 24,16" 
+      points="22,14 10,26 18,28 26,20" 
       fill="#F59E0B" 
     />
     
-    {/* Right Huge Prominent Horn */}
+    {/* Right Horn: Long horizontal side extension before bending upward */}
     <polygon 
-      points="80,8 94,28 84,38 72,38 78,28 68,28" 
+      points="78,14 96,34 92,43 72,43 82,34 68,26" 
       fill="currentColor" 
     />
     <polygon 
-      points="80,8 88,20 82,22 76,16" 
+      points="78,14 90,26 82,28 74,20" 
       fill="#F59E0B" 
     />
 
     {/* Left Ear */}
-    <polygon points="12,42 26,42 23,48 15,48" fill="currentColor" />
+    <polygon points="12,47 26,47 23,53 15,53" fill="currentColor" />
 
     {/* Right Ear */}
-    <polygon points="88,42 74,42 77,48 85,48" fill="currentColor" />
+    <polygon points="88,47 74,47 77,53 85,53" fill="currentColor" />
 
     {/* Center Crown / Forehead & Muzzle Core */}
     <polygon points="36,30 64,30 70,40 56,52 56,64 62,68 58,74 42,74 38,68 44,64 44,52 30,40" fill="currentColor" />
