@@ -16,7 +16,8 @@ import {
   Users,
   Flame,
   FileCode2,
-  ChevronRight
+  ChevronRight,
+  MousePointerClick
 } from 'lucide-react';
 import { AbstractLabyrinthLogo, BullHeadIcon } from './Icons';
 
@@ -216,7 +217,7 @@ const LandingPage = ({ onEnterApp, t }) => {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
             <div className="p-5 rounded-2xl bg-slate-900/80 border border-cyan-500/20 space-y-2">
               <div className="text-cyan-400 font-bold text-sm flex items-center gap-2">
-                <Sparkles className="w-4 h-4" /> Parcours Déterministe 1-Clic
+                <MousePointerClick className="w-4 h-4" /> Parcours Déterministe 1-Clic
               </div>
               <p className="text-xs text-slate-400 leading-relaxed">
                 Questionnaire interactif pas-à-pas : choix de la crypto, palier de dépôt et sélection de la blockchain cible.

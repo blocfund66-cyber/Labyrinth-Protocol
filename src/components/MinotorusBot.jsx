@@ -22,7 +22,8 @@ import {
   TrendingUp,
   History,
   Clock,
-  Key
+  Key,
+  MousePointerClick
 } from 'lucide-react';
 import { 
   EthIcon, 
@@ -348,7 +349,7 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
                   : 'text-slate-400 hover:text-white'
               }`}
             >
-              <Sparkles className="w-3.5 h-3.5" />
+              <MousePointerClick className="w-3.5 h-3.5" />
               <span>Mixage Guidé</span>
             </button>
 
