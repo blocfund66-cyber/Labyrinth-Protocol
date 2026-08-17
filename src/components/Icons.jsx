@@ -142,55 +142,52 @@ export const XLogoIcon = ({ className = "w-4 h-4" }) => (
   </svg>
 );
 
-// 15. Minotorus Authentic Cyber-Bull / Minotaur Head Vector Icon (High-End Geometric Design)
+// 15. Minotorus Authentic Bull Profile Glyph Vector Icon (Matching Pastel Glyph Design Exactly)
 export const BullHeadIcon = ({ className = "w-6 h-6" }) => (
-  <svg className={className} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    {/* Left Sweeping Massive Horn */}
+  <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    {/* Primary Sharp Horn */}
     <path 
-      d="M28 42C24 32 14 18 2 12C0 11 2 16 6 22C12 32 18 48 24 54C28 58 32 52 28 42Z" 
-      fill="currentColor"
-    />
-    <path 
-      d="M2 12C8 16 18 26 24 38C26 42 28 38 27 34C24 24 16 16 2 12Z" 
-      fill="#F59E0B"
-    />
-
-    {/* Right Sweeping Massive Horn */}
-    <path 
-      d="M72 42C76 32 86 18 98 12C100 11 98 16 94 22C88 32 82 48 76 54C72 58 68 52 72 42Z" 
-      fill="currentColor"
-    />
-    <path 
-      d="M98 12C92 16 82 26 76 38C74 42 72 38 73 34C76 24 84 16 98 12Z" 
-      fill="#F59E0B"
-    />
-
-    {/* Main Bull Head Shield & Angular Skull */}
-    <path 
-      d="M26 36L50 20L74 36L70 60L58 76L50 94L42 76L30 60L26 36Z" 
-      fill="currentColor" 
-      fillOpacity="0.3"
+      d="M9 7.5L3 2.5C4.5 4.5 7 7 8 8.5" 
       stroke="currentColor" 
-      strokeWidth="3" 
-      strokeLinejoin="round"
+      strokeWidth="1.8" 
+      strokeLinecap="round" 
+      strokeLinejoin="round" 
     />
-
-    {/* Forehead Crest & Brow */}
-    <polygon points="34,38 50,26 66,38 58,48 50,44 42,48" fill="currentColor" />
-    <polygon points="50,30 58,44 50,56 42,44" fill="#00D2FF" fillOpacity="0.8" />
-
-    {/* Fierce Glowing Eyes */}
-    <polygon points="34,50 44,52 38,57" fill="#F59E0B" />
-    <polygon points="66,50 56,52 62,57" fill="#F59E0B" />
-    <circle cx="39" cy="53" r="1.5" fill="#FFF" />
-    <circle cx="61" cy="53" r="1.5" fill="#FFF" />
-
-    {/* Snout & Muzzle Plate */}
-    <polygon points="40,68 50,62 60,68 56,84 44,84" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
-    
-    {/* Nose Ring & Nostril Accents */}
-    <circle cx="46" cy="74" r="1.8" fill="#050814" />
-    <circle cx="54" cy="74" r="1.8" fill="#050814" />
-    <path d="M45 78C45 83 55 83 55 78" stroke="#F59E0B" strokeWidth="2.5" strokeLinecap="round" />
+    {/* Secondary Rear Horn */}
+    <path 
+      d="M11.5 6.5L8 2.5" 
+      stroke="currentColor" 
+      strokeWidth="1.8" 
+      strokeLinecap="round" 
+    />
+    {/* Bull Face Profile (Forehead -> Snout/Muzzle -> Chin -> Jawline) */}
+    <path 
+      d="M8 8.5L5.8 11.5C4.8 12.8 3.5 14.5 3.5 16C3.5 17.5 5 18.5 6.8 18C8.2 17.5 10.5 15.5 12 13" 
+      stroke="currentColor" 
+      strokeWidth="1.8" 
+      strokeLinecap="round" 
+      strokeLinejoin="round" 
+    />
+    {/* Back of Head / Neck Slope */}
+    <path 
+      d="M11 7.5C14 8.5 18 10.5 20.5 12.5" 
+      stroke="currentColor" 
+      strokeWidth="1.8" 
+      strokeLinecap="round" 
+    />
+    {/* Slanted Amber Eye */}
+    <path 
+      d="M7 12L8.2 11.2" 
+      stroke="#F59E0B" 
+      strokeWidth="2" 
+      strokeLinecap="round" 
+    />
+    {/* Lower Jaw / Neck Accent */}
+    <path 
+      d="M11.5 17L13.5 19" 
+      stroke="currentColor" 
+      strokeWidth="1.8" 
+      strokeLinecap="round" 
+    />
   </svg>
 );
