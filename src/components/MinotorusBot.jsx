@@ -11,27 +11,32 @@ import {
   Coins, 
   Wallet,
   Copy,
+  Plus,
+  Trash2,
+  Users,
+  AlertCircle,
   ExternalLink
 } from 'lucide-react';
-import { EthIcon, BnbIcon, PolygonIcon, AvaxIcon, ArbitrumIcon, OptimismIcon, BaseIcon, SolanaIcon, UsdcIcon } from './Icons';
-
-/**
- * Custom SVG for Minotorus Bull Head
- */
-export const BullHeadIcon = ({ className = "w-6 h-6" }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-    {/* Stylized Bull / Minotaur Head */}
-    <path d="M4.5 3.5C4 2 2.5 1.5 1.5 2C1 2.5 1 4 2.5 5.5C4 7 5.5 8 6 9.5C6.5 11 6.5 12 6.5 13C6.5 15.5 8 18 10 19.5L10.5 21C10.7 21.6 11.3 22 12 22C12.7 22 13.3 21.6 13.5 21L14 19.5C16 18 17.5 15.5 17.5 13C17.5 12 17.5 11 18 9.5C18.5 8 20 7 21.5 5.5C23 4 23 2.5 22.5 2C21.5 1.5 20 2 19.5 3.5C18.5 6.5 16.5 8 14.5 8C13.5 8 12.8 7.5 12 7.5C11.2 7.5 10.5 8 9.5 8C7.5 8 5.5 6.5 4.5 3.5ZM9 12C9.6 12 10 12.4 10 13C10 13.6 9.6 14 9 14C8.4 14 8 13.6 8 13C8 12.4 8.4 12 9 12ZM15 12C15.6 12 16 12.4 16 13C16 13.6 15.6 14 15 14C14.4 14 14 13.6 14 13C14 12.4 14.4 12 15 12ZM10.5 16.5C11 16.2 11.5 16 12 16C12.5 16 13 16.2 13.5 16.5C13.8 16.7 13.8 17.2 13.5 17.5C13.2 17.8 12.7 17.8 12.4 17.5C12.3 17.4 12.1 17.3 12 17.3C11.9 17.3 11.7 17.4 11.6 17.5C11.3 17.8 10.8 17.8 10.5 17.5C10.2 17.2 10.2 16.7 10.5 16.5Z" />
-  </svg>
-);
+import { 
+  EthIcon, 
+  BnbIcon, 
+  PolygonIcon, 
+  AvaxIcon, 
+  ArbitrumIcon, 
+  OptimismIcon, 
+  BaseIcon, 
+  SolanaIcon, 
+  UsdcIcon,
+  BullHeadIcon 
+} from './Icons';
 
 const SUPPORTED_ASSETS = [
-  { id: 'ETH', name: 'Ethereum (ETH)', icon: EthIcon, defaultAmounts: ['0.1 ETH', '1.0 ETH', '5.0 ETH', '10.0 ETH'] },
-  { id: 'USDC', name: 'USD Coin (USDC)', icon: UsdcIcon, defaultAmounts: ['100 USDC', '500 USDC', '1,000 USDC', '5,000 USDC'] },
-  { id: 'SOL', name: 'Solana (SOL)', icon: SolanaIcon, defaultAmounts: ['1 SOL', '5 SOL', '10 SOL', '50 SOL'] },
-  { id: 'BNB', name: 'BNB Chain (BNB)', icon: BnbIcon, defaultAmounts: ['0.5 BNB', '2.0 BNB', '5.0 BNB', '10.0 BNB'] },
-  { id: 'AVAX', name: 'Avalanche (AVAX)', icon: AvaxIcon, defaultAmounts: ['10 AVAX', '50 AVAX', '100 AVAX'] },
-  { id: 'MATIC', name: 'Polygon (POL)', icon: PolygonIcon, defaultAmounts: ['100 POL', '500 POL', '1,000 POL'] }
+  { id: 'ETH', name: 'Ethereum (ETH)', icon: EthIcon, defaultAmounts: [0.1, 1.0, 5.0, 10.0], unit: 'ETH' },
+  { id: 'USDC', name: 'USD Coin (USDC)', icon: UsdcIcon, defaultAmounts: [100, 500, 1000, 5000], unit: 'USDC' },
+  { id: 'SOL', name: 'Solana (SOL)', icon: SolanaIcon, defaultAmounts: [1, 5, 10, 50], unit: 'SOL' },
+  { id: 'BNB', name: 'BNB Chain (BNB)', icon: BnbIcon, defaultAmounts: [0.5, 2.0, 5.0, 10.0], unit: 'BNB' },
+  { id: 'AVAX', name: 'Avalanche (AVAX)', icon: AvaxIcon, defaultAmounts: [10, 50, 100], unit: 'AVAX' },
+  { id: 'MATIC', name: 'Polygon (POL)', icon: PolygonIcon, defaultAmounts: [100, 500, 1000], unit: 'POL' }
 ];
 
 const SUPPORTED_CHAINS = [
@@ -47,14 +52,24 @@ const SUPPORTED_CHAINS = [
 
 const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [step, setStep] = useState('GREETING'); // GREETING, SELECT_INPUT, SELECT_AMOUNT, SELECT_OUTPUT, INPUT_ADDRESS, CONFIRM, EXECUTING, COMPLETED
+  const [step, setStep] = useState('GREETING'); // GREETING, SELECT_INPUT, SELECT_AMOUNT, SELECT_OUTPUT, SELECT_SPLIT_MODE, INPUT_WALLETS, CONFIRM, EXECUTING, COMPLETED
   
   // Selected user options through the guided schema
   const [inputAsset, setInputAsset] = useState(null);
-  const [inputAmount, setInputAmount] = useState('');
+  const [inputAmountNum, setInputAmountNum] = useState(1.0);
+  const [inputAmountStr, setInputAmountStr] = useState('');
   const [outputChain, setOutputChain] = useState(null);
-  const [recipientAddress, setRecipientAddress] = useState('');
-  const [customAddressInput, setCustomAddressInput] = useState('');
+  
+  // Multi-wallet destination management
+  const [splitMode, setSplitMode] = useState('single'); // 'single' (1 wallet) or 'multi' (multiple wallets with custom amounts)
+  const [singleWalletAddress, setSingleWalletAddress] = useState('');
+  
+  // List of multi-wallets: [{ address: '', amount: '' }, { address: '', amount: '' }]
+  const [multiWallets, setMultiWallets] = useState([
+    { address: '', amount: '' },
+    { address: '', amount: '' }
+  ]);
+
   const [generatedSecretNote, setGeneratedSecretNote] = useState('');
   const [copiedNote, setCopiedNote] = useState(false);
   const [unreadCount, setUnreadCount] = useState(1);
@@ -64,7 +79,7 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
     {
       id: 'welcome-1',
       sender: 'minotorus',
-      text: "Salutations ! Je suis Minotorus 🐂, le gardien du Labyrinthe. Je connais tous les recoins du protocole.",
+      text: "Salutations ! Je suis Minotorus 🐂, le gardien du Labyrinthe. Je connais chaque détour et dédale du protocole.",
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     },
     {
@@ -123,18 +138,26 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
     setTimeout(() => {
       addBotMessage(`Parfait ! Quel montant de ${asset.id} voulez-vous déposer dans le pool de confidentialité ?`);
       setStep('SELECT_AMOUNT');
-    }, 400);
+    }, 350);
   };
 
   // 2. User picks Amount
-  const handleSelectAmount = (amountStr) => {
-    setInputAmount(amountStr);
-    addUserMessage(`Montant sélectionné : ${amountStr}`);
+  const handleSelectAmount = (amountVal, amountLabel) => {
+    setInputAmountNum(amountVal);
+    setInputAmountStr(amountLabel);
+    addUserMessage(`Montant sélectionné : ${amountLabel}`);
+
+    // Pre-populate multi-wallets with equal split
+    const half = (amountVal / 2).toFixed(4);
+    setMultiWallets([
+      { address: '', amount: half },
+      { address: '', amount: half }
+    ]);
 
     setTimeout(() => {
       addBotMessage(`Très bien. Sur quelle blockchain de destination souhaitez-vous que vos fonds anonymisés ressortent ?`);
       setStep('SELECT_OUTPUT');
-    }, 400);
+    }, 350);
   };
 
   // 3. User picks Output Chain
@@ -143,44 +166,95 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
     addUserMessage(`Je veux ressortir sur ${chain.name}.`);
 
     setTimeout(() => {
-      addBotMessage(`Entrez l'adresse de réception sécurisée sur le réseau ${chain.name} où les fonds doivent être envoyés :`);
-      setStep('INPUT_ADDRESS');
-    }, 400);
+      addBotMessage(`Comment souhaitez-vous recevoir vos fonds sur ${chain.name} ? En 1 adresse unique ou répartis sur plusieurs portefeuilles (Multi-Wallets) avec des montants distincts ?`);
+      setStep('SELECT_SPLIT_MODE');
+    }, 350);
   };
 
-  // 4. User enters destination address
-  const handleConfirmAddress = (e) => {
-    e?.preventDefault();
-    if (!customAddressInput.trim() || customAddressInput.length < 10) return;
+  // 4. User chooses Single Wallet vs Multi-Wallet Distribution
+  const handleChooseSplitMode = (mode) => {
+    setSplitMode(mode);
+    if (mode === 'single') {
+      addUserMessage("Mode 1 Portefeuille Unique (100% des fonds).");
+      setTimeout(() => {
+        addBotMessage(`Entrez l'adresse de réception sécurisée sur le réseau ${outputChain?.name} :`);
+        setStep('INPUT_WALLETS');
+      }, 350);
+    } else {
+      addUserMessage("Mode Multi-Portefeuilles avec découpage personnalisé des montants.");
+      setTimeout(() => {
+        addBotMessage(`Définissez vos adresses de destination et le montant précis à envoyer à chaque portefeuille (Total : ${inputAmountStr}) :`);
+        setStep('INPUT_WALLETS');
+      }, 350);
+    }
+  };
 
-    const addr = customAddressInput.trim();
-    setRecipientAddress(addr);
-    addUserMessage(`Adresse de destination : ${addr.substring(0, 8)}...${addr.substring(addr.length - 6)}`);
+  // Helper for multi-wallets modifications
+  const handleAddWallet = () => {
+    if (multiWallets.length >= 4) return;
+    setMultiWallets(prev => [...prev, { address: '', amount: '' }]);
+  };
+
+  const handleRemoveWallet = (index) => {
+    if (multiWallets.length <= 2) return;
+    setMultiWallets(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const handleWalletChange = (index, field, value) => {
+    setMultiWallets(prev => {
+      const updated = [...prev];
+      updated[index][field] = value;
+      return updated;
+    });
+  };
+
+  // Calculate sum of multi-wallet amounts
+  const currentAllocatedSum = multiWallets.reduce((acc, curr) => {
+    const val = parseFloat(curr.amount) || 0;
+    return acc + val;
+  }, 0);
+
+  const isMultiWalletBalanced = Math.abs(currentAllocatedSum - inputAmountNum) < 0.0001;
+
+  // 5. Confirm destination wallet(s)
+  const handleConfirmWallets = (e) => {
+    e?.preventDefault();
+    if (splitMode === 'single') {
+      if (!singleWalletAddress.trim() || singleWalletAddress.length < 8) return;
+      addUserMessage(`Adresse de destination : ${singleWalletAddress.substring(0, 8)}...${singleWalletAddress.substring(singleWalletAddress.length - 6)} (100% des fonds)`);
+    } else {
+      // Validate all multi-wallets
+      const allValid = multiWallets.every(w => w.address.trim().length >= 8 && parseFloat(w.amount) > 0);
+      if (!allValid || !isMultiWalletBalanced) return;
+
+      addUserMessage(`Répartition sur ${multiWallets.length} portefeuilles validée (Total: ${inputAmountStr}).`);
+    }
 
     setTimeout(() => {
-      addBotMessage(`Voici le récapitulatif de votre opération automatisée par Minotorus :`);
+      addBotMessage(`Voici le récapitulatif complet de votre mixage automatisé par Minotorus :`);
       setStep('CONFIRM');
     }, 400);
   };
 
-  // 5. User executes the automated mix
+  // 6. User executes the automated mix
   const handleExecuteMix = () => {
     setStep('EXECUTING');
-    addUserMessage("Confirmer et exécuter le mixage maintenant ⚡");
+    addUserMessage("Confirmer et exécuter le mixage ZK maintenant ⚡");
 
     setTimeout(() => {
       // Generate unique cryptographic secret note
       const secretNote = `labyrinth-v1-zk-${Math.random().toString(36).substring(2, 12)}-${Math.random().toString(36).substring(2, 10)}`;
       setGeneratedSecretNote(secretNote);
       setStep('COMPLETED');
-      addBotMessage(`🎉 Opération de mixage ZK réussie ! Votre note secrète a été générée et enregistrée.`);
+      addBotMessage(`🎉 Opération de mixage ZK réussie ! Votre note secrète a été générée et enregistrée avec succès.`);
       
       if (onTriggerMix) {
         onTriggerMix({
           asset: inputAsset?.id,
-          amount: inputAmount,
+          amount: inputAmountStr,
           destinationChain: outputChain?.name,
-          recipient: recipientAddress,
+          splitMode,
+          wallets: splitMode === 'single' ? [{ address: singleWalletAddress, amount: inputAmountStr }] : multiWallets,
           note: secretNote
         });
       }
@@ -191,10 +265,15 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
   const handleReset = () => {
     setStep('GREETING');
     setInputAsset(null);
-    setInputAmount('');
+    setInputAmountNum(1.0);
+    setInputAmountStr('');
     setOutputChain(null);
-    setRecipientAddress('');
-    setCustomAddressInput('');
+    setSplitMode('single');
+    setSingleWalletAddress('');
+    setMultiWallets([
+      { address: '', amount: '' },
+      { address: '', amount: '' }
+    ]);
     setGeneratedSecretNote('');
     setCopiedNote(false);
     setMessages([
@@ -220,23 +299,23 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
       {/* 💬 FLOATING CHAT BOX (Opens directly above the floating bottom button) */}
       {isOpen && (
         <div 
-          className="w-[340px] sm:w-[380px] h-[520px] max-h-[82vh] mb-3 rounded-2xl shadow-2xl border border-cyan-500/40 bg-slate-950/95 backdrop-blur-xl flex flex-col overflow-hidden animate-fadeIn"
-          style={{ boxShadow: '0 20px 50px rgba(0, 210, 255, 0.25)' }}
+          className="w-[340px] sm:w-[410px] h-[550px] max-h-[84vh] mb-3 rounded-2xl shadow-2xl border border-cyan-500/40 bg-slate-950/95 backdrop-blur-xl flex flex-col overflow-hidden animate-fadeIn"
+          style={{ boxShadow: '0 20px 50px rgba(0, 210, 255, 0.3)' }}
         >
-          {/* Header */}
+          {/* Header with Minotaur Bull Profile */}
           <div className="p-3.5 bg-gradient-to-r from-slate-900 via-cyan-950/80 to-slate-900 border-b border-cyan-500/30 flex items-center justify-between">
             <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-600 to-amber-500 p-0.5 shadow-md flex items-center justify-center text-white">
-                <BullHeadIcon className="w-6 h-6 text-white" />
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-600 via-slate-900 to-amber-500 p-1 shadow-md flex items-center justify-center text-cyan-300 border border-cyan-400/50">
+                <BullHeadIcon className="w-7 h-7 text-cyan-300 drop-shadow" />
               </div>
               <div>
                 <div className="flex items-center gap-1.5">
-                  <h3 className="font-bold text-sm text-white flex items-center gap-1">
+                  <h3 className="font-bold text-sm text-white tracking-wide">
                     Minotorus
                   </h3>
                   <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                 </div>
-                <p className="text-[10px] text-cyan-300/80 font-mono">Guide du Labyrinthe</p>
+                <p className="text-[10px] text-cyan-300/90 font-mono">Gardien & Guide du Labyrinthe</p>
               </div>
             </div>
 
@@ -272,7 +351,7 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
                 )}
 
                 <div
-                  className={`max-w-[82%] p-3 rounded-2xl leading-relaxed shadow-sm ${
+                  className={`max-w-[84%] p-3 rounded-2xl leading-relaxed shadow-sm ${
                     msg.sender === 'user'
                       ? 'bg-cyan-600 text-white rounded-br-none'
                       : 'bg-slate-900/90 text-slate-200 border border-slate-800 rounded-bl-none'
@@ -290,7 +369,7 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
             {(step === 'GREETING' || step === 'SELECT_INPUT') && (
               <div className="p-2.5 rounded-xl bg-slate-900/70 border border-cyan-500/20 space-y-2 mt-2">
                 <span className="text-[11px] font-bold text-cyan-300 block">
-                  Sélectionnez la cryptomonnaie :
+                  Sélectionnez la cryptomonnaie à déposer :
                 </span>
                 <div className="grid grid-cols-2 gap-1.5">
                   {SUPPORTED_ASSETS.map((asset) => {
@@ -317,15 +396,18 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
                   Choisissez le montant de {inputAsset.id} :
                 </span>
                 <div className="grid grid-cols-2 gap-1.5">
-                  {inputAsset.defaultAmounts.map((amt) => (
-                    <button
-                      key={amt}
-                      onClick={() => handleSelectAmount(amt)}
-                      className="p-2 rounded-lg bg-slate-800/80 hover:bg-cyan-600/20 border border-slate-700 hover:border-cyan-500 text-center transition-all text-xs text-cyan-400 font-bold font-mono"
-                    >
-                      {amt}
-                    </button>
-                  ))}
+                  {inputAsset.defaultAmounts.map((amt) => {
+                    const label = `${amt} ${inputAsset.unit}`;
+                    return (
+                      <button
+                        key={amt}
+                        onClick={() => handleSelectAmount(amt, label)}
+                        className="p-2 rounded-lg bg-slate-800/80 hover:bg-cyan-600/20 border border-slate-700 hover:border-cyan-500 text-center transition-all text-xs text-cyan-400 font-bold font-mono"
+                      >
+                        {label}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             )}
@@ -354,63 +436,191 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
               </div>
             )}
 
-            {/* 📥 STEP 4: Input Recipient Address Form */}
-            {step === 'INPUT_ADDRESS' && outputChain && (
-              <form onSubmit={handleConfirmAddress} className="p-2.5 rounded-xl bg-slate-900/70 border border-cyan-500/20 space-y-2 mt-2">
-                <label className="text-[11px] font-bold text-cyan-300 block">
-                  Adresse de Réception ({outputChain.name}) :
-                </label>
-                <input
-                  type="text"
-                  required
-                  placeholder="0x... ou adresse réseau"
-                  value={customAddressInput}
-                  onChange={(e) => setCustomAddressInput(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white font-mono focus:border-cyan-400 outline-none"
-                />
+            {/* 👥 STEP 4: Choose Single vs Multi-Wallet Distribution */}
+            {step === 'SELECT_SPLIT_MODE' && (
+              <div className="p-2.5 rounded-xl bg-slate-900/70 border border-cyan-500/20 space-y-2.5 mt-2">
+                <span className="text-[11px] font-bold text-cyan-300 block">
+                  Mode de Réception des Fonds :
+                </span>
+                <div className="grid grid-cols-1 gap-2">
+                  <button
+                    onClick={() => handleChooseSplitMode('single')}
+                    className="p-2.5 rounded-xl bg-slate-800/90 hover:bg-cyan-600/20 border border-slate-700 hover:border-cyan-400 text-left transition-all space-y-0.5"
+                  >
+                    <div className="flex items-center gap-2 text-xs font-bold text-white">
+                      <Wallet className="w-4 h-4 text-cyan-400" />
+                      <span>1 Portefeuille Unique (100%)</span>
+                    </div>
+                    <p className="text-[10px] text-slate-400 pl-6">
+                      Envoi de la totalité ({inputAmountStr}) vers une seule adresse.
+                    </p>
+                  </button>
+
+                  <button
+                    onClick={() => handleChooseSplitMode('multi')}
+                    className="p-2.5 rounded-xl bg-purple-950/40 hover:bg-purple-900/40 border border-purple-500/40 hover:border-purple-400 text-left transition-all space-y-0.5"
+                  >
+                    <div className="flex items-center gap-2 text-xs font-bold text-purple-300">
+                      <Users className="w-4 h-4 text-purple-400" />
+                      <span>Multi-Portefeuilles (Découpage Anonyme) 🔥</span>
+                    </div>
+                    <p className="text-[10px] text-purple-200/80 pl-6">
+                      Fractionner les montants sur 2 à 4 portefeuilles distincts pour un anonymat maximal.
+                    </p>
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* 📥 STEP 5: Input Recipient Wallet(s) & Custom Amount Distribution */}
+            {step === 'INPUT_WALLETS' && outputChain && (
+              <form onSubmit={handleConfirmWallets} className="p-3 rounded-xl bg-slate-900/80 border border-cyan-500/30 space-y-3 mt-2">
+                
+                {splitMode === 'single' ? (
+                  <div className="space-y-2">
+                    <label className="text-[11px] font-bold text-cyan-300 block">
+                      Adresse de Réception ({outputChain.name}) :
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="0x... ou adresse réseau"
+                      value={singleWalletAddress}
+                      onChange={(e) => setSingleWalletAddress(e.target.value)}
+                      className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white font-mono focus:border-cyan-400 outline-none"
+                    />
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <label className="text-[11px] font-bold text-purple-300 flex items-center gap-1">
+                        <Users className="w-3.5 h-3.5" />
+                        <span>Répartition Multi-Portefeuilles :</span>
+                      </label>
+                      <span className={`text-[10px] font-mono font-bold ${isMultiWalletBalanced ? 'text-emerald-400' : 'text-amber-400'}`}>
+                        {currentAllocatedSum.toFixed(4)} / {inputAmountNum} {inputAsset?.unit}
+                      </span>
+                    </div>
+
+                    <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
+                      {multiWallets.map((w, idx) => (
+                        <div key={idx} className="p-2 rounded-lg bg-slate-950 border border-slate-800 space-y-1.5">
+                          <div className="flex items-center justify-between text-[10px] text-slate-400">
+                            <span className="font-bold text-purple-400">Portefeuille #{idx + 1}</span>
+                            {multiWallets.length > 2 && (
+                              <button
+                                type="button"
+                                onClick={() => handleRemoveWallet(idx)}
+                                className="text-rose-400 hover:text-rose-300"
+                                title="Supprimer"
+                              >
+                                <Trash2 className="w-3 h-3" />
+                              </button>
+                            )}
+                          </div>
+
+                          <div className="grid grid-cols-3 gap-1.5">
+                            <input
+                              type="text"
+                              required
+                              placeholder="0x... adresse"
+                              value={w.address}
+                              onChange={(e) => handleWalletChange(idx, 'address', e.target.value)}
+                              className="col-span-2 bg-slate-900 border border-slate-700 rounded px-2 py-1 text-[11px] text-white font-mono outline-none focus:border-purple-400"
+                            />
+                            <div className="relative">
+                              <input
+                                type="number"
+                                step="any"
+                                required
+                                placeholder="Montant"
+                                value={w.amount}
+                                onChange={(e) => handleWalletChange(idx, 'amount', e.target.value)}
+                                className="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-[11px] text-purple-300 font-mono font-bold outline-none focus:border-purple-400"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    {multiWallets.length < 4 && (
+                      <button
+                        type="button"
+                        onClick={handleAddWallet}
+                        className="w-full py-1.5 rounded-lg border border-dashed border-purple-500/40 text-purple-300 text-[11px] font-bold hover:bg-purple-500/10 transition-all flex items-center justify-center gap-1"
+                      >
+                        <Plus className="w-3 h-3" />
+                        <span>+ Ajouter un portefeuille</span>
+                      </button>
+                    )}
+
+                    {!isMultiWalletBalanced && (
+                      <div className="flex items-center gap-1.5 text-[10px] text-amber-400 bg-amber-500/10 p-1.5 rounded-lg border border-amber-500/30">
+                        <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                        <span>La somme des montants doit égaler {inputAmountStr}</span>
+                      </div>
+                    )}
+                  </div>
+                )}
+
                 <button
                   type="submit"
-                  disabled={!customAddressInput.trim() || customAddressInput.length < 10}
+                  disabled={splitMode === 'multi' && !isMultiWalletBalanced}
                   className="w-full py-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold text-xs rounded-lg transition-all disabled:opacity-50"
                 >
-                  Valider l'Adresse →
+                  Valider la Destination →
                 </button>
               </form>
             )}
 
-            {/* ⚡ STEP 5: Final Summary & Execute */}
+            {/* ⚡ STEP 6: Final Summary & Execute */}
             {step === 'CONFIRM' && (
               <div className="p-3 rounded-xl bg-cyan-950/30 border border-cyan-500/40 space-y-2.5 mt-2">
                 <span className="text-[11px] font-bold text-cyan-300 block flex items-center gap-1.5">
                   <Shield className="w-3.5 h-3.5" />
-                  Récapitulatif de Mixage :
+                  Récapitulatif du Mixage ZK :
                 </span>
 
-                <div className="space-y-1 text-[11px] font-mono text-slate-300 bg-slate-950/60 p-2.5 rounded-lg border border-slate-800">
+                <div className="space-y-1.5 text-[11px] font-mono text-slate-300 bg-slate-950/80 p-2.5 rounded-lg border border-slate-800">
                   <div className="flex justify-between">
-                    <span className="text-slate-500">Actif Déposé :</span>
-                    <strong className="text-white">{inputAmount}</strong>
+                    <span className="text-slate-500">Montant Déposé :</span>
+                    <strong className="text-white font-bold">{inputAmountStr}</strong>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-500">Réseau Cible :</span>
+                    <span className="text-slate-500">Blockchain Cible :</span>
                     <strong className="text-cyan-400">{outputChain?.name}</strong>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-500">Destinataire :</span>
-                    <strong className="text-amber-400 truncate max-w-[140px]">{recipientAddress}</strong>
+                    <span className="text-slate-500">Mode Réception :</span>
+                    <strong className={splitMode === 'multi' ? 'text-purple-400' : 'text-amber-400'}>
+                      {splitMode === 'multi' ? `Multi-Wallets (${multiWallets.length} adresses)` : 'Portefeuille Unique'}
+                    </strong>
                   </div>
+
+                  {splitMode === 'multi' && (
+                    <div className="pt-1.5 border-t border-slate-800 space-y-1">
+                      {multiWallets.map((w, idx) => (
+                        <div key={idx} className="flex justify-between text-[10px]">
+                          <span className="text-slate-400">#{idx + 1} {w.address.substring(0, 6)}...{w.address.substring(w.address.length - 4)}</span>
+                          <strong className="text-purple-300">{w.amount} {inputAsset?.unit}</strong>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
                   <div className="flex justify-between pt-1 border-t border-slate-800">
                     <span className="text-slate-500">ZK Shield :</span>
-                    <span className="text-emerald-400 font-bold">100% Anonyme</span>
+                    <span className="text-emerald-400 font-bold">100% Anonyme & Non-Traçable</span>
                   </div>
                 </div>
 
                 <button
                   onClick={handleExecuteMix}
-                  className="w-full py-2.5 bg-gradient-to-r from-cyan-500 to-amber-400 hover:from-cyan-400 hover:to-amber-300 text-slate-950 font-extrabold text-xs rounded-lg shadow-lg flex items-center justify-center gap-1.5 transition-all"
+                  className="w-full py-2.5 bg-gradient-to-r from-cyan-500 via-amber-400 to-cyan-400 hover:from-cyan-400 hover:to-amber-300 text-slate-950 font-extrabold text-xs rounded-lg shadow-lg flex items-center justify-center gap-1.5 transition-all"
                 >
                   <Sparkles className="w-4 h-4 text-slate-950" />
-                  <span>Exécuter avec Minotorus ⚡</span>
+                  <span>Déclencher le Mixage avec Minotorus ⚡</span>
                 </button>
               </div>
             )}
@@ -419,16 +629,16 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
             {step === 'EXECUTING' && (
               <div className="p-4 rounded-xl bg-slate-900 border border-cyan-500/30 text-center space-y-2">
                 <div className="w-8 h-8 rounded-full border-2 border-cyan-500 border-t-transparent animate-spin mx-auto"></div>
-                <p className="text-xs font-mono text-cyan-300">Génération de la preuve ZK-SNARK & mixage en cours...</p>
+                <p className="text-xs font-mono text-cyan-300">Génération de la preuve ZK-SNARK & répartition multi-wallets en cours...</p>
               </div>
             )}
 
-            {/* 🎉 STEP 6: Completed Result */}
+            {/* 🎉 STEP 7: Completed Result */}
             {step === 'COMPLETED' && (
               <div className="p-3 rounded-xl bg-emerald-950/30 border border-emerald-500/40 space-y-2.5 mt-2">
                 <div className="flex items-center gap-1.5 text-emerald-400 font-bold text-xs">
                   <CheckCircle2 className="w-4 h-4" />
-                  <span>Mixage ZK Déclenché avec Succès !</span>
+                  <span>Mixage ZK Exécuté avec Succès !</span>
                 </div>
 
                 <div className="space-y-1 bg-slate-950 p-2.5 rounded-lg border border-slate-800">
@@ -473,26 +683,26 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
         </div>
       )}
 
-      {/* 🐂 FLOATING ACTION BUTTON (FAB) WITH BULL HEAD ICON */}
+      {/* 🐂 FLOATING ACTION BUTTON (FAB) WITH AUTHENTIC BULL HEAD ICON */}
       <button
         onClick={toggleChat}
-        className="relative group p-3.5 sm:p-4 rounded-2xl bg-gradient-to-tr from-slate-950 via-cyan-900 to-amber-600 text-white border-2 border-cyan-400 shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center"
+        className="relative group p-3.5 sm:p-4 rounded-2xl bg-gradient-to-tr from-slate-950 via-slate-900 to-cyan-950 text-cyan-300 border-2 border-cyan-400 shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center"
         style={{
-          boxShadow: '0 0 25px rgba(0, 210, 255, 0.5), 0 0 10px rgba(245, 158, 11, 0.4)'
+          boxShadow: '0 0 30px rgba(0, 210, 255, 0.45), 0 0 10px rgba(245, 158, 11, 0.3)'
         }}
-        title="Minotorus — Guide de Mixage Automatisé"
+        title="Minotorus — Guide de Mixage & Multi-Wallets Automatisé"
         aria-label="Minotorus Bot"
       >
         {/* Glowing Aura Ring */}
-        <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-cyan-400 to-amber-500 blur-sm opacity-60 group-hover:opacity-100 transition-opacity animate-pulse"></div>
+        <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-cyan-400 via-amber-500 to-cyan-400 blur-sm opacity-60 group-hover:opacity-100 transition-opacity animate-pulse"></div>
 
         <div className="relative flex items-center justify-center">
-          <BullHeadIcon className="w-6 h-6 sm:w-7 sm:h-7 text-cyan-300 group-hover:text-white transition-colors" />
+          <BullHeadIcon className="w-6 h-6 sm:w-7 sm:h-7 text-cyan-300 group-hover:text-amber-400 transition-colors" />
         </div>
 
         {/* Unread Message Pill Badge */}
         {!isOpen && unreadCount > 0 && (
-          <span className="absolute -top-1.5 -right-1.5 bg-amber-500 text-slate-950 text-[10px] font-extrabold px-1.5 py-0.5 rounded-full border border-slate-950 shadow-md animate-bounce">
+          <span className="absolute -top-1.5 -right-1.5 bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 text-[10px] font-extrabold px-2 py-0.5 rounded-full border border-slate-950 shadow-md animate-bounce">
             Minotorus
           </span>
         )}

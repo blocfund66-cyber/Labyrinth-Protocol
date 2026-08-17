@@ -141,3 +141,25 @@ export const XLogoIcon = ({ className = "w-4 h-4" }) => (
     <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
   </svg>
 );
+
+// 15. Minotorus Authentic Cyber-Bull Head Vector Icon
+export const BullHeadIcon = ({ className = "w-6 h-6" }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    {/* Left Curved Horn */}
+    <path d="M4.5 2.5C2.5 1 0.8 2 1.2 5.5C1.8 9.5 4.8 12 7 12.5L7.8 10.2C5.6 9.2 3.4 7.2 3.4 4.6C3.4 3.4 4 2.8 4.5 2.5Z" fill="currentColor" />
+    {/* Right Curved Horn */}
+    <path d="M19.5 2.5C21.5 1 23.2 2 22.8 5.5C22.2 9.5 19.2 12 17 12.5L16.2 10.2C18.4 9.2 20.6 7.2 20.6 4.6C20.6 3.4 20 2.8 19.5 2.5Z" fill="currentColor" />
+    {/* Bull Skull / Head Shield */}
+    <path d="M6 7L12 4.5L18 7L17 13.5L14.5 17.5L12 21.5L9.5 17.5L7 13.5L6 7Z" fill="currentColor" fillOpacity="0.25" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+    {/* Crown Forehead Plate */}
+    <path d="M8 8L12 6L16 8L12 12.5L8 8Z" fill="currentColor" />
+    {/* Fierce Amber Eyes */}
+    <polygon points="8.2,12.5 10.2,13.2 8.5,14.2" fill="#F59E0B" />
+    <polygon points="15.8,12.5 13.8,13.2 15.5,14.2" fill="#F59E0B" />
+    {/* Snout and Muzzle */}
+    <path d="M9.2 16.5L12 15.5L14.8 16.5L13.8 20.5H10.2L9.2 16.5Z" fill="currentColor" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
+    {/* Nostrils */}
+    <circle cx="10.8" cy="18.5" r="0.7" fill="#050814" />
+    <circle cx="13.2" cy="18.5" r="0.7" fill="#050814" />
+  </svg>
+);

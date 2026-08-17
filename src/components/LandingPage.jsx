@@ -18,7 +18,7 @@ import {
   FileCode2,
   ChevronRight
 } from 'lucide-react';
-import { AbstractLabyrinthLogo } from './Icons';
+import { AbstractLabyrinthLogo, BullHeadIcon } from './Icons';
 
 const LandingPage = ({ onEnterApp, t }) => {
   const tLand = t.landing;
@@ -184,6 +184,64 @@ const LandingPage = ({ onEnterApp, t }) => {
               {tLand.feat4Desc}
             </p>
           </div>
+        </div>
+      </section>
+
+      {/* ========================================================================= */}
+      {/* 2.5. MINOTORUS ASSISTANT & MULTI-WALLETS SPLIT SHOWCASE */}
+      {/* ========================================================================= */}
+      <section id="minotorus-showcase" className="max-w-6xl mx-auto px-4 scroll-mt-24 scroll-reveal">
+        <div className="glass-panel p-8 sm:p-12 relative overflow-hidden border-cyan-500/40 bg-gradient-to-br from-slate-950 via-slate-900/90 to-cyan-950/40 shadow-2xl space-y-8">
+          
+          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+            <div className="space-y-4 max-w-2xl">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/15 border border-cyan-500/30 text-cyan-400 text-xs font-bold uppercase tracking-wider">
+                <BullHeadIcon className="w-4 h-4 text-cyan-400" />
+                <span>Assistant Flottant Exclusif</span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
+                Minotorus : Le Guide Automatisé du Labyrinthe
+              </h2>
+              <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                Minotorus est le gardien mythologique du protocole. Connaissant chaque dédale du Labyrinthe, il guide les utilisateurs étape par étape à travers un schéma déterministe pré-paramétré pour automatiser 100% du parcours de mixage sans friction technique.
+              </p>
+            </div>
+
+            <div className="w-20 h-20 rounded-3xl bg-gradient-to-tr from-cyan-600 via-slate-900 to-amber-500 p-1 shadow-2xl flex items-center justify-center text-cyan-300 border-2 border-cyan-400/60 shrink-0">
+              <BullHeadIcon className="w-14 h-14 text-cyan-300 drop-shadow-lg" />
+            </div>
+          </div>
+
+          {/* Key Minotorus Features Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+            <div className="p-5 rounded-2xl bg-slate-900/80 border border-cyan-500/20 space-y-2">
+              <div className="text-cyan-400 font-bold text-sm flex items-center gap-2">
+                <Sparkles className="w-4 h-4" /> Parcours Déterministe 1-Clic
+              </div>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Questionnaire interactif pas-à-pas : choix de la crypto, palier de dépôt et sélection de la blockchain cible.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-slate-900/80 border border-purple-500/30 space-y-2">
+              <div className="text-purple-400 font-bold text-sm flex items-center gap-2">
+                <Users className="w-4 h-4" /> Découpage Multi-Portefeuilles
+              </div>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Fractionnez les montants reçus sur 2 à 4 portefeuilles distincts avec montants sur-mesure pour briser tout traçage heuristique.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-slate-900/80 border border-amber-500/20 space-y-2">
+              <div className="text-amber-400 font-bold text-sm flex items-center gap-2">
+                <Lock className="w-4 h-4" /> Bouton Flottant Permanent
+              </div>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Accessible instantanément en bas à droite de l'écran avec une interface compacte au-dessus du bouton.
+              </p>
+            </div>
+          </div>
+
         </div>
       </section>
 
