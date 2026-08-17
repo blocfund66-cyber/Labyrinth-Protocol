@@ -296,12 +296,12 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
   };
 
   return (
-    <div className="fixed bottom-5 right-5 z-50 flex flex-col items-end">
+    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end pointer-events-none">
       
       {/* 💬 FLOATING CHAT & REGISTRE BOX (Opens directly above the floating bottom button) */}
       {isOpen && (
         <div 
-          className="w-[340px] sm:w-[420px] h-[570px] max-h-[85vh] mb-3 rounded-2xl shadow-2xl border border-cyan-500/40 bg-slate-950/95 backdrop-blur-xl flex flex-col overflow-hidden animate-fadeIn"
+          className="pointer-events-auto w-[340px] sm:w-[420px] h-[570px] max-h-[82vh] mb-3 rounded-2xl shadow-2xl border border-cyan-500/40 bg-slate-950/95 backdrop-blur-xl flex flex-col overflow-hidden animate-fadeIn"
           style={{ boxShadow: '0 20px 50px rgba(0, 210, 255, 0.35)' }}
         >
           {/* Header with Minotaur Bull Profile */}
@@ -753,7 +753,7 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
       {/* 🐂 FLOATING ACTION BUTTON (FAB) WITH AUTHENTIC BADASS BULL HEAD ICON */}
       <button
         onClick={toggleChat}
-        className="relative group p-3.5 sm:p-4 rounded-2xl bg-gradient-to-tr from-slate-950 via-slate-900 to-cyan-950 text-cyan-300 border-2 border-cyan-400 shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center"
+        className="pointer-events-auto relative group p-3.5 sm:p-4 rounded-2xl bg-gradient-to-tr from-slate-950 via-slate-900 to-cyan-950 text-cyan-300 border-2 border-cyan-400 shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center"
         style={{
           boxShadow: '0 0 30px rgba(0, 210, 255, 0.5), 0 0 15px rgba(245, 158, 11, 0.4)'
         }}

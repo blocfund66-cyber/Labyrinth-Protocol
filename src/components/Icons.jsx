@@ -142,52 +142,64 @@ export const XLogoIcon = ({ className = "w-4 h-4" }) => (
   </svg>
 );
 
-// 15. Minotorus Authentic Bull Profile Glyph Vector Icon (Matching Pastel Glyph Design Exactly)
+// 15. Minotorus Badass Geometric Cyber-Bull Head Vector Icon (Directly Inspired by Reference Images 1 & 2)
 export const BullHeadIcon = ({ className = "w-6 h-6" }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    {/* Primary Sharp Horn */}
+  <svg className={className} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    {/* Left Angular Horn */}
     <path 
-      d="M9 7.5L3 2.5C4.5 4.5 7 7 8 8.5" 
-      stroke="currentColor" 
-      strokeWidth="1.8" 
-      strokeLinecap="round" 
-      strokeLinejoin="round" 
+      d="M20 16L32 34L22 44L14 36L14 26L20 16Z" 
+      fill="currentColor" 
     />
-    {/* Secondary Rear Horn */}
     <path 
-      d="M11.5 6.5L8 2.5" 
-      stroke="currentColor" 
-      strokeWidth="1.8" 
-      strokeLinecap="round" 
+      d="M20 16L14 26L22 28L28 22L20 16Z" 
+      fill="#F59E0B" 
     />
-    {/* Bull Face Profile (Forehead -> Snout/Muzzle -> Chin -> Jawline) */}
+
+    {/* Right Angular Horn */}
     <path 
-      d="M8 8.5L5.8 11.5C4.8 12.8 3.5 14.5 3.5 16C3.5 17.5 5 18.5 6.8 18C8.2 17.5 10.5 15.5 12 13" 
-      stroke="currentColor" 
-      strokeWidth="1.8" 
-      strokeLinecap="round" 
-      strokeLinejoin="round" 
+      d="M80 16L68 34L78 44L86 36L86 26L80 16Z" 
+      fill="currentColor" 
     />
-    {/* Back of Head / Neck Slope */}
     <path 
-      d="M11 7.5C14 8.5 18 10.5 20.5 12.5" 
-      stroke="currentColor" 
-      strokeWidth="1.8" 
-      strokeLinecap="round" 
+      d="M80 16L86 26L78 28L72 22L80 16Z" 
+      fill="#F59E0B" 
     />
-    {/* Slanted Amber Eye */}
+
+    {/* Skull / Forehead Crown Plate */}
     <path 
-      d="M7 12L8.2 11.2" 
-      stroke="#F59E0B" 
-      strokeWidth="2" 
-      strokeLinecap="round" 
+      d="M34 34H66L72 44L50 60L28 44L34 34Z" 
+      fill="currentColor" 
     />
-    {/* Lower Jaw / Neck Accent */}
+
+    {/* Cheek Wings / Jaw Flares */}
     <path 
-      d="M11.5 17L13.5 19" 
-      stroke="currentColor" 
-      strokeWidth="1.8" 
-      strokeLinecap="round" 
+      d="M16 46L28 46L40 64L38 72L22 56L16 46Z" 
+      fill="currentColor" 
     />
+    <path 
+      d="M84 46L72 46L60 64L62 72L78 56L84 46Z" 
+      fill="currentColor" 
+    />
+
+    {/* Main Face Center Bridge */}
+    <path 
+      d="M42 56H58L56 72H44L42 56Z" 
+      fill="currentColor" 
+    />
+
+    {/* Fierce Aggressive Slanted Eyes (Amber / Glow) */}
+    <polygon points="32,48 42,54 36,58" fill="#F59E0B" />
+    <polygon points="68,48 58,54 64,58" fill="#F59E0B" />
+
+    {/* Geometric Muzzle / Snout */}
+    <path 
+      d="M38 74L50 68L62 74L58 88H42L38 74Z" 
+      fill="currentColor" 
+    />
+
+    {/* Nostril Slots */}
+    <polygon points="45,78 48,78 46,84 43,84" fill="#050814" />
+    <polygon points="55,78 52,78 54,84 57,84" fill="#050814" />
+    <path d="M44 86H56" stroke="#F59E0B" strokeWidth="2" strokeLinecap="round" />
   </svg>
 );
