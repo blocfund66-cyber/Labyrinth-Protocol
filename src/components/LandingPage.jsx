@@ -7,7 +7,6 @@ import {
   Award, 
   Github, 
   ArrowRight, 
-  Sparkles, 
   Layers, 
   Coins, 
   CheckCircle2, 

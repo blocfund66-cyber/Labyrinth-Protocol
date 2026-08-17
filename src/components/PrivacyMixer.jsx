@@ -10,7 +10,6 @@ import {
   Copy, 
   Download, 
   Zap, 
-  Sparkles,
   Layers,
   Check,
   AlertCircle,
@@ -214,7 +213,7 @@ const PrivacyMixer = ({ experienceLevel = 'intermediate', t }) => {
         <div className="bg-emerald-500/10 border border-emerald-500/30 p-4 rounded-2xl space-y-2">
           <div className="flex items-center justify-between text-xs font-bold text-emerald-700 dark:text-emerald-300">
             <span className="flex items-center gap-1.5">
-              <Sparkles className="w-4 h-4 text-emerald-500" />
+              <CheckCircle2 className="w-4 h-4 text-emerald-500" />
               {tMixer.beginnerGuideTitle}
             </span>
             <span>{tMixer.beginnerStep1}</span>
@@ -318,7 +317,7 @@ const PrivacyMixer = ({ experienceLevel = 'intermediate', t }) => {
                   {/* Phased Multi-Chain Rollout Notice for Upcoming Chains */}
                   {sourceChain !== 'base' && (
                     <div className="mt-3 p-4 rounded-xl bg-blue-500/10 border border-blue-500/30 text-xs text-blue-600 dark:text-blue-300 flex items-start gap-3 backdrop-blur-md">
-                      <Sparkles className="w-5 h-5 text-cyan-500 dark:text-cyan-400 shrink-0 mt-0.5 animate-pulse" />
+                      <ShieldCheck className="w-5 h-5 text-cyan-500 dark:text-cyan-400 shrink-0 mt-0.5" />
                       <div>
                         <strong className="block text-slate-900 dark:text-white font-bold text-sm mb-1">
                           🌐 Déploiement Multi-Chain Phase 2 en cours sur {chains.find(c => c.id === sourceChain)?.name} !

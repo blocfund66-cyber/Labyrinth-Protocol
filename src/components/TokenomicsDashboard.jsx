@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
-import { CONTRACT_ADDRESSES, LAB_TOKEN_ABI } from '../contracts/config';
-import { Flame, PieChart, Coins, Lock, Award, TrendingUp, Sparkles, UserCheck } from 'lucide-react';
+import { Flame, PieChart, Coins, Lock, Award, TrendingUp, UserCheck } from 'lucide-react';
 
 const TokenomicsDashboard = ({ t }) => {
   const tTok = t.tokenomics;

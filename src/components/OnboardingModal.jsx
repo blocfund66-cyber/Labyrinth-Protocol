@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles, Award, Check } from 'lucide-react';
+import { Award, Check, Layers } from 'lucide-react';
 
 const OnboardingModal = ({ isOpen, onClose, currentLevel, onSelectLevel, t }) => {
   if (!isOpen) return null;
@@ -43,7 +43,7 @@ const OnboardingModal = ({ isOpen, onClose, currentLevel, onSelectLevel, t }) =>
         {/* Header */}
         <div className="text-center space-y-2">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-600 dark:text-blue-400 text-xs font-bold uppercase tracking-wider">
-            <Sparkles className="w-3.5 h-3.5" />
+            <Layers className="w-3.5 h-3.5" />
             {tOnboard.badge}
           </div>
           <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">

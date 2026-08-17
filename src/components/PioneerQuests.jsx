@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
-import { ShieldCheck, Award, CheckCircle2, Lock, Sparkles, ExternalLink, ArrowRight, Droplets, Trophy, Users } from 'lucide-react';
+import { ShieldCheck, Award, CheckCircle2, Lock, Coins, ExternalLink, ArrowRight, Droplets, Trophy, Users } from 'lucide-react';
 import pioneerBadgeImg from '../assets/pioneer_badge.jpg';
 import { CONTRACT_ADDRESSES } from '../contracts/config';
 
@@ -124,12 +124,12 @@ const PioneerQuests = ({ isConnected, walletAddress, activeTab, setActiveTab, t 
           </p>
 
           {/* Relayer Staking Revenue Privilege Banner */}
-          <div className="bg-amber-500/10 border border-amber-500/30 p-4 rounded-xl text-xs text-amber-700 dark:text-amber-300 flex items-start gap-3 shadow-sm">
-            <Sparkles className="w-5 h-5 text-amber-500 shrink-0 mt-0.5 animate-pulse" />
+          <div className="bg-blue-500/10 border border-blue-500/30 p-4 rounded-xl text-xs text-blue-700 dark:text-blue-300 flex items-start gap-3 shadow-sm">
+            <Coins className="w-5 h-5 text-blue-500 shrink-0 mt-0.5" />
             <div className="space-y-1">
-              <strong className="block text-slate-900 dark:text-white font-bold text-sm">🔥 80% des Frais de Relayeurs Reversés en Staking Pendant 2 Ans (24 Mois) !</strong>
+              <strong className="block text-slate-900 dark:text-white font-bold text-sm">80% des Frais de Relayeurs Reversés en Staking Pendant 2 Ans (24 Mois) !</strong>
               <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
-                En stakant vos 1 000 $LAB attribués, vous devenez éligible à la distribution de dividende : <strong className="text-amber-600 dark:text-amber-400">80% de TOUS les frais de transaction perçus par les relayeurs sur les 8 blockchains (Ethereum, Solana, Arbitrum, Base, Optimism, Polygon, BNB Chain, Avalanche)</strong> vous sont directement <strong className="text-cyan-600 dark:text-cyan-400 font-bold">reversés en Real Yield pendant 2 ans (24 mois garantis)</strong> !
+                En stakant vos 1 000 $LAB attribués, vous devenez éligible à la distribution de dividende : <strong className="text-blue-600 dark:text-blue-400">80% de TOUS les frais de transaction perçus par les relayeurs sur les 8 blockchains (Ethereum, Solana, Arbitrum, Base, Optimism, Polygon, BNB Chain, Avalanche)</strong> vous sont directement <strong className="text-cyan-600 dark:text-cyan-400 font-bold">reversés en Real Yield pendant 2 ans (24 mois garantis)</strong> !
               </p>
             </div>
           </div>
