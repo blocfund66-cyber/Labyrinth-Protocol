@@ -120,7 +120,7 @@ const PioneerQuests = ({ isConnected, walletAddress, activeTab, setActiveTab, t 
           </h2>
 
           <p className="text-slate-700 dark:text-slate-300 text-sm leading-relaxed">
-            Participez au bêta-test officiel de Labyrinth Protocol sur Sepolia. Validez les 3 quêtes interactives, mintez votre <strong className="text-cyan-600 dark:text-cyan-400">Badge NFT Privacy Pioneer 3D</strong> et réservez l'une des <strong className="text-amber-600 dark:text-amber-400">20 000 places d'ambassadeurs</strong> pour recevoir 1 000 $LAB Mainnet !
+            Participez au bêta-test officiel de Labyrinth Protocol. Validez les 3 quêtes interactives, mintez votre <strong className="text-cyan-600 dark:text-cyan-400">Badge NFT Privacy Pioneer 3D</strong> et réservez l'une des <strong className="text-blue-600 dark:text-blue-400">500 places exclusives d'Ambassadeurs Genesis</strong> pour recevoir <strong className="text-cyan-600 dark:text-cyan-400 font-bold">40 000 $LAB Mainnet</strong> !
           </p>
 
           {/* Relayer Staking Revenue Privilege Banner */}
@@ -129,7 +129,7 @@ const PioneerQuests = ({ isConnected, walletAddress, activeTab, setActiveTab, t 
             <div className="space-y-1">
               <strong className="block text-slate-900 dark:text-white font-bold text-sm">80% des Frais de Relayeurs Reversés en Staking Pendant 2 Ans (24 Mois) !</strong>
               <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
-                En stakant vos 1 000 $LAB attribués, vous devenez éligible à la distribution de dividende : <strong className="text-blue-600 dark:text-blue-400">80% de TOUS les frais de transaction perçus par les relayeurs sur les 8 blockchains (Ethereum, Solana, Arbitrum, Base, Optimism, Polygon, BNB Chain, Avalanche)</strong> vous sont directement <strong className="text-cyan-600 dark:text-cyan-400 font-bold">reversés en Real Yield pendant 2 ans (24 mois garantis)</strong> !
+                En stakant vos 40 000 $LAB attribués, vous devenez éligible à la distribution de dividende : <strong className="text-blue-600 dark:text-blue-400">80% de TOUS les frais de transaction perçus par les relayeurs sur les 8 blockchains (Ethereum, Solana, Arbitrum, Base, Optimism, Polygon, BNB Chain, Avalanche)</strong> vous sont directement <strong className="text-cyan-600 dark:text-cyan-400 font-bold">reversés en Real Yield pendant 2 ans (24 mois garantis)</strong> !
               </p>
             </div>
           </div>
@@ -138,11 +138,11 @@ const PioneerQuests = ({ isConnected, walletAddress, activeTab, setActiveTab, t 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-semibold pt-2 w-full">
             <div className="flex items-center gap-2.5 bg-slate-100 dark:bg-slate-950/80 px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden">
               <Users className="w-4 h-4 text-cyan-500 shrink-0" />
-              <span className="truncate text-slate-700 dark:text-slate-300">Ambassadeurs : <strong className="text-slate-900 dark:text-white">{nftMinted ? '1' : '0'} / 20,000</strong></span>
+              <span className="truncate text-slate-700 dark:text-slate-300">Ambassadeurs Genesis : <strong className="text-slate-900 dark:text-white">{nftMinted ? '1' : '0'} / 500</strong></span>
             </div>
             <div className="flex items-center gap-2.5 bg-slate-100 dark:bg-slate-950/80 px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden">
-              <Award className="w-4 h-4 text-amber-500 shrink-0" />
-              <span className="truncate text-slate-700 dark:text-slate-300">Allocation : <strong className="text-amber-600 dark:text-amber-400">1,000 $LAB / Wallet</strong></span>
+              <Award className="w-4 h-4 text-blue-500 shrink-0" />
+              <span className="truncate text-slate-700 dark:text-slate-300">Allocation Élite : <strong className="text-blue-600 dark:text-blue-400 font-bold">40,000 $LAB / Wallet</strong></span>
             </div>
           </div>
         </div>
@@ -320,7 +320,7 @@ const PioneerQuests = ({ isConnected, walletAddress, activeTab, setActiveTab, t 
           </h3>
           <p className="text-xs text-slate-600 dark:text-slate-300">
             {nftMinted 
-              ? 'Votre wallet fait officiellement partie de la cohorte des 20 000 ambassadeurs éligibles à l\'Airdrop de 1 000 $LAB Mainnet avec 15% de Yield Boost !' 
+              ? 'Votre wallet fait officiellement partie de la cohorte exclusive des 500 Ambassadeurs Genesis éligibles à l\'Airdrop de 40 000 $LAB Mainnet avec distribution des frais de relayeurs en Real Yield pendant 2 ans !' 
               : 'Validez les 3 quêtes ci-dessus pour débloquer le mint de votre NFT sur la blockchain Sepolia.'
             }
           </p>
