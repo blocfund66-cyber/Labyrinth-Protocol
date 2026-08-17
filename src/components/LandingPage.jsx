@@ -208,7 +208,7 @@ const LandingPage = ({ onEnterApp, t }) => {
               </p>
             </div>
 
-            <div className="w-20 h-20 rounded-3xl bg-gradient-to-tr from-cyan-600 via-slate-900 to-amber-500 p-1 shadow-2xl flex items-center justify-center text-cyan-300 border-2 border-cyan-400/60 shrink-0">
+            <div className="w-20 h-20 rounded-3xl bg-gradient-to-tr from-cyan-600 via-slate-900 to-blue-600 p-1 shadow-2xl flex items-center justify-center text-cyan-300 border-2 border-cyan-400/60 shrink-0">
               <BullHeadIcon className="w-14 h-14 text-cyan-300 drop-shadow-lg" />
             </div>
           </div>
@@ -224,21 +224,21 @@ const LandingPage = ({ onEnterApp, t }) => {
               </p>
             </div>
 
-            <div className="p-5 rounded-2xl bg-slate-900/80 border border-purple-500/30 space-y-2">
-              <div className="text-purple-400 font-bold text-sm flex items-center gap-2">
-                <Users className="w-4 h-4" /> Découpage Multi-Portefeuilles
+            <div className="p-5 rounded-2xl bg-slate-900/80 border border-indigo-500/30 space-y-2">
+              <div className="text-indigo-400 font-bold text-sm flex items-center gap-2">
+                <Users className="w-4 h-4" /> Confidentialité Omnichain
               </div>
               <p className="text-xs text-slate-400 leading-relaxed">
-                Fractionnez les montants reçus sur 2 à 4 portefeuilles distincts avec montants sur-mesure pour briser tout traçage heuristique.
+                Mixage direct et transparent sur les 8 blockchains supportées par le protocole en toute discrétion.
               </p>
             </div>
 
-            <div className="p-5 rounded-2xl bg-slate-900/80 border border-amber-500/20 space-y-2">
-              <div className="text-amber-400 font-bold text-sm flex items-center gap-2">
+            <div className="p-5 rounded-2xl bg-slate-900/80 border border-blue-500/30 space-y-2">
+              <div className="text-blue-400 font-bold text-sm flex items-center gap-2">
                 <Lock className="w-4 h-4" /> Bouton Flottant Permanent
               </div>
               <p className="text-xs text-slate-400 leading-relaxed">
-                Accessible instantanément en bas à droite de l'écran avec une interface compacte au-dessus du bouton.
+                Accessible instantanément en bas à droite dès l'entrée dans l'application avec une interface compacte.
               </p>
             </div>
           </div>

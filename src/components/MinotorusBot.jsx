@@ -8,7 +8,6 @@ import {
   ShieldCheck,
   Layers, 
   ArrowRight, 
-  Sparkles, 
   Coins, 
   Wallet,
   Copy,
@@ -175,14 +174,14 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
   // 5. User executes the automated mix
   const handleExecuteMix = () => {
     setStep('EXECUTING');
-    addUserMessage("Confirmer et exécuter le mixage ZK ⚡");
+    addUserMessage("Confirmer et exécuter le mixage ZK.");
 
     setTimeout(() => {
       // Generate unique cryptographic secret note
       const secretNote = `labyrinth-v1-zk-${Math.random().toString(36).substring(2, 12)}-${Math.random().toString(36).substring(2, 10)}`;
       setGeneratedSecretNote(secretNote);
       setStep('COMPLETED');
-      addBotMessage(`🎉 Mixage Zero-Knowledge exécuté avec succès ! Conservez précieusement votre Note Secrète cryptographique.`);
+      addBotMessage(`Mixage Zero-Knowledge exécuté avec succès ! Conservez précieusement votre Note Secrète cryptographique.`);
       
       if (onTriggerMix) {
         onTriggerMix({
@@ -229,23 +228,36 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
       {/* 💬 FLOATING CHAT BOX (Opens directly above the floating bottom button) */}
       {isOpen && (
         <div 
-          className="pointer-events-auto w-[340px] sm:w-[410px] h-[550px] max-h-[82vh] mb-3 rounded-2xl shadow-2xl border border-cyan-500/40 bg-slate-950/95 backdrop-blur-xl flex flex-col overflow-hidden animate-fadeIn"
-          style={{ boxShadow: '0 20px 50px rgba(0, 210, 255, 0.35)' }}
+          className={`pointer-events-auto w-[340px] sm:w-[410px] h-[550px] max-h-[82vh] mb-3 rounded-2xl shadow-2xl border flex flex-col overflow-hidden animate-fadeIn transition-colors ${
+            isDarkMode 
+              ? 'bg-slate-950/95 border-cyan-500/40 text-slate-100 shadow-[0_20px_50px_rgba(0,210,255,0.25)]' 
+              : 'bg-white/95 border-blue-400/40 text-slate-900 shadow-[0_20px_50px_rgba(37,99,235,0.2)]'
+          }`}
         >
           {/* Header with Minotaur Bull Profile */}
-          <div className="p-3.5 bg-gradient-to-r from-slate-900 via-cyan-950/80 to-slate-900 border-b border-cyan-500/30 flex items-center justify-between">
+          <div className={`p-3.5 border-b flex items-center justify-between transition-colors ${
+            isDarkMode 
+              ? 'bg-gradient-to-r from-slate-900 via-cyan-950/80 to-slate-900 border-cyan-500/30' 
+              : 'bg-gradient-to-r from-blue-50 via-cyan-50 to-blue-50 border-blue-200'
+          }`}>
             <div className="flex items-center gap-2.5">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-600 via-slate-900 to-amber-500 p-1 shadow-md flex items-center justify-center text-cyan-300 border border-cyan-400/60">
-                <BullHeadIcon className="w-7 h-7 text-cyan-300 drop-shadow" />
+              <div className={`w-10 h-10 rounded-xl p-1 shadow-md flex items-center justify-center border transition-colors ${
+                isDarkMode 
+                  ? 'bg-gradient-to-tr from-cyan-600 via-blue-900 to-cyan-500 text-cyan-300 border-cyan-400/60' 
+                  : 'bg-gradient-to-tr from-blue-500 to-cyan-500 text-white border-blue-400'
+              }`}>
+                <BullHeadIcon className="w-7 h-7 drop-shadow" />
               </div>
               <div>
                 <div className="flex items-center gap-1.5">
-                  <h3 className="font-bold text-sm text-white tracking-wide">
+                  <h3 className={`font-bold text-sm tracking-wide ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                     Minotorus
                   </h3>
-                  <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                  <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                 </div>
-                <p className="text-[10px] text-cyan-300/90 font-mono">Guide de Confidentialité Zero-Knowledge</p>
+                <p className={`text-[10px] font-mono ${isDarkMode ? 'text-cyan-400' : 'text-blue-600'}`}>
+                  Guide de Confidentialité Zero-Knowledge
+                </p>
               </div>
             </div>
 
@@ -253,14 +265,18 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
               <button
                 onClick={handleReset}
                 title="Recommencer"
-                className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all text-xs flex items-center gap-1"
+                className={`p-1.5 rounded-lg transition-all text-xs flex items-center gap-1 ${
+                  isDarkMode ? 'text-slate-400 hover:text-white hover:bg-slate-800/60' : 'text-slate-500 hover:text-slate-900 hover:bg-slate-200/80'
+                }`}
               >
                 <RotateCcw className="w-3.5 h-3.5" />
               </button>
               <button
                 onClick={toggleChat}
                 title="Fermer"
-                className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all"
+                className={`p-1.5 rounded-lg transition-all ${
+                  isDarkMode ? 'text-slate-400 hover:text-white hover:bg-slate-800/60' : 'text-slate-500 hover:text-slate-900 hover:bg-slate-200/80'
+                }`}
               >
                 <X className="w-4 h-4" />
               </button>
@@ -268,11 +284,13 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
           </div>
 
           {/* Privacy Trust Bar */}
-          <div className="px-3 py-1.5 bg-slate-900/90 border-b border-slate-800 flex items-center justify-between text-[10px] text-slate-300 font-mono">
-            <span className="flex items-center gap-1 text-emerald-400 font-semibold">
+          <div className={`px-3 py-1.5 border-b flex items-center justify-between text-[10px] font-mono transition-colors ${
+            isDarkMode ? 'bg-slate-900/90 border-slate-800 text-slate-300' : 'bg-slate-100 border-slate-200 text-slate-700'
+          }`}>
+            <span className="flex items-center gap-1 text-emerald-500 font-semibold">
               <ShieldCheck className="w-3.5 h-3.5" /> 100% Non-Custodial
             </span>
-            <span className="text-cyan-400 flex items-center gap-1 font-semibold">
+            <span className={`flex items-center gap-1 font-semibold ${isDarkMode ? 'text-cyan-400' : 'text-blue-600'}`}>
               <Lock className="w-3 h-3" /> Zéro Logs
             </span>
           </div>
@@ -285,7 +303,9 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
                 className={`flex gap-2 ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 {msg.sender === 'minotorus' && (
-                  <div className="w-6 h-6 rounded-lg bg-cyan-600/30 border border-cyan-500/40 flex items-center justify-center shrink-0 text-cyan-300 mt-0.5">
+                  <div className={`w-6 h-6 rounded-lg border flex items-center justify-center shrink-0 mt-0.5 ${
+                    isDarkMode ? 'bg-cyan-600/30 border-cyan-500/40 text-cyan-300' : 'bg-blue-100 border-blue-300 text-blue-600'
+                  }`}>
                     <BullHeadIcon className="w-4 h-4" />
                   </div>
                 )}
@@ -293,8 +313,10 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
                 <div
                   className={`max-w-[84%] p-3 rounded-2xl leading-relaxed shadow-sm ${
                     msg.sender === 'user'
-                      ? 'bg-cyan-600 text-white rounded-br-none'
-                      : 'bg-slate-900/90 text-slate-200 border border-slate-800 rounded-bl-none'
+                      ? 'bg-blue-600 text-white rounded-br-none'
+                      : isDarkMode 
+                        ? 'bg-slate-900 text-slate-200 border border-slate-800 rounded-bl-none'
+                        : 'bg-slate-100 text-slate-800 border border-slate-200 rounded-bl-none'
                   }`}
                 >
                   <p>{msg.text}</p>
@@ -307,9 +329,11 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
 
             {/* 🪙 STEP 1: Interactive Selection of the 8 Exact Platform Assets */}
             {(step === 'GREETING' || step === 'SELECT_INPUT') && (
-              <div className="p-2.5 rounded-xl bg-slate-900/70 border border-cyan-500/20 space-y-2 mt-2">
-                <span className="text-[11px] font-bold text-cyan-300 block">
-                  Sélectionnez la cryptomonnaie à déposer (8 Actifs) :
+              <div className={`p-2.5 rounded-xl border space-y-2 mt-2 ${
+                isDarkMode ? 'bg-slate-900/70 border-cyan-500/20' : 'bg-slate-50 border-blue-200'
+              }`}>
+                <span className={`text-[11px] font-bold block ${isDarkMode ? 'text-cyan-300' : 'text-blue-700'}`}>
+                  Sélectionnez la cryptomonnaie à déposer :
                 </span>
                 <div className="grid grid-cols-2 gap-1.5">
                   {SUPPORTED_ASSETS.map((asset) => {
@@ -318,7 +342,11 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
                       <button
                         key={asset.id}
                         onClick={() => handleSelectInputAsset(asset)}
-                        className="flex items-center gap-2 p-2 rounded-lg bg-slate-800/80 hover:bg-cyan-600/20 border border-slate-700 hover:border-cyan-500 text-left transition-all text-xs text-slate-200 font-semibold"
+                        className={`flex items-center gap-2 p-2 rounded-lg border text-left transition-all text-xs font-semibold ${
+                          isDarkMode 
+                            ? 'bg-slate-800/80 hover:bg-cyan-600/20 border-slate-700 hover:border-cyan-500 text-slate-200' 
+                            : 'bg-white hover:bg-blue-50 border-slate-200 hover:border-blue-500 text-slate-800 shadow-sm'
+                        }`}
                       >
                         <Icon className="w-4 h-4 shrink-0" />
                         <span className="truncate">{asset.id}</span>
@@ -331,8 +359,10 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
 
             {/* 📊 STEP 2: Interactive Amount Selection Chips */}
             {step === 'SELECT_AMOUNT' && inputAsset && (
-              <div className="p-2.5 rounded-xl bg-slate-900/70 border border-cyan-500/20 space-y-2 mt-2">
-                <span className="text-[11px] font-bold text-cyan-300 block">
+              <div className={`p-2.5 rounded-xl border space-y-2 mt-2 ${
+                isDarkMode ? 'bg-slate-900/70 border-cyan-500/20' : 'bg-slate-50 border-blue-200'
+              }`}>
+                <span className={`text-[11px] font-bold block ${isDarkMode ? 'text-cyan-300' : 'text-blue-700'}`}>
                   Choisissez le montant de {inputAsset.id} :
                 </span>
                 <div className="grid grid-cols-2 gap-1.5">
@@ -342,7 +372,11 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
                       <button
                         key={amt}
                         onClick={() => handleSelectAmount(amt, label)}
-                        className="p-2 rounded-lg bg-slate-800/80 hover:bg-cyan-600/20 border border-slate-700 hover:border-cyan-500 text-center transition-all text-xs text-cyan-400 font-bold font-mono"
+                        className={`p-2 rounded-lg border text-center transition-all text-xs font-bold font-mono ${
+                          isDarkMode 
+                            ? 'bg-slate-800/80 hover:bg-cyan-600/20 border-slate-700 hover:border-cyan-500 text-cyan-400' 
+                            : 'bg-white hover:bg-blue-50 border-slate-200 hover:border-blue-500 text-blue-600 shadow-sm'
+                        }`}
                       >
                         {label}
                       </button>
@@ -354,9 +388,11 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
 
             {/* 🔄 STEP 3: Interactive Output Chain Selection (8 Chains) */}
             {step === 'SELECT_OUTPUT' && (
-              <div className="p-2.5 rounded-xl bg-slate-900/70 border border-cyan-500/20 space-y-2 mt-2">
-                <span className="text-[11px] font-bold text-cyan-300 block">
-                  Choisissez la Blockchain de Sortie (8 Réseaux) :
+              <div className={`p-2.5 rounded-xl border space-y-2 mt-2 ${
+                isDarkMode ? 'bg-slate-900/70 border-cyan-500/20' : 'bg-slate-50 border-blue-200'
+              }`}>
+                <span className={`text-[11px] font-bold block ${isDarkMode ? 'text-cyan-300' : 'text-blue-700'}`}>
+                  Choisissez la Blockchain de Sortie :
                 </span>
                 <div className="grid grid-cols-1 gap-1.5 max-h-40 overflow-y-auto pr-1">
                   {SUPPORTED_CHAINS.map((chain) => {
@@ -365,7 +401,11 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
                       <button
                         key={chain.id}
                         onClick={() => handleSelectOutputChain(chain)}
-                        className="flex items-center gap-2 p-2 rounded-lg bg-slate-800/80 hover:bg-cyan-600/20 border border-slate-700 hover:border-cyan-500 text-left transition-all text-xs text-slate-200"
+                        className={`flex items-center gap-2 p-2 rounded-lg border text-left transition-all text-xs ${
+                          isDarkMode 
+                            ? 'bg-slate-800/80 hover:bg-cyan-600/20 border-slate-700 hover:border-cyan-500 text-slate-200' 
+                            : 'bg-white hover:bg-blue-50 border-slate-200 hover:border-blue-500 text-slate-800 shadow-sm'
+                        }`}
                       >
                         <Icon className="w-4 h-4 shrink-0" />
                         <span className="truncate">{chain.name}</span>
@@ -378,8 +418,10 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
 
             {/* 📥 STEP 4: Input Recipient Wallet */}
             {step === 'INPUT_WALLET' && outputChain && (
-              <form onSubmit={handleConfirmWallet} className="p-3 rounded-xl bg-slate-900/80 border border-cyan-500/30 space-y-2.5 mt-2">
-                <label className="text-[11px] font-bold text-cyan-300 block">
+              <form onSubmit={handleConfirmWallet} className={`p-3 rounded-xl border space-y-2.5 mt-2 ${
+                isDarkMode ? 'bg-slate-900/80 border-cyan-500/30' : 'bg-slate-50 border-blue-200'
+              }`}>
+                <label className={`text-[11px] font-bold block ${isDarkMode ? 'text-cyan-300' : 'text-blue-700'}`}>
                   Adresse de Réception ({outputChain.name}) :
                 </label>
                 <input
@@ -388,12 +430,16 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
                   placeholder="0x... ou adresse de réception"
                   value={recipientWallet}
                   onChange={(e) => setRecipientWallet(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white font-mono focus:border-cyan-400 outline-none"
+                  className={`w-full border rounded-lg px-3 py-2 text-xs font-mono outline-none transition-colors ${
+                    isDarkMode 
+                      ? 'bg-slate-950 border-slate-700 text-white focus:border-cyan-400' 
+                      : 'bg-white border-slate-300 text-slate-900 focus:border-blue-500'
+                  }`}
                 />
                 <button
                   type="submit"
                   disabled={!recipientWallet.trim() || recipientWallet.length < 8}
-                  className="w-full py-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold text-xs rounded-lg transition-all disabled:opacity-50"
+                  className="w-full py-2 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-lg transition-all disabled:opacity-50"
                 >
                   Valider l'Adresse →
                 </button>
@@ -402,64 +448,82 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
 
             {/* ⚡ STEP 5: Final Summary & Execute */}
             {step === 'CONFIRM' && (
-              <div className="p-3 rounded-xl bg-cyan-950/30 border border-cyan-500/40 space-y-2.5 mt-2">
-                <span className="text-[11px] font-bold text-cyan-300 block flex items-center gap-1.5">
+              <div className={`p-3 rounded-xl border space-y-2.5 mt-2 ${
+                isDarkMode ? 'bg-cyan-950/30 border-cyan-500/40' : 'bg-blue-50 border-blue-200'
+              }`}>
+                <span className={`text-[11px] font-bold block flex items-center gap-1.5 ${isDarkMode ? 'text-cyan-300' : 'text-blue-800'}`}>
                   <Shield className="w-3.5 h-3.5" />
                   Récapitulatif du Mixage ZK :
                 </span>
 
-                <div className="space-y-1.5 text-[11px] font-mono text-slate-300 bg-slate-950/80 p-2.5 rounded-lg border border-slate-800">
+                <div className={`space-y-1.5 text-[11px] font-mono p-2.5 rounded-lg border ${
+                  isDarkMode ? 'bg-slate-950/80 border-slate-800 text-slate-300' : 'bg-white border-slate-200 text-slate-700'
+                }`}>
                   <div className="flex justify-between">
-                    <span className="text-slate-500">Montant Déposé :</span>
-                    <strong className="text-white font-bold">{inputAmountStr}</strong>
+                    <span className="opacity-60">Montant Déposé :</span>
+                    <strong className={isDarkMode ? 'text-white' : 'text-slate-900'}>{inputAmountStr}</strong>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-500">Blockchain Cible :</span>
-                    <strong className="text-cyan-400">{outputChain?.name}</strong>
+                    <span className="opacity-60">Blockchain Cible :</span>
+                    <strong className={isDarkMode ? 'text-cyan-400' : 'text-blue-600'}>{outputChain?.name}</strong>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-500">Destinataire :</span>
-                    <strong className="text-amber-400 truncate max-w-[140px]">{recipientWallet}</strong>
+                    <span className="opacity-60">Destinataire :</span>
+                    <strong className="truncate max-w-[140px]">{recipientWallet}</strong>
                   </div>
-                  <div className="flex justify-between pt-1 border-t border-slate-800">
-                    <span className="text-slate-500">Preuve ZK-SNARK :</span>
-                    <span className="text-emerald-400 font-bold">100% Anonyme & Non-Traçable</span>
+                  <div className="flex justify-between pt-1 border-t border-slate-700/50">
+                    <span className="opacity-60">Preuve ZK-SNARK :</span>
+                    <span className="text-emerald-500 font-bold">100% Anonyme</span>
                   </div>
                 </div>
 
                 <button
                   onClick={handleExecuteMix}
-                  className="w-full py-2.5 bg-gradient-to-r from-cyan-500 via-amber-400 to-cyan-400 hover:from-cyan-400 hover:to-amber-300 text-slate-950 font-extrabold text-xs rounded-lg shadow-lg flex items-center justify-center gap-1.5 transition-all"
+                  className="w-full py-2.5 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-bold text-xs rounded-lg shadow-md flex items-center justify-center gap-2 transition-all"
                 >
-                  <Sparkles className="w-4 h-4 text-slate-950" />
-                  <span>Exécuter le Mixage avec Minotorus ⚡</span>
+                  <ShieldCheck className="w-4 h-4 text-white" />
+                  <span>Exécuter le Mixage avec Minotorus</span>
                 </button>
               </div>
             )}
 
             {/* ⏳ Executing state */}
             {step === 'EXECUTING' && (
-              <div className="p-4 rounded-xl bg-slate-900 border border-cyan-500/30 text-center space-y-2">
-                <div className="w-8 h-8 rounded-full border-2 border-cyan-500 border-t-transparent animate-spin mx-auto"></div>
-                <p className="text-xs font-mono text-cyan-300">Génération de la preuve cryptographique ZK-SNARK...</p>
+              <div className={`p-4 rounded-xl border text-center space-y-2 ${
+                isDarkMode ? 'bg-slate-900 border-cyan-500/30' : 'bg-slate-100 border-blue-200'
+              }`}>
+                <div className={`w-8 h-8 rounded-full border-2 border-t-transparent animate-spin mx-auto ${
+                  isDarkMode ? 'border-cyan-500' : 'border-blue-600'
+                }`}></div>
+                <p className={`text-xs font-mono ${isDarkMode ? 'text-cyan-300' : 'text-blue-700'}`}>
+                  Génération de la preuve cryptographique ZK-SNARK...
+                </p>
               </div>
             )}
 
             {/* 🎉 STEP 6: Completed Result */}
             {step === 'COMPLETED' && (
-              <div className="p-3 rounded-xl bg-emerald-950/30 border border-emerald-500/40 space-y-2.5 mt-2">
-                <div className="flex items-center gap-1.5 text-emerald-400 font-bold text-xs">
+              <div className={`p-3 rounded-xl border space-y-2.5 mt-2 ${
+                isDarkMode ? 'bg-emerald-950/30 border-emerald-500/40' : 'bg-emerald-50 border-emerald-300'
+              }`}>
+                <div className="flex items-center gap-1.5 text-emerald-500 font-bold text-xs">
                   <CheckCircle2 className="w-4 h-4" />
                   <span>Mixage ZK Exécuté avec Succès !</span>
                 </div>
 
-                <div className="space-y-1 bg-slate-950 p-2.5 rounded-lg border border-slate-800">
+                <div className={`space-y-1 p-2.5 rounded-lg border ${
+                  isDarkMode ? 'bg-slate-950 border-slate-800' : 'bg-white border-slate-200'
+                }`}>
                   <span className="text-[10px] text-slate-400 block font-mono">Votre Note Secrète ZK :</span>
-                  <div className="flex items-center justify-between gap-1 text-[11px] font-mono text-amber-400 truncate">
+                  <div className={`flex items-center justify-between gap-1 text-[11px] font-mono truncate ${
+                    isDarkMode ? 'text-cyan-400' : 'text-blue-600 font-bold'
+                  }`}>
                     <span className="truncate">{generatedSecretNote}</span>
                     <button
                       onClick={handleCopyNote}
-                      className="p-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 shrink-0"
+                      className={`p-1 rounded transition-colors shrink-0 ${
+                        isDarkMode ? 'bg-slate-800 hover:bg-slate-700 text-slate-300' : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+                      }`}
                       title="Copier la note secrète"
                     >
                       <Copy className="w-3.5 h-3.5" />
@@ -468,14 +532,16 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
                 </div>
 
                 {copiedNote && (
-                  <span className="text-[10px] text-emerald-400 font-mono block text-center">
+                  <span className="text-[10px] text-emerald-500 font-mono block text-center">
                     ✓ Note secrète copiée dans le presse-papier !
                   </span>
                 )}
 
                 <button
                   onClick={handleReset}
-                  className="w-full py-2 bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs rounded-lg transition-all"
+                  className={`w-full py-2 font-bold text-xs rounded-lg transition-all ${
+                    isDarkMode ? 'bg-slate-800 hover:bg-slate-700 text-white' : 'bg-slate-200 hover:bg-slate-300 text-slate-800'
+                  }`}
                 >
                   Effectuer un Nouveau Mixage 🔄
                 </button>
@@ -486,9 +552,11 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
           </div>
 
           {/* Footer status */}
-          <div className="px-3 py-2 bg-slate-950 border-t border-slate-800/80 flex items-center justify-between text-[10px] text-slate-400 font-mono">
+          <div className={`px-3 py-2 border-t flex items-center justify-between text-[10px] font-mono transition-colors ${
+            isDarkMode ? 'bg-slate-950 border-slate-800/80 text-slate-400' : 'bg-slate-50 border-slate-200 text-slate-500'
+          }`}>
             <span>Protocole Labyrinth Core</span>
-            <span className="text-cyan-400 flex items-center gap-1">
+            <span className={`flex items-center gap-1 ${isDarkMode ? 'text-cyan-400' : 'text-blue-600 font-semibold'}`}>
               <Shield className="w-3 h-3" /> ZK-SNARK Automatisé
             </span>
           </div>
@@ -498,23 +566,30 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null }) => {
       {/* 🐂 FLOATING ACTION BUTTON (FAB) */}
       <button
         onClick={toggleChat}
-        className="pointer-events-auto relative group p-3.5 sm:p-4 rounded-2xl bg-gradient-to-tr from-slate-950 via-slate-900 to-cyan-950 text-cyan-300 border-2 border-cyan-400 shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center"
-        style={{
-          boxShadow: '0 0 30px rgba(0, 210, 255, 0.5), 0 0 15px rgba(245, 158, 11, 0.4)'
-        }}
+        className={`pointer-events-auto relative group p-3.5 sm:p-4 rounded-2xl border-2 shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center ${
+          isDarkMode
+            ? 'bg-gradient-to-tr from-slate-950 via-slate-900 to-cyan-950 text-cyan-300 border-cyan-400 shadow-[0_0_30px_rgba(0,210,255,0.4)]'
+            : 'bg-gradient-to-tr from-blue-600 via-blue-700 to-cyan-600 text-white border-blue-400 shadow-[0_0_25px_rgba(37,99,235,0.35)]'
+        }`}
         title="Minotorus — Guide de Mixage Zero-Knowledge"
         aria-label="Minotorus Bot"
       >
         {/* Glowing Aura Ring */}
-        <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-cyan-400 via-amber-500 to-cyan-400 blur-sm opacity-60 group-hover:opacity-100 transition-opacity animate-pulse"></div>
+        <div className={`absolute -inset-1 rounded-2xl blur-sm opacity-60 group-hover:opacity-100 transition-opacity animate-pulse ${
+          isDarkMode ? 'bg-gradient-to-r from-cyan-400 to-blue-500' : 'bg-gradient-to-r from-blue-400 to-cyan-400'
+        }`}></div>
 
         <div className="relative flex items-center justify-center">
-          <BullHeadIcon className="w-7 h-7 sm:w-8 sm:h-8 text-cyan-300 group-hover:text-amber-400 transition-colors" />
+          <BullHeadIcon className="w-7 h-7 sm:w-8 sm:h-8" />
         </div>
 
         {/* Unread Message Pill Badge */}
         {!isOpen && unreadCount > 0 && (
-          <span className="absolute -top-1.5 -right-1.5 bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 text-[10px] font-extrabold px-2 py-0.5 rounded-full border border-slate-950 shadow-md animate-bounce">
+          <span className={`absolute -top-1.5 -right-1.5 text-[10px] font-extrabold px-2 py-0.5 rounded-full border shadow-md animate-bounce ${
+            isDarkMode 
+              ? 'bg-cyan-500 text-slate-950 border-slate-950' 
+              : 'bg-blue-600 text-white border-white'
+          }`}>
             Minotorus
           </span>
         )}
