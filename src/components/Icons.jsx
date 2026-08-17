@@ -142,24 +142,55 @@ export const XLogoIcon = ({ className = "w-4 h-4" }) => (
   </svg>
 );
 
-// 15. Minotorus Authentic Cyber-Bull Head Vector Icon
+// 15. Minotorus Authentic Cyber-Bull / Minotaur Head Vector Icon (High-End Geometric Design)
 export const BullHeadIcon = ({ className = "w-6 h-6" }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    {/* Left Curved Horn */}
-    <path d="M4.5 2.5C2.5 1 0.8 2 1.2 5.5C1.8 9.5 4.8 12 7 12.5L7.8 10.2C5.6 9.2 3.4 7.2 3.4 4.6C3.4 3.4 4 2.8 4.5 2.5Z" fill="currentColor" />
-    {/* Right Curved Horn */}
-    <path d="M19.5 2.5C21.5 1 23.2 2 22.8 5.5C22.2 9.5 19.2 12 17 12.5L16.2 10.2C18.4 9.2 20.6 7.2 20.6 4.6C20.6 3.4 20 2.8 19.5 2.5Z" fill="currentColor" />
-    {/* Bull Skull / Head Shield */}
-    <path d="M6 7L12 4.5L18 7L17 13.5L14.5 17.5L12 21.5L9.5 17.5L7 13.5L6 7Z" fill="currentColor" fillOpacity="0.25" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-    {/* Crown Forehead Plate */}
-    <path d="M8 8L12 6L16 8L12 12.5L8 8Z" fill="currentColor" />
-    {/* Fierce Amber Eyes */}
-    <polygon points="8.2,12.5 10.2,13.2 8.5,14.2" fill="#F59E0B" />
-    <polygon points="15.8,12.5 13.8,13.2 15.5,14.2" fill="#F59E0B" />
-    {/* Snout and Muzzle */}
-    <path d="M9.2 16.5L12 15.5L14.8 16.5L13.8 20.5H10.2L9.2 16.5Z" fill="currentColor" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
-    {/* Nostrils */}
-    <circle cx="10.8" cy="18.5" r="0.7" fill="#050814" />
-    <circle cx="13.2" cy="18.5" r="0.7" fill="#050814" />
+  <svg className={className} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    {/* Left Sweeping Massive Horn */}
+    <path 
+      d="M28 42C24 32 14 18 2 12C0 11 2 16 6 22C12 32 18 48 24 54C28 58 32 52 28 42Z" 
+      fill="currentColor"
+    />
+    <path 
+      d="M2 12C8 16 18 26 24 38C26 42 28 38 27 34C24 24 16 16 2 12Z" 
+      fill="#F59E0B"
+    />
+
+    {/* Right Sweeping Massive Horn */}
+    <path 
+      d="M72 42C76 32 86 18 98 12C100 11 98 16 94 22C88 32 82 48 76 54C72 58 68 52 72 42Z" 
+      fill="currentColor"
+    />
+    <path 
+      d="M98 12C92 16 82 26 76 38C74 42 72 38 73 34C76 24 84 16 98 12Z" 
+      fill="#F59E0B"
+    />
+
+    {/* Main Bull Head Shield & Angular Skull */}
+    <path 
+      d="M26 36L50 20L74 36L70 60L58 76L50 94L42 76L30 60L26 36Z" 
+      fill="currentColor" 
+      fillOpacity="0.3"
+      stroke="currentColor" 
+      strokeWidth="3" 
+      strokeLinejoin="round"
+    />
+
+    {/* Forehead Crest & Brow */}
+    <polygon points="34,38 50,26 66,38 58,48 50,44 42,48" fill="currentColor" />
+    <polygon points="50,30 58,44 50,56 42,44" fill="#00D2FF" fillOpacity="0.8" />
+
+    {/* Fierce Glowing Eyes */}
+    <polygon points="34,50 44,52 38,57" fill="#F59E0B" />
+    <polygon points="66,50 56,52 62,57" fill="#F59E0B" />
+    <circle cx="39" cy="53" r="1.5" fill="#FFF" />
+    <circle cx="61" cy="53" r="1.5" fill="#FFF" />
+
+    {/* Snout & Muzzle Plate */}
+    <polygon points="40,68 50,62 60,68 56,84 44,84" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
+    
+    {/* Nose Ring & Nostril Accents */}
+    <circle cx="46" cy="74" r="1.8" fill="#050814" />
+    <circle cx="54" cy="74" r="1.8" fill="#050814" />
+    <path d="M45 78C45 83 55 83 55 78" stroke="#F59E0B" strokeWidth="2.5" strokeLinecap="round" />
   </svg>
 );
