@@ -277,12 +277,12 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null, onNavigateTab = 
   };
 
   return (
-    <div className="fixed bottom-28 right-8 sm:right-14 z-50 flex flex-col items-end pointer-events-none">
+    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end pointer-events-none">
       
-      {/* 💬 FLOATING CHAT BOX (ANCHORED RIGHT ABOVE THE FLOATING BUTTON) */}
+      {/* 💬 FLOATING CHAT BOX */}
       {isOpen && (
         <div 
-          className={`pointer-events-auto w-[calc(100vw-2rem)] sm:w-[410px] h-[550px] max-h-[calc(100dvh-120px)] mb-3 rounded-2xl shadow-2xl border flex flex-col overflow-hidden animate-fadeIn transition-colors ${
+          className={`pointer-events-auto w-[340px] sm:w-[410px] h-[560px] max-h-[84vh] mb-3 rounded-2xl shadow-2xl border flex flex-col overflow-hidden animate-fadeIn transition-colors ${
             isDarkMode 
               ? 'bg-slate-950/95 border-cyan-500/40 text-slate-100 shadow-[0_20px_50px_rgba(0,210,255,0.25)]' 
               : 'bg-white/95 border-blue-400/40 text-slate-900 shadow-[0_20px_50px_rgba(37,99,235,0.2)]'

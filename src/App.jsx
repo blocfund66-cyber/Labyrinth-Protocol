@@ -551,8 +551,8 @@ function App() {
         )}
       </header>
 
-      {/* Main View - Generous bottom padding to prevent any overlap with floating bot */}
-      <main className="flex-1 z-10 relative pb-28 sm:pb-36">
+      {/* Main View */}
+      <main className="flex-1 z-10 relative">
         {currentView === 'landing' ? (
           <LandingPage onEnterApp={handleEnterApp} t={t} />
         ) : (
@@ -567,9 +567,9 @@ function App() {
         )}
       </main>
 
-      {/* Footer - Clean, Non-Redundant with Safety Margins for Floating Bot */}
-      <footer className={`z-10 border-t pt-8 pb-32 sm:pb-12 mt-12 backdrop-blur-md transition-colors ${isDarkMode ? 'bg-slate-950/90 border-slate-800/80 text-slate-400' : 'bg-white/90 border-slate-200 text-slate-600'}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 pr-4 sm:pr-24 flex flex-col md:flex-row items-center justify-between gap-4 text-xs">
+      {/* Footer - Clean, Non-Redundant (Single GitHub Code Source Button) */}
+      <footer className={`z-10 border-t py-8 mt-12 backdrop-blur-md transition-colors ${isDarkMode ? 'bg-slate-950/90 border-slate-800/80 text-slate-400' : 'bg-white/90 border-slate-200 text-slate-600'}`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs">
           
           {/* BOTTOM LEFT: Language Switcher Framed Button */}
           <div className="flex items-center gap-3 relative">
