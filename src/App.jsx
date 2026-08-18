@@ -34,7 +34,8 @@ import {
   X,
   Twitter,
   MessageSquare,
-  Send
+  Send,
+  ExternalLink
 } from 'lucide-react';
 
 function App() {
@@ -360,7 +361,24 @@ function App() {
           )}
 
           {/* RIGHT ACTION BUTTONS & MOBILE HAMBURGER MENU TRIGGER (Right Aligned) */}
-          <div className="flex items-center gap-3 shrink-0">
+          <div className="flex items-center gap-2.5 shrink-0">
+            {/* Uniswap Quick Buy $LAB Button */}
+            <a
+              href="https://app.uniswap.org/swap?chain=base&outputCurrency=0xA578a06f60a7D2e79817128A88a0E3eCc5bb4c8B"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold border transition-all ${
+                isDarkMode 
+                  ? 'bg-blue-600/15 border-blue-500/30 text-blue-400 hover:bg-blue-600/25 hover:border-blue-400' 
+                  : 'bg-blue-50 border-blue-200 text-blue-600 hover:bg-blue-100'
+              }`}
+              title="Acheter $LAB sur Uniswap V3 (Base L2)"
+            >
+              <Coins className="w-3.5 h-3.5" />
+              <span>Acheter $LAB</span>
+              <ExternalLink className="w-3 h-3 opacity-60" />
+            </a>
+
             {currentView === 'landing' ? (
               <button
                 onClick={handleEnterApp}

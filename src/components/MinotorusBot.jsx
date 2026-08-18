@@ -631,6 +631,20 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null, onNavigateTab = 
                     </button>
                   ))}
                 </div>
+
+                {/* Direct Uniswap Buy Link Helper */}
+                <div className="pt-2 border-t border-slate-700/50 flex items-center justify-between text-[11px]">
+                  <span className="opacity-60">Pas encore de $LAB ?</span>
+                  <a
+                    href="https://app.uniswap.org/swap?chain=base&outputCurrency=0xA578a06f60a7D2e79817128A88a0E3eCc5bb4c8B"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-cyan-400 hover:text-cyan-300 font-bold flex items-center gap-1"
+                  >
+                    <span>Acheter sur Uniswap Base</span>
+                    <ArrowRight className="w-3 h-3" />
+                  </a>
+                </div>
               </div>
             )}
 
