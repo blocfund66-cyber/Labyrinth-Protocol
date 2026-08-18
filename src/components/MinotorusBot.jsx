@@ -277,13 +277,7 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null, onNavigateTab = 
   };
 
   return (
-    <div 
-      className="fixed z-50 flex flex-col items-end pointer-events-none"
-      style={{
-        bottom: 'calc(6.8rem + env(safe-area-inset-bottom, 0px))',
-        right: 'max(2rem, env(safe-area-inset-right, 2rem))'
-      }}
-    >
+    <div className="fixed bottom-28 right-8 sm:right-14 z-50 flex flex-col items-end pointer-events-none">
       
       {/* 💬 FLOATING CHAT BOX (ANCHORED RIGHT ABOVE THE FLOATING BUTTON) */}
       {isOpen && (
