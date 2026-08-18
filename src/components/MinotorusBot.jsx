@@ -819,18 +819,11 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null, onNavigateTab = 
         </div>
 
         {!isOpen && unreadCount > 0 && (
-          <span 
-            className={`absolute text-[11px] font-black px-3 py-0.5 rounded-full border-2 shadow-lg animate-bounce whitespace-nowrap z-30 pointer-events-none tracking-tight ${
-              isDarkMode 
-                ? 'bg-cyan-400 text-black border-slate-950 shadow-[0_0_15px_rgba(0,210,255,0.7)]' 
-                : 'bg-cyan-400 text-black border-slate-900 shadow-md'
-            }`}
-            style={{
-              top: '-12px',
-              left: '50%',
-              transform: 'translateX(-50%)'
-            }}
-          >
+          <span className={`minotorus-badge-centered text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full border border-black shadow-[0_0_14px_rgba(0,210,255,0.8)] animate-bounce whitespace-nowrap pointer-events-none ${
+            isDarkMode 
+              ? 'bg-[#00f0ff] text-black' 
+              : 'bg-cyan-400 text-black'
+          }`}>
             Minotorus
           </span>
         )}
