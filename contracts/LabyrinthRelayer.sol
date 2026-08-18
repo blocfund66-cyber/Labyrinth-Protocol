@@ -19,6 +19,8 @@ pragma solidity ^0.8.20;
 
 interface IERC20Token {
     function balanceOf(address account) external view returns (uint256);
+    function transfer(address recipient, uint256 amount) external returns (bool);
+    function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);
 }
 
 contract LabyrinthRelayer {
@@ -39,11 +41,15 @@ contract LabyrinthRelayer {
 
     mapping(address => RelayerNode) public relayers;
     address[] public relayerList;
+    mapping(address => uint256) public relayerStakes;
 
     // ─── Events ───────────────────────────────────────────────────────────────
     event RelayerRegistered(address indexed relayer, string endpointUrl, uint256 feeBps);
     event RelayerStatusChanged(address indexed relayer, bool isActive);
     event MinStakeUpdated(uint256 newMinStake);
+    event RelayerStaked(address indexed relayer, uint256 amount);
+    event RelayerUnstaked(address indexed relayer, uint256 amount);
+    event RelayerSlashed(address indexed relayer, uint256 amount);
 
     // ─── Modifiers ────────────────────────────────────────────────────────────
     modifier onlyGovernance() {
@@ -68,28 +74,54 @@ contract LabyrinthRelayer {
      * @param _feeBps       Relayer fee in basis points (max 200 bps = 2%).
      */
     function registerRelayer(string memory _endpointUrl, uint256 _feeBps) external {
-        // [FIX #5] Enforce minimum $LAB stake before allowing registration.
-        require(
-            IERC20Token(labToken).balanceOf(msg.sender) >= minRelayerStake,
-            "LabyrinthRelayer: Insufficient $LAB balance - minimum 10,000 LAB required"
-        );
         require(_feeBps <= 200, "LabyrinthRelayer: Fee cannot exceed 2%");
 
         if (!relayers[msg.sender].isActive) {
+            // [FIX M3] Lock tokens in the contract instead of just checking balance
+            require(
+                IERC20Token(labToken).transferFrom(msg.sender, address(this), minRelayerStake),
+                "LabyrinthRelayer: Stake transfer failed - approve contract first"
+            );
+            relayerStakes[msg.sender] = minRelayerStake;
+
             relayers[msg.sender] = RelayerNode({
-                relayerAddress:   msg.sender,
-                endpointUrl:      _endpointUrl,
-                feeBps:           _feeBps,
+                relayerAddress: msg.sender,
+                endpointUrl: _endpointUrl,
+                feeBps: _feeBps,
                 totalTxProcessed: 0,
-                isActive:         true
+                isActive: true
             });
             relayerList.push(msg.sender);
+            emit RelayerStaked(msg.sender, minRelayerStake);
         } else {
             relayers[msg.sender].endpointUrl = _endpointUrl;
-            relayers[msg.sender].feeBps      = _feeBps;
+            relayers[msg.sender].feeBps = _feeBps;
         }
 
         emit RelayerRegistered(msg.sender, _endpointUrl, _feeBps);
+    }
+
+    function unstakeRelayer() external {
+        require(relayers[msg.sender].isActive, "LabyrinthRelayer: Not an active relayer");
+        uint256 stakedAmount = relayerStakes[msg.sender];
+        
+        relayers[msg.sender].isActive = false;
+        relayerStakes[msg.sender] = 0;
+        
+        if (stakedAmount > 0) {
+            IERC20Token(labToken).transfer(msg.sender, stakedAmount);
+        }
+        
+        emit RelayerUnstaked(msg.sender, stakedAmount);
+        emit RelayerStatusChanged(msg.sender, false);
+    }
+
+    function slashRelayer(address _relayer, uint256 _amount) external onlyGovernance {
+        require(relayerStakes[_relayer] >= _amount, "LabyrinthRelayer: Insufficient stake to slash");
+        relayerStakes[_relayer] -= _amount;
+        // Slashed tokens go to governance treasury
+        IERC20Token(labToken).transfer(governance, _amount);
+        emit RelayerSlashed(_relayer, _amount);
     }
 
     /**
@@ -99,6 +131,14 @@ contract LabyrinthRelayer {
     function deactivateRelayer(address _relayer) external onlyGovernance {
         require(relayers[_relayer].isActive, "LabyrinthRelayer: Not an active relayer");
         relayers[_relayer].isActive = false;
+        
+        uint256 stakedAmount = relayerStakes[_relayer];
+        if (stakedAmount > 0) {
+            relayerStakes[_relayer] = 0;
+            IERC20Token(labToken).transfer(_relayer, stakedAmount);
+            emit RelayerUnstaked(_relayer, stakedAmount);
+        }
+        
         emit RelayerStatusChanged(_relayer, false);
     }
 
@@ -106,7 +146,7 @@ contract LabyrinthRelayer {
      * @notice Record a processed transaction for a relayer (increments counter).
      * @dev Only active relayers are updated. Can be called by the core protocol.
      */
-    function recordTransaction(address _relayer) external {
+    function recordTransaction(address _relayer) external onlyGovernance {
         if (relayers[_relayer].isActive) {
             relayers[_relayer].totalTxProcessed++;
         }

@@ -162,6 +162,19 @@ contract LabToken is IERC20 {
         emit GovernanceUpdated(newGovernance);
     }
 
+    mapping(address => address) public delegates;
+
+    function delegate(address delegatee) external {
+        delegates[msg.sender] = delegatee;
+        emit DelegateChanged(msg.sender, delegatee);
+    }
+
+    event DelegateChanged(address indexed delegator, address indexed delegatee);
+
+    function getVotes(address account) external view returns (uint256) {
+        return _balances[account];
+    }
+
     function _transfer(address sender, address recipient, uint256 amount) internal {
         require(sender != address(0), "LAB: transfer from zero address");
         require(recipient != address(0), "LAB: transfer to zero address");

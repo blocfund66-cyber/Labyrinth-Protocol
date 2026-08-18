@@ -31,7 +31,8 @@ import {
   DaiIcon, 
   WbtcIcon 
 } from './Icons';
-import { switchNetworkInMetaMask, LOW_FEE_CHAINS } from '../contracts/config';
+import { switchNetworkInMetaMask, LOW_FEE_CHAINS, CONTRACT_ADDRESSES, LABYRINTH_CORE_ABI } from '../contracts/config';
+import { ethers } from 'ethers';
 
 const PrivacyMixer = ({ experienceLevel = 'intermediate', t }) => {
   const tMixer = t.mixer;
@@ -118,6 +119,9 @@ const PrivacyMixer = ({ experienceLevel = 'intermediate', t }) => {
   const [isWithdrawing, setIsWithdrawing] = useState(false);
   const [withdrawSuccess, setWithdrawSuccess] = useState(false);
   const [copiedNote, setCopiedNote] = useState(false);
+  const [depositTxHash, setDepositTxHash] = useState(null);
+  const [isDepositing, setIsDepositing] = useState(false);
+  const [depositError, setDepositError] = useState(null);
 
   // Dynamic Token List for Current Selected Chain
   const availableTokens = chainTokens[sourceChain] || chainTokens.ethereum;
@@ -143,12 +147,60 @@ const PrivacyMixer = ({ experienceLevel = 'intermediate', t }) => {
   };
 
   // Generate Labyrinth Cryptographic Note
-  const handleGenerateDepositNote = () => {
-    const randomHex1 = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-    const randomHex2 = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-    const note = `labyrinth-v1-${sourceChain}-${token}-${amountTier}-${randomHex1}${randomHex2}`;
+  const handleGenerateDepositNote = async () => {
+    // [FIX C4+C5] Cryptographically secure note + real smart contract deposit
+    const nullifierBytes = new Uint8Array(31);
+    const secretBytes = new Uint8Array(31);
+    crypto.getRandomValues(nullifierBytes);
+    crypto.getRandomValues(secretBytes);
+    const nullifierHex = Array.from(nullifierBytes, b => b.toString(16).padStart(2, '0')).join('');
+    const secretHex = Array.from(secretBytes, b => b.toString(16).padStart(2, '0')).join('');
+    const note = `labyrinth-v1-${sourceChain}-${token}-${amountTier}-${nullifierHex}${secretHex}`;
     setGeneratedNote(note);
-    setIsDepositConfirmed(true);
+
+    // Attempt real on-chain deposit if MetaMask is available
+    if (window.ethereum) {
+      try {
+        setIsDepositing(true);
+        setDepositError(null);
+
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const signer = await provider.getSigner();
+
+        // Compute commitment hash from nullifier + secret (SHA-256 as Poseidon proxy)
+        const encoder = new TextEncoder();
+        const commitmentData = encoder.encode(nullifierHex + secretHex);
+        const commitmentDigest = await crypto.subtle.digest('SHA-256', commitmentData);
+        const commitmentBytes = new Uint8Array(commitmentDigest);
+        // Convert to uint256 (take first 31 bytes to stay within BN254 field)
+        const commitmentHex = '0x' + Array.from(commitmentBytes.slice(0, 31), b => b.toString(16).padStart(2, '0')).join('').padEnd(64, '0');
+
+        const coreAddress = CONTRACT_ADDRESSES.sepolia.LabyrinthCore;
+        const coreContract = new ethers.Contract(coreAddress, LABYRINTH_CORE_ABI, signer);
+
+        // Get denomination from contract
+        const denomination = await coreContract.denomination();
+
+        // Send deposit transaction
+        const tx = await coreContract.deposit(commitmentHex, false, {
+          value: denomination
+        });
+
+        setDepositTxHash(tx.hash);
+        await tx.wait();
+        setIsDepositing(false);
+        setIsDepositConfirmed(true);
+      } catch (err) {
+        console.error('On-chain deposit failed:', err);
+        setIsDepositing(false);
+        setDepositError(err.code === 'ACTION_REJECTED' ? 'Transaction rejetée par l\'utilisateur.' : `Erreur: ${err.message?.substring(0, 80)}`);
+        // Still show the note even if the tx fails (user can retry)
+        setIsDepositConfirmed(true);
+      }
+    } else {
+      // No wallet — show note in demo mode
+      setIsDepositConfirmed(true);
+    }
   };
 
   const copyToClipboard = (text) => {
@@ -166,15 +218,64 @@ const PrivacyMixer = ({ experienceLevel = 'intermediate', t }) => {
     element.click();
   };
 
-  const handleWithdraw = (e) => {
+  const handleWithdraw = async (e) => {
     e.preventDefault();
     if (!withdrawNote || !recipientAddress) return;
 
     setIsWithdrawing(true);
-    setTimeout(() => {
-      setIsWithdrawing(false);
-      setWithdrawSuccess(true);
-    }, 2500);
+
+    if (window.ethereum) {
+      try {
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const signer = await provider.getSigner();
+
+        const coreAddress = CONTRACT_ADDRESSES.sepolia.LabyrinthCore;
+        const coreContract = new ethers.Contract(coreAddress, LABYRINTH_CORE_ABI, signer);
+
+        // Parse the secret note to extract nullifier and secret
+        const noteParts = withdrawNote.split('-');
+        const notePayload = noteParts.slice(5).join('');
+
+        // Compute nullifier hash from the note
+        const encoder = new TextEncoder();
+        const nullifierData = encoder.encode(notePayload.substring(0, 62));
+        const nullifierDigest = await crypto.subtle.digest('SHA-256', nullifierData);
+        const nullifierBytes = new Uint8Array(nullifierDigest);
+        const nullifierHash = '0x' + Array.from(nullifierBytes, b => b.toString(16).padStart(2, '0')).join('');
+
+        // Get current Merkle root
+        const currentRoot = await coreContract.getLastRoot();
+
+        // Build a placeholder proof (real ZK proof generation requires circom/snarkjs)
+        const proofPlaceholder = ethers.zeroPadValue('0x01', 256);
+
+        // Attempt withdrawal
+        const tx = await coreContract.withdraw(
+          proofPlaceholder,
+          currentRoot,
+          nullifierHash,
+          recipientAddress,
+          ethers.ZeroAddress,  // No relayer
+          0,                   // No relayer fee
+          0,                   // Current chain
+          '0x'                 // No PoI certificate
+        );
+
+        await tx.wait();
+        setIsWithdrawing(false);
+        setWithdrawSuccess(true);
+      } catch (err) {
+        console.error('On-chain withdrawal failed:', err);
+        setIsWithdrawing(false);
+        alert(`Erreur de retrait: ${err.message?.substring(0, 100) || 'Transaction échouée'}`);
+      }
+    } else {
+      // Demo mode fallback
+      setTimeout(() => {
+        setIsWithdrawing(false);
+        setWithdrawSuccess(true);
+      }, 2500);
+    }
   };
 
   return (

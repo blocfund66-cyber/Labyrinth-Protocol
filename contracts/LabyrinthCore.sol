@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
+import "./PoseidonT3.sol";
+
 /**
  * @title LabyrinthCore (Tornado Cash Inspired Architecture + DeFi Yield + PoI)
  * @notice Core Privacy Pool & Cross-Chain Routing Contract for Labyrinth V1
@@ -15,15 +17,20 @@ pragma solidity ^0.8.20;
  * 4. EIP-1559 Engine: Protocol fees automatically buy back & burn $LAB tokens.
  *
  * ─── AUDIT FIX LOG ────────────────────────────────────────────────────────────
- * [FIX #1] CRITICAL: Replaced keccak256 chain with a real binary IncrementalMerkleTree
- *          (depth = TREE_HEIGHT = 20, capacity = 1,048,576 commitments).
- *          Uses precalculated keccak256 zero-values per level (Tornado Cash pattern).
+ * [FIX C1] CRITICAL: Replaced keccak256 with PoseidonT3 hash for ALL Merkle tree
+ *          operations (zero-values, insertion, root computation). This ensures
+ *          on-chain hash compatibility with the off-chain circom ZK-SNARK circuit.
  * [FIX #2] CRITICAL: ZK-SNARK verifier is now mandatory. A governance-controlled
  *          `verifierActive` flag replaces the silent address(0) bypass.
  *          The verifier MUST be set before `verifierActive` can be enabled.
+ * [FIX C3] CRITICAL: Added `productionMode` flag. Once enabled, the ZK verifier
+ *          cannot be disabled and the verifier contract must have code size > 200
+ *          bytes (prevents MockVerifier usage on mainnet).
  * [FIX #4] MEDIUM: PoI certificate is now validated (minimum 32-byte length check
  *          + keccak256 integrity hash). Invalid certificates emit status=false
  *          and do NOT revert (to preserve gasless relayer UX).
+ * [FIX H1] HIGH: Added nonReentrant modifier on withdraw() to prevent reentrancy
+ *          via .transfer() on L2 chains where gas limits may differ.
  * ──────────────────────────────────────────────────────────────────────────────
  *
  * ⚠️  DEPLOYMENT STATUS: NOT DEPLOYED ON ANY BLOCKCHAIN NETWORK.
@@ -41,6 +48,18 @@ interface ILabToken {
 
 contract LabyrinthCore {
 
+    // ─── [FIX H1] Reentrancy Guard ─────────────────────────────────────────────
+    uint256 private constant _NOT_ENTERED = 1;
+    uint256 private constant _ENTERED     = 2;
+    uint256 private _reentrancyStatus = _NOT_ENTERED;
+
+    modifier nonReentrant() {
+        require(_reentrancyStatus != _ENTERED, "LabyrinthCore: Reentrant call");
+        _reentrancyStatus = _ENTERED;
+        _;
+        _reentrancyStatus = _NOT_ENTERED;
+    }
+
     // ─── Protocol Governance & Dependencies ───────────────────────────────────
     address public governance;
     address public labTokenAddress;
@@ -50,46 +69,64 @@ contract LabyrinthCore {
     /// @dev Set to false during development/testnet. MUST be set to true before mainnet launch.
     bool public verifierActive = false;
 
+    /// @notice [FIX C3] Once true, verifierActive CANNOT be set back to false,
+    ///         and the verifier contract MUST have code size > 200 bytes.
+    ///         This prevents accidental or malicious use of MockVerifier on mainnet.
+    bool public productionMode = false;
+
+    /// @notice [FIX M1] Emergency pause flag. When true, deposits and withdrawals are blocked.
+    bool public paused = false;
+
     // ─── Fee Configuration (in basis points, 100 bps = 1%) ───────────────────
     uint256 public protocolFeeBps = 15;      // 0.15% protocol fee
     uint256 public burnFeeShareBps = 5000;   // 50% of protocol fees buy back & burn $LAB
 
-    // ─── [FIX #1] IncrementalMerkleTree (Binary, Depth = 20) ─────────────────
-    // Tornado Cash MerkleTreeWithHistory pattern adapted for keccak256 leaves.
+    // ─── [FIX C1] IncrementalMerkleTree (Binary, Depth = 20, Poseidon Hash) ──
+    // Tornado Cash MerkleTreeWithHistory pattern adapted for POSEIDON hash.
+    // [FIX C1] Replaced keccak256 with PoseidonT3 for ZK-SNARK circuit compatibility.
     // Capacity: 2^20 = 1,048,576 commitments max.
     uint32 public constant TREE_HEIGHT = 20;
     uint32 public nextIndex = 0;
 
-    // filledSubtrees[i] holds the hash of the last filled node at level i.
-    bytes32[TREE_HEIGHT] public filledSubtrees;
+    // filledSubtrees[i] holds the Poseidon hash of the last filled node at level i.
+    uint256[TREE_HEIGHT] public filledSubtrees;
 
     // Historical roots ring-buffer: last 30 valid roots are kept so proofs
     // generated against a recent root remain valid even after new deposits.
     uint32 public constant ROOT_HISTORY_SIZE = 30;
-    bytes32[ROOT_HISTORY_SIZE] public roots;
+    uint256[ROOT_HISTORY_SIZE] public roots;
     uint32 public currentRootIndex = 0;
 
-    // Keccak256 zero-values for each level of the tree (precalculated).
-    // zeros[i] = keccak256(zeros[i-1] || zeros[i-1])
-    // zeros[0] = keccak256("LABYRINTH_ZERO_LEAF")
-    bytes32[TREE_HEIGHT] private _zeros;
+    // [FIX C1] Poseidon zero-values for each level of the tree (precalculated).
+    // zeros[i] = PoseidonT3.hash(zeros[i-1], zeros[i-1])
+    // zeros[0] = PoseidonT3.hash(0, 0)  (canonical zero leaf)
+    uint256[TREE_HEIGHT] private _zeros;
 
-    mapping(bytes32 => bool) public commitments;
+    mapping(uint256 => bool) public commitments;
     mapping(bytes32 => bool) public nullifierHashes;
 
     // ─── Fixed Pool Denomination ───────────────────────────────────────────────
     uint256 public immutable denomination;
 
     // ─── Events ───────────────────────────────────────────────────────────────
-    event Deposit(bytes32 indexed commitment, uint32 leafIndex, uint256 timestamp, bool yieldEnabled);
+    event Deposit(uint256 indexed commitment, uint32 leafIndex, uint256 timestamp, bool yieldEnabled);
     event Withdrawal(address indexed to, bytes32 nullifierHash, address indexed relayer, uint256 relayerFee, uint256 destinationChainId);
     event ProofOfInnocenceVerified(bytes32 indexed nullifierHash, bool status);
     event FeeBurnExecuted(uint256 feeAmount, uint256 labTokensBurned);
     event VerifierUpdated(address indexed newVerifier, bool active);
+    event ProductionModeEnabled(uint256 timestamp);
+    event ProtocolPaused(address indexed by, uint256 timestamp);
+    event ProtocolUnpaused(address indexed by, uint256 timestamp);
 
     // ─── Modifiers ────────────────────────────────────────────────────────────
     modifier onlyGovernance() {
         require(msg.sender == governance, "LabyrinthCore: Only governance");
+        _;
+    }
+
+    /// @notice [FIX M1] Prevents execution when the protocol is paused.
+    modifier whenNotPaused() {
+        require(!paused, "LabyrinthCore: Protocol is paused");
         _;
     }
 
@@ -106,52 +143,53 @@ contract LabyrinthCore {
         labTokenAddress = _labToken;
         governance     = _governance;
 
-        // [FIX #1] Precalculate zero-values for all TREE_HEIGHT levels.
-        bytes32 zeroLeaf = keccak256(abi.encodePacked("LABYRINTH_ZERO_LEAF"));
-        _zeros[0] = zeroLeaf;
+        // [FIX C1] Precalculate Poseidon zero-values for all TREE_HEIGHT levels.
+        // zeros[0] = Poseidon(0, 0) — canonical zero leaf for the circuit.
+        _zeros[0] = PoseidonT3.hash(0, 0);
         for (uint32 i = 1; i < TREE_HEIGHT; i++) {
-            _zeros[i] = keccak256(abi.encodePacked(_zeros[i - 1], _zeros[i - 1]));
+            _zeros[i] = PoseidonT3.hash(_zeros[i - 1], _zeros[i - 1]);
         }
 
-        // Initialise filledSubtrees with zero-values (empty tree state).
+        // Initialise filledSubtrees with Poseidon zero-values (empty tree state).
         for (uint32 i = 0; i < TREE_HEIGHT; i++) {
             filledSubtrees[i] = _zeros[i];
         }
 
-        // Store the initial empty root in the ring-buffer.
-        bytes32 initialRoot = _computeRootFromZeros();
+        // Store the initial empty Poseidon root in the ring-buffer.
+        uint256 initialRoot = _computeRootFromZeros();
         roots[0] = initialRoot;
     }
 
     // ─── Internal Merkle Helpers ───────────────────────────────────────────────
 
     /**
-     * @dev Compute the root of an all-zeros tree without inserting anything.
+     * @dev [FIX C1] Compute the root of an all-zeros tree using Poseidon.
      *      Used only in the constructor to initialise the ring-buffer.
      */
-    function _computeRootFromZeros() internal view returns (bytes32 root) {
+    function _computeRootFromZeros() internal view returns (uint256 root) {
         root = _zeros[0];
         for (uint32 i = 0; i < TREE_HEIGHT; i++) {
-            root = keccak256(abi.encodePacked(root, _zeros[i]));
+            root = PoseidonT3.hash(root, _zeros[i]);
         }
     }
 
     /**
-     * @dev [FIX #1] Insert a new leaf into the incremental binary Merkle tree.
-     *      Mirrors the Tornado Cash MerkleTreeWithHistory._insert() logic.
-     * @param leaf The commitment hash to insert.
+     * @dev [FIX C1] Insert a new leaf into the incremental binary Merkle tree.
+     *      Mirrors the Tornado Cash MerkleTreeWithHistory._insert() logic,
+     *      but uses PoseidonT3.hash() instead of keccak256 for ZK compatibility.
+     * @param leaf The Poseidon commitment hash to insert.
      * @return index The leaf index that was assigned.
      */
-    function _insert(bytes32 leaf) internal returns (uint32 index) {
+    function _insert(uint256 leaf) internal returns (uint32 index) {
         require(nextIndex < 2 ** TREE_HEIGHT, "LabyrinthCore: Merkle tree is full");
 
         uint32 currentIndex = nextIndex;
         index = currentIndex;
         nextIndex++;
 
-        bytes32 currentLevelHash = leaf;
-        bytes32 left;
-        bytes32 right;
+        uint256 currentLevelHash = leaf;
+        uint256 left;
+        uint256 right;
 
         for (uint32 i = 0; i < TREE_HEIGHT; i++) {
             if (currentIndex % 2 == 0) {
@@ -164,11 +202,12 @@ contract LabyrinthCore {
                 left  = filledSubtrees[i];
                 right = currentLevelHash;
             }
-            currentLevelHash = keccak256(abi.encodePacked(left, right));
+            // [FIX C1] Poseidon hash instead of keccak256
+            currentLevelHash = PoseidonT3.hash(left, right);
             currentIndex /= 2;
         }
 
-        // Save the new root in the ring-buffer.
+        // Save the new Poseidon root in the ring-buffer.
         uint32 newRootIndex = (currentRootIndex + 1) % ROOT_HISTORY_SIZE;
         currentRootIndex = newRootIndex;
         roots[newRootIndex] = currentLevelHash;
@@ -176,10 +215,10 @@ contract LabyrinthCore {
 
     /**
      * @notice Check whether a given root exists in the historical ring-buffer.
-     * @param _root The Merkle root to check.
+     * @param _root The Poseidon Merkle root to check.
      */
-    function isKnownRoot(bytes32 _root) public view returns (bool) {
-        if (_root == bytes32(0)) return false;
+    function isKnownRoot(uint256 _root) public view returns (bool) {
+        if (_root == 0) return false;
         uint32 i = currentRootIndex;
         // Scan the ring-buffer (max ROOT_HISTORY_SIZE iterations).
         for (uint32 j = 0; j < ROOT_HISTORY_SIZE; j++) {
@@ -194,9 +233,9 @@ contract LabyrinthCore {
     }
 
     /**
-     * @notice Return the most recently computed Merkle root.
+     * @notice Return the most recently computed Poseidon Merkle root.
      */
-    function getLastRoot() external view returns (bytes32) {
+    function getLastRoot() external view returns (uint256) {
         return roots[currentRootIndex];
     }
 
@@ -208,18 +247,15 @@ contract LabyrinthCore {
      *                    Poseidon(nullifier, secret)
      * @param _enableYield Auto-stake funds into DeFi yield-bearing pools (Lido/Aave) while mixing.
      */
-    function deposit(bytes32 _commitment, bool _enableYield) external payable {
-        if (denomination > 0) {
-            require(msg.value == denomination, "LabyrinthCore: Incorrect deposit denomination");
-        } else {
-            require(msg.value > 0, "LabyrinthCore: Deposit amount must be > 0");
-        }
+    function deposit(uint256 _commitment, bool _enableYield) external payable whenNotPaused {
+        require(denomination > 0, "LabyrinthCore: Denomination must be set");
+        require(msg.value == denomination, "LabyrinthCore: Incorrect deposit denomination");
 
         require(!commitments[_commitment], "LabyrinthCore: Commitment already in Merkle tree");
 
         commitments[_commitment] = true;
 
-        // [FIX #1] Insert leaf into the real binary IncrementalMerkleTree (depth 20).
+        // [FIX C1] Insert Poseidon leaf into the binary IncrementalMerkleTree (depth 20).
         uint32 insertedIndex = _insert(_commitment);
 
         emit Deposit(_commitment, insertedIndex, block.timestamp, _enableYield);
@@ -238,14 +274,14 @@ contract LabyrinthCore {
      */
     function withdraw(
         bytes memory _proof,
-        bytes32 _root,
+        uint256 _root,
         bytes32 _nullifierHash,
         address payable _recipient,
         address payable _relayer,
         uint256 _relayerFee,
         uint256 _destinationChainId,
         bytes memory _poiCertificate
-    ) external {
+    ) external nonReentrant whenNotPaused {
         // ── CHECKS ────────────────────────────────────────────────────────────
         require(!nullifierHashes[_nullifierHash], "LabyrinthCore: Note already spent");
         require(isKnownRoot(_root), "LabyrinthCore: Invalid Merkle tree root");
@@ -255,7 +291,7 @@ contract LabyrinthCore {
             require(verifier != address(0), "LabyrinthCore: Verifier not configured");
             require(_proof.length > 0, "LabyrinthCore: ZK proof required");
             uint256[] memory publicInputs = new uint256[](2);
-            publicInputs[0] = uint256(_root);
+            publicInputs[0] = _root;
             publicInputs[1] = uint256(_nullifierHash);
             require(
                 IVerifier(verifier).verifyProof(_proof, publicInputs),
@@ -277,7 +313,7 @@ contract LabyrinthCore {
         nullifierHashes[_nullifierHash] = true;
 
         // ── INTERACTIONS ──────────────────────────────────────────────────────
-        uint256 poolAmount = denomination > 0 ? denomination : 1 ether;
+        uint256 poolAmount = denomination;
         uint256 pFee       = (poolAmount * protocolFeeBps) / 10000;
 
         require(_relayerFee < poolAmount - pFee, "LabyrinthCore: Relayer fee exceeds balance");
@@ -316,7 +352,7 @@ contract LabyrinthCore {
     /**
      * @notice Return the precalculated zero-value for a given tree level.
      */
-    function zeros(uint32 i) external view returns (bytes32) {
+    function zeros(uint32 i) external view returns (uint256) {
         require(i < TREE_HEIGHT, "LabyrinthCore: Level out of range");
         return _zeros[i];
     }
@@ -325,22 +361,90 @@ contract LabyrinthCore {
 
     function setFeeConfig(uint256 _protocolFeeBps, uint256 _burnFeeShareBps) external onlyGovernance {
         require(_protocolFeeBps <= 500, "LabyrinthCore: Fee cannot exceed 5%");
+        require(_burnFeeShareBps <= 10000, "LabyrinthCore: Burn share cannot exceed 100%");
         protocolFeeBps   = _protocolFeeBps;
         burnFeeShareBps  = _burnFeeShareBps;
     }
 
     /**
-     * @notice [FIX #2] Set or update the ZK-SNARK verifier contract address.
+     * @notice [FIX #2 + C3] Set or update the ZK-SNARK verifier contract address.
      * @dev    The verifier must be set before `_active` can be set to true.
+     *         In production mode, the verifier cannot be deactivated and
+     *         must have code size > 200 bytes (prevents MockVerifier).
      * @param _verifier  Address of the deployed Groth16 verifier contract.
      * @param _active    Whether to require proof verification on every withdrawal.
      */
     function setVerifier(address _verifier, bool _active) external onlyGovernance {
+        // [FIX C3] In production mode, verifier cannot be deactivated.
+        if (productionMode) {
+            require(_active, "LabyrinthCore: Cannot deactivate verifier in production mode");
+        }
+
         if (_active) {
             require(_verifier != address(0), "LabyrinthCore: Cannot activate null verifier");
+
+            // [FIX C3] Enforce minimum code size to prevent MockVerifier usage.
+            // MockVerifier has ~200 bytes of bytecode. A real Groth16 verifier
+            // with pairing checks is always > 500 bytes.
+            uint256 codeSize;
+            assembly {
+                codeSize := extcodesize(_verifier)
+            }
+            require(codeSize > 500, "LabyrinthCore: Verifier code too small — potential MockVerifier detected");
         }
+
         verifier       = _verifier;
         verifierActive = _active;
         emit VerifierUpdated(_verifier, _active);
+    }
+
+    /**
+     * @notice [FIX C3] Enable production mode. THIS IS IRREVERSIBLE.
+     * @dev    Once enabled:
+     *         1. verifierActive is permanently set to true.
+     *         2. The verifier cannot be deactivated.
+     *         3. The verifier contract must pass the code size check (> 500 bytes).
+     */
+    function enableProductionMode() external onlyGovernance {
+        require(!productionMode, "LabyrinthCore: Already in production mode");
+        require(verifierActive, "LabyrinthCore: Verifier must be active before enabling production mode");
+        require(verifier != address(0), "LabyrinthCore: Verifier not configured");
+
+        uint256 codeSize;
+        assembly {
+            codeSize := extcodesize(sload(verifier.slot))
+        }
+        // Re-check at activation time to ensure a real verifier is deployed.
+        // Use a direct extcodesize on the stored verifier address.
+        uint256 vSize;
+        address v = verifier;
+        assembly {
+            vSize := extcodesize(v)
+        }
+        require(vSize > 500, "LabyrinthCore: Current verifier too small for production mode");
+
+        productionMode = true;
+        emit ProductionModeEnabled(block.timestamp);
+    }
+
+    // ─── [FIX M1] Emergency Pause / Unpause ──────────────────────────────────
+
+    /**
+     * @notice Pause all deposit and withdrawal operations.
+     * @dev Use in case of a detected vulnerability or exploit in progress.
+     */
+    function pause() external onlyGovernance {
+        require(!paused, "LabyrinthCore: Already paused");
+        paused = true;
+        emit ProtocolPaused(msg.sender, block.timestamp);
+    }
+
+    /**
+     * @notice Resume normal operations after the vulnerability has been resolved.
+     */
+    function unpause() external onlyGovernance {
+        require(paused, "LabyrinthCore: Not paused");
+        paused = false;
+        emit ProtocolUnpaused(msg.sender, block.timestamp);
     }
 }

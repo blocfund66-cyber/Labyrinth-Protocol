@@ -210,7 +210,10 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null, onNavigateTab = 
     setStep('EXECUTING');
     addUserMessage("Confirmer et exécuter le mixage ZK.");
     setTimeout(() => {
-      const secretNote = `labyrinth-v1-zk-${Math.random().toString(36).substring(2, 12)}-${Math.random().toString(36).substring(2, 10)}`;
+      const randomBytes = new Uint8Array(32);
+      crypto.getRandomValues(randomBytes);
+      const hexSecret = Array.from(randomBytes, b => b.toString(16).padStart(2, '0')).join('');
+      const secretNote = `labyrinth-v1-zk-${hexSecret.substring(0, 16)}-${hexSecret.substring(16, 32)}`;
       setGeneratedSecretNote(secretNote);
       setStep('COMPLETED');
       addBotMessage(`Mixage Zero-Knowledge exécuté avec succès ! Conservez précieusement votre Note Secrète cryptographique.`);
@@ -274,12 +277,18 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null, onNavigateTab = 
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end pointer-events-none">
+    <div 
+      className="fixed z-50 flex flex-col items-end pointer-events-none"
+      style={{
+        bottom: 'calc(5.5rem + env(safe-area-inset-bottom, 0px))',
+        right: 'max(1.25rem, env(safe-area-inset-right, 1.25rem))'
+      }}
+    >
       
-      {/* 💬 FLOATING CHAT BOX */}
+      {/* 💬 FLOATING CHAT BOX (ANCHORED RIGHT ABOVE THE FLOATING BUTTON) */}
       {isOpen && (
         <div 
-          className={`pointer-events-auto w-[340px] sm:w-[410px] h-[560px] max-h-[84vh] mb-3 rounded-2xl shadow-2xl border flex flex-col overflow-hidden animate-fadeIn transition-colors ${
+          className={`pointer-events-auto w-[calc(100vw-2rem)] sm:w-[410px] h-[550px] max-h-[calc(100dvh-120px)] mb-3 rounded-2xl shadow-2xl border flex flex-col overflow-hidden animate-fadeIn transition-colors ${
             isDarkMode 
               ? 'bg-slate-950/95 border-cyan-500/40 text-slate-100 shadow-[0_20px_50px_rgba(0,210,255,0.25)]' 
               : 'bg-white/95 border-blue-400/40 text-slate-900 shadow-[0_20px_50px_rgba(37,99,235,0.2)]'
@@ -816,10 +825,10 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null, onNavigateTab = 
         </div>
 
         {!isOpen && unreadCount > 0 && (
-          <span className={`absolute -top-1.5 -right-1.5 text-[10px] font-extrabold px-2 py-0.5 rounded-full border shadow-md animate-bounce ${
+          <span className={`absolute -top-3.5 left-1/2 -translate-x-1/2 text-[10px] font-black px-2.5 py-0.5 rounded-full border shadow-lg animate-bounce whitespace-nowrap z-20 pointer-events-none tracking-wide ${
             isDarkMode 
-              ? 'bg-cyan-500 text-slate-950 border-slate-950' 
-              : 'bg-blue-600 text-white border-white'
+              ? 'bg-cyan-400 text-slate-950 border-cyan-200 shadow-[0_0_15px_rgba(0,210,255,0.6)]' 
+              : 'bg-blue-600 text-white border-blue-200 shadow-[0_4px_12px_rgba(37,99,235,0.4)]'
           }`}>
             Minotorus
           </span>

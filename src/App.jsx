@@ -10,7 +10,7 @@ import PioneerQuests from './components/PioneerQuests';
 import MinotorusBot from './components/MinotorusBot';
 import OnboardingModal from './components/OnboardingModal';
 import WalletModal from './components/WalletModal';
-import { AbstractLabyrinthLogo, XLogoIcon } from './components/Icons';
+import { AbstractLabyrinthLogo, XLogoIcon, BullHeadIcon } from './components/Icons';
 import { translations, detectBrowserLanguage } from './i18n/translations';
 import { 
   Lock, 
@@ -225,9 +225,9 @@ function App() {
       {/* Interactive Glowing Canvas Background (Visible in Dark mode) */}
       {isDarkMode && <MazeVisualizer />}
 
-      {/* Dynamic Header Navbar - Mathematically Centered Nav & Symmetrical Balance */}
+      {/* Dynamic Header Navbar - Symmetrical Balance & No-Overlap Layout */}
       <header className={`sticky top-0 z-40 ${isDarkMode ? 'bg-[#050814]/90 border-blue-500/20' : 'bg-white/95 border-slate-200'} backdrop-blur-xl border-b transition-colors shadow-sm`}>
-        <div className="max-w-[1400px] mx-auto px-5 sm:px-8 h-20 flex items-center justify-between relative">
+        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-3 relative">
           
           {/* LOGO & TITLE (Left Aligned with Animated Alternating Tagline) */}
           <div className="flex items-center gap-3 cursor-pointer shrink-0 z-10" onClick={() => { if (currentView === 'app') setCurrentView('landing'); }}>
@@ -245,13 +245,13 @@ function App() {
             </div>
           </div>
 
-          {/* DYNAMIC HEADER NAVIGATION BAR (MATHEMATICALLY CENTERED IN VIEWPORT) */}
+          {/* DYNAMIC HEADER NAVIGATION BAR (FLEX CONTAINER - ZERO OVERLAP WITH ACTION BUTTONS) */}
           {currentView === 'landing' ? (
             /* ================= LANDING PAGE HEADER NAV ================= */
-            <nav className={`hidden lg:flex items-center gap-1.5 p-1.5 rounded-2xl border absolute left-1/2 -translate-x-1/2 ${isDarkMode ? 'bg-slate-900/80 border-slate-800' : 'bg-slate-100 border-slate-200'}`}>
+            <nav className={`hidden xl:flex items-center gap-1.5 p-1.5 rounded-2xl border ${isDarkMode ? 'bg-slate-900/80 border-slate-800' : 'bg-slate-100 border-slate-200'}`}>
               <button
                 onClick={() => scrollToSection('hero')}
-                className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all text-slate-500 dark:text-slate-400 hover:text-blue-500"
+                className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all text-slate-500 dark:text-slate-400 hover:text-blue-500"
               >
                 <BookOpen className="w-4 h-4" />
                 {t.nav.landingHome}
@@ -259,7 +259,7 @@ function App() {
 
               <button
                 onClick={() => scrollToSection('innovations')}
-                className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all text-slate-500 dark:text-slate-400 hover:text-blue-500"
+                className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all text-slate-500 dark:text-slate-400 hover:text-blue-500"
               >
                 <Layers className="w-4 h-4" />
                 {t.nav.landingInnovations}
@@ -267,7 +267,7 @@ function App() {
 
               <button
                 onClick={() => scrollToSection('security')}
-                className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all text-slate-500 dark:text-slate-400 hover:text-blue-500"
+                className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all text-slate-500 dark:text-slate-400 hover:text-blue-500"
               >
                 <ShieldCheck className="w-4 h-4" />
                 {t.nav.landingSecurity}
@@ -275,114 +275,116 @@ function App() {
 
               <button
                 onClick={() => scrollToSection('tokenomics')}
-                className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all text-slate-500 dark:text-slate-400 hover:text-blue-500"
+                className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all text-slate-500 dark:text-slate-400 hover:text-blue-500"
               >
                 <Coins className="w-4 h-4" />
                 {t.nav.landingTokenomics}
               </button>
             </nav>
           ) : (
-            /* ================= PROTOCOL dAPP HEADER NAV (MATHEMATICALLY CENTERED IN VIEWPORT) ================= */
-            <nav className={`hidden lg:flex items-center gap-1 p-1.5 rounded-2xl border absolute left-1/2 -translate-x-1/2 ${isDarkMode ? 'bg-slate-900/80 border-slate-800' : 'bg-slate-100 border-slate-200'}`}>
+            /* ================= PROTOCOL dAPP HEADER NAV (COMPACT & RESPONSIVE) ================= */
+            <nav className={`hidden xl:flex items-center gap-1 p-1 rounded-2xl border ${isDarkMode ? 'bg-slate-900/80 border-slate-800' : 'bg-slate-100 border-slate-200'}`}>
               <button
                 onClick={() => setActiveTab('mixer')}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
+                className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all ${
                   activeTab === 'mixer'
                     ? 'bg-blue-500/15 text-blue-600 dark:text-blue-400 border border-blue-500/30 shadow-sm'
                     : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
               >
-                <Lock className="w-4 h-4" />
+                <Lock className="w-3.5 h-3.5" />
                 <span>{t.nav.mixer}</span>
               </button>
 
               <button
                 onClick={() => setActiveTab('yield')}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
+                className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all ${
                   activeTab === 'yield'
                     ? 'bg-blue-500/15 text-blue-600 dark:text-blue-400 border border-blue-500/30 shadow-sm'
                     : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
               >
-                <TrendingUp className="w-4 h-4" />
+                <TrendingUp className="w-3.5 h-3.5" />
                 <span>{t.nav.yield}</span>
               </button>
 
               <button
                 onClick={() => setActiveTab('tokenomics')}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
+                className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all ${
                   activeTab === 'tokenomics'
                     ? 'bg-blue-500/15 text-blue-600 dark:text-blue-400 border border-blue-500/30 shadow-sm'
                     : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
               >
-                <Coins className="w-4 h-4" />
+                <Coins className="w-3.5 h-3.5" />
                 <span>{t.nav.tokenomics}</span>
               </button>
 
               {/* GOUVERNANCE & DAO TAB */}
               <button
                 onClick={() => setActiveTab('dao')}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
+                className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all ${
                   activeTab === 'dao'
                     ? 'bg-blue-500/15 text-blue-600 dark:text-blue-400 border border-blue-500/30 shadow-sm'
                     : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
               >
-                <Vote className="w-4 h-4 shrink-0" />
+                <Vote className="w-3.5 h-3.5 shrink-0" />
                 <span className="whitespace-nowrap font-bold">{t?.nav?.dao || 'Gouvernance & DAO'}</span>
               </button>
 
               <button
                 onClick={() => setActiveTab('poi')}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
+                className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all ${
                   activeTab === 'poi'
                     ? 'bg-blue-500/15 text-blue-600 dark:text-blue-400 border border-blue-500/30 shadow-sm'
                     : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
               >
-                <Award className="w-4 h-4" />
+                <Award className="w-3.5 h-3.5" />
                 <span>{t.nav.poi}</span>
               </button>
 
               {/* QUESTS & GALXE TAB */}
               <button
                 onClick={() => setActiveTab('quests')}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
+                className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all ${
                   activeTab === 'quests'
                     ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 shadow-sm shadow-cyan-500/20'
                     : 'text-cyan-400/80 hover:text-cyan-300'
                 }`}
               >
-                <Trophy className="w-4 h-4 text-amber-400 animate-pulse" />
+                <Trophy className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
                 <span className="whitespace-nowrap font-bold text-amber-300">{t?.nav?.quests || 'Quêtes Bêta 🎯'}</span>
               </button>
             </nav>
           )}
 
           {/* RIGHT ACTION BUTTONS & MOBILE HAMBURGER MENU TRIGGER (Right Aligned) */}
-          <div className="flex items-center gap-2.5 shrink-0">
-            {/* Uniswap Quick Buy $LAB Button */}
+          <div className="flex items-center gap-2 sm:gap-2.5 shrink-0 z-10">
+            {/* 🐂 Uniswap Quick Buy $LAB Compact Icon Button */}
             <a
               href="https://app.uniswap.org/swap?chain=base&outputCurrency=0xA578a06f60a7D2e79817128A88a0E3eCc5bb4c8B"
               target="_blank"
               rel="noopener noreferrer"
-              className={`hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold border transition-all ${
+              className={`relative group flex items-center justify-center p-2 sm:px-3 sm:py-2 rounded-xl border transition-all shadow-sm ${
                 isDarkMode 
-                  ? 'bg-blue-600/15 border-blue-500/30 text-blue-400 hover:bg-blue-600/25 hover:border-blue-400' 
-                  : 'bg-blue-50 border-blue-200 text-blue-600 hover:bg-blue-100'
+                  ? 'bg-cyan-500/10 border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/20 hover:border-cyan-400 hover:shadow-[0_0_15px_rgba(0,210,255,0.25)]' 
+                  : 'bg-blue-50 border-blue-200 text-blue-600 hover:bg-blue-100 shadow-sm'
               }`}
               title="Acheter $LAB sur Uniswap V3 (Base L2)"
+              aria-label="Acheter $LAB"
             >
-              <Coins className="w-3.5 h-3.5" />
-              <span>Acheter $LAB</span>
-              <ExternalLink className="w-3 h-3 opacity-60" />
+              <BullHeadIcon className="w-4 h-4 text-cyan-400 shrink-0" />
+              <span className="hidden 2xl:inline text-xs font-mono font-black ml-1.5 tracking-wide">$LAB</span>
+              <ExternalLink className="w-3 h-3 opacity-60 ml-1 hidden 2xl:inline" />
             </a>
 
+            {/* Wallet / Launch App Button */}
             {currentView === 'landing' ? (
               <button
                 onClick={handleEnterApp}
-                className="btn-cyan text-xs py-2.5 px-3 sm:px-6 font-bold flex items-center justify-center gap-2 shadow-lg"
+                className="btn-cyan text-xs py-2 px-3 sm:px-4 font-bold flex items-center justify-center gap-2 shadow-lg"
               >
                 <Rocket className="w-4 h-4 shrink-0" />
                 <span className="hidden sm:inline">{t.nav.launchApp}</span>
@@ -390,17 +392,32 @@ function App() {
             ) : (
               <button
                 onClick={handleWalletClick}
-                className="btn-cyan text-xs py-2.5 px-3 sm:px-5 font-bold flex items-center justify-center gap-2 shadow-lg"
+                className={`relative group flex items-center justify-center gap-2 p-2 sm:px-3.5 sm:py-2 rounded-xl font-bold text-xs transition-all shadow-lg ${
+                  isConnected
+                    ? isDarkMode
+                      ? 'bg-emerald-500/15 border border-emerald-500/40 text-emerald-300 hover:bg-emerald-500/25'
+                      : 'bg-emerald-50 border border-emerald-300 text-emerald-700 hover:bg-emerald-100'
+                    : 'btn-cyan'
+                }`}
+                title={isConnected ? `Portefeuille connecté : ${walletAddress}` : 'Connecter un portefeuille Web3'}
+                aria-label="Portefeuille Web3"
               >
                 <Wallet className="w-4 h-4 shrink-0" />
-                <span className="hidden sm:inline">{isConnected ? walletAddress : t.nav.connect}</span>
+                {isConnected ? (
+                  <>
+                    <span className="hidden md:inline font-mono">{walletAddress}</span>
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse hidden sm:inline"></span>
+                  </>
+                ) : (
+                  <span className="hidden md:inline">{t.nav.connect}</span>
+                )}
               </button>
             )}
 
             {/* Mobile Hamburger Menu Toggle Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className={`p-2.5 rounded-xl border transition-all lg:hidden shrink-0 ${
+              className={`p-2 rounded-xl border transition-all xl:hidden shrink-0 ${
                 isDarkMode 
                   ? 'bg-slate-900 border-slate-800 text-slate-300 hover:text-white' 
                   : 'bg-slate-100 border-slate-200 text-slate-700 hover:text-slate-900'
@@ -414,7 +431,7 @@ function App() {
 
         {/* Dynamic Mobile Dropdown Drawer Menu (Menu Burger) */}
         {isMobileMenuOpen && (
-          <div className={`lg:hidden border-b backdrop-blur-2xl transition-all animate-fadeIn ${
+          <div className={`xl:hidden border-b backdrop-blur-2xl transition-all animate-fadeIn ${
             isDarkMode ? 'bg-slate-950/95 border-slate-800 text-slate-200' : 'bg-white/95 border-slate-200 text-slate-800'
           }`}>
             <div className="p-4 space-y-2">
@@ -514,6 +531,19 @@ function App() {
                     <Trophy className="w-4 h-4 text-amber-400 animate-pulse" />
                     <span>{t?.nav?.quests || 'Quêtes Bêta 🎯'}</span>
                   </button>
+
+                  <div className="pt-2">
+                    <a
+                      href="https://app.uniswap.org/swap?chain=base&outputCurrency=0xA578a06f60a7D2e79817128A88a0E3eCc5bb4c8B"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-xs font-bold bg-blue-600/20 border border-blue-500/40 text-blue-300"
+                    >
+                      <Coins className="w-4 h-4 text-amber-400" />
+                      <span>Acheter $LAB sur Uniswap V3 (Base L2)</span>
+                      <ExternalLink className="w-3.5 h-3.5 opacity-60" />
+                    </a>
+                  </div>
                 </>
               )}
             </div>
@@ -521,8 +551,8 @@ function App() {
         )}
       </header>
 
-      {/* Main View */}
-      <main className="flex-1 z-10 relative">
+      {/* Main View - Generous bottom padding to prevent any overlap with floating bot */}
+      <main className="flex-1 z-10 relative pb-28 sm:pb-36">
         {currentView === 'landing' ? (
           <LandingPage onEnterApp={handleEnterApp} t={t} />
         ) : (
@@ -537,9 +567,9 @@ function App() {
         )}
       </main>
 
-      {/* Footer - Clean, Non-Redundant (Single GitHub Code Source Button) */}
-      <footer className={`z-10 border-t py-8 mt-12 backdrop-blur-md transition-colors ${isDarkMode ? 'bg-slate-950/90 border-slate-800/80 text-slate-400' : 'bg-white/90 border-slate-200 text-slate-600'}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs">
+      {/* Footer - Clean, Non-Redundant with Safety Margins for Floating Bot */}
+      <footer className={`z-10 border-t pt-8 pb-32 sm:pb-12 mt-12 backdrop-blur-md transition-colors ${isDarkMode ? 'bg-slate-950/90 border-slate-800/80 text-slate-400' : 'bg-white/90 border-slate-200 text-slate-600'}`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 pr-4 sm:pr-24 flex flex-col md:flex-row items-center justify-between gap-4 text-xs">
           
           {/* BOTTOM LEFT: Language Switcher Framed Button */}
           <div className="flex items-center gap-3 relative">

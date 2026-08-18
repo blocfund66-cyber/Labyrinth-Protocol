@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
-import { CONTRACT_ADDRESSES, LAB_TOKEN_ABI } from '../contracts/config';
+import { CONTRACT_ADDRESSES, LAB_TOKEN_ABI, LABYRINTH_GOVERNANCE_ABI, LABYRINTH_GOVERNOR_ABI } from '../contracts/config';
 import { 
   Vote, 
   PlusCircle, 
@@ -84,7 +84,7 @@ const DAOGovernance = ({ isConnected, walletAddress, connectWallet, t }) => {
       try {
         const labAddress = CONTRACT_ADDRESSES.sepolia.LabToken;
         if (!labAddress || labAddress === '0x0000000000000000000000000000000000000000') {
-          if (isMounted) setLiveLabBalance(500000);
+          if (isMounted) setLiveLabBalance(0);
           return;
         }
 
@@ -97,11 +97,13 @@ const DAOGovernance = ({ isConnected, walletAddress, connectWallet, t }) => {
         const formatted = Number(ethers.formatEther(rawBal));
         
         if (isMounted) {
-          setLiveLabBalance(formatted > 0 ? formatted : 500000);
+          // [FIX C7] Use actual on-chain balance — no fake fallback
+          setLiveLabBalance(formatted);
         }
       } catch (err) {
-        console.warn("Could not fetch live $LAB balance, falling back to testnet demo balance:", err);
-        if (isMounted) setLiveLabBalance(500000);
+        console.warn("Could not fetch live $LAB balance:", err);
+        // [FIX C7] Zero balance on error — do NOT grant fake voting power
+        if (isMounted) setLiveLabBalance(0);
       }
     }
 
@@ -109,7 +111,8 @@ const DAOGovernance = ({ isConnected, walletAddress, connectWallet, t }) => {
     return () => { isMounted = false; };
   }, [isConnected, walletAddress]);
 
-  const userLabBalance = isConnected ? (liveLabBalance || 500000) : 0;
+  // [FIX C7] Real balance only — no mock voting power
+  const userLabBalance = isConnected ? liveLabBalance : 0;
   const isVerifiedMember = isConnected && userLabBalance > 0;
 
   // Mock Active DAO Proposals
@@ -178,42 +181,78 @@ const DAOGovernance = ({ isConnected, walletAddress, connectWallet, t }) => {
   ]);
 
   // Handle Voting Action with Strict Wallet & Token Holder Check
-  const handleVote = (proposalId, voteTypeOrOptionId) => {
+  const handleVote = async (proposalId, voteTypeOrOptionId) => {
     if (!isConnected) {
       setShowAuthWarning(true);
       return;
     }
 
     if (!isVerifiedMember) {
-      alert("⚠️ Accès refusé : Votre portefeuille ne détient pas de jetons $LAB. Seuls les détenteurs de jetons $LAB enregistrés sur la blockchain peuvent participer au vote.");
+      alert("⚠️ Accès refusé : Votre portefeuille ne détient pas de jetons $LAB.");
       return;
     }
 
     if (userVotedProposals[proposalId]) return;
 
-    setProposals(prev => prev.map(p => {
-      if (p.id === proposalId) {
-        if (p.isMultiChoice) {
-          return {
-            ...p,
-            options: p.options.map(opt => 
-              opt.id === voteTypeOrOptionId 
-                ? { ...opt, votes: opt.votes + userLabBalance }
-                : opt
-            )
-          };
-        } else {
-          return {
-            ...p,
-            votesFor: voteTypeOrOptionId === 'for' ? p.votesFor + userLabBalance : p.votesFor,
-            votesAgainst: voteTypeOrOptionId === 'against' ? p.votesAgainst + userLabBalance : p.votesAgainst
-          };
-        }
-      }
-      return p;
-    }));
+    try {
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
 
-    setUserVotedProposals(prev => ({ ...prev, [proposalId]: voteTypeOrOptionId }));
+      // [FIX M5] Attempt on-chain Governor vote if contract is deployed
+      const govAddress = CONTRACT_ADDRESSES.sepolia.LabyrinthGovernor;
+      if (govAddress && govAddress !== '0x0000000000000000000000000000000000000000') {
+        const govContract = new ethers.Contract(govAddress, LABYRINTH_GOVERNOR_ABI, signer);
+        // Map vote type: 'for' => 1, 'against' => 0, option => 2 (abstain)
+        const support = voteTypeOrOptionId === 'for' ? 1 : voteTypeOrOptionId === 'against' ? 0 : 2;
+        const tx = await govContract.castVote(proposalId, support);
+        await tx.wait();
+        console.log(`Vote cast on-chain: proposal ${proposalId}, support ${support}`);
+      } else {
+        // Fallback: sign vote message if Governor not yet deployed
+        const voteMessage = JSON.stringify({
+          protocol: 'Labyrinth DAO',
+          action: 'VOTE',
+          proposalId: proposalId,
+          vote: voteTypeOrOptionId,
+          voter: walletAddress,
+          votingPower: userLabBalance,
+          timestamp: Date.now()
+        });
+        await signer.signMessage(voteMessage);
+      }
+
+      // Update local state after successful vote
+      setProposals(prev => prev.map(p => {
+        if (p.id === proposalId) {
+          if (p.isMultiChoice) {
+            return {
+              ...p,
+              options: p.options.map(opt => 
+                opt.id === voteTypeOrOptionId 
+                  ? { ...opt, votes: opt.votes + userLabBalance }
+                  : opt
+              )
+            };
+          } else {
+            return {
+              ...p,
+              votesFor: voteTypeOrOptionId === 'for' ? p.votesFor + userLabBalance : p.votesFor,
+              votesAgainst: voteTypeOrOptionId === 'against' ? p.votesAgainst + userLabBalance : p.votesAgainst
+            };
+          }
+        }
+        return p;
+      }));
+
+      setUserVotedProposals(prev => ({ ...prev, [proposalId]: voteTypeOrOptionId }));
+    } catch (err) {
+      console.error('Vote failed:', err);
+      if (err.code === 'ACTION_REJECTED') {
+        alert('Vote annulé : vous avez rejeté la transaction.');
+      } else {
+        alert('Erreur lors du vote. Veuillez réessayer.');
+      }
+    }
   };
 
   // Handle Proposal Submission with Strict Wallet Check
@@ -231,45 +270,78 @@ const DAOGovernance = ({ isConnected, walletAddress, connectWallet, t }) => {
     setShowCreateModal(true);
   };
 
-  const handleSubmitNewProposal = (e) => {
+  const handleSubmitNewProposal = async (e) => {
     e.preventDefault();
     if (!newTitle.trim() || !newDesc.trim()) return;
 
-    const isMulti = proposalType === 'multi';
-    const formattedOptions = isMulti 
-      ? customOptions.map((optText, idx) => ({
-          id: `opt-${idx + 1}`,
-          text: optText.trim() || `Option ${idx + 1}`,
-          votes: 0
-        }))
-      : [];
+    try {
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
 
-    const newProp = {
-      id: `LIP-00${proposals.length + 1}`,
-      title: `${newTitle}`,
-      author: `${walletAddress.substring(0, 6)}...${walletAddress.substring(walletAddress.length - 4)} (Vous)`,
-      category: isMulti ? 'Sondage & Choix Multiples' : 'Community Proposal',
-      description: newDesc,
-      isMultiChoice: isMulti,
-      options: formattedOptions,
-      votesFor: isMulti ? 0 : 0,
-      votesAgainst: 0,
-      quorumBps: 1500,
-      status: 'active',
-      endsIn: '7 days 00 hours',
-      creationTimestamp: new Date().toISOString().split('T')[0]
-    };
+      const isMulti = proposalType === 'multi';
+      const formattedOptions = isMulti 
+        ? customOptions.map((optText, idx) => ({
+            id: `opt-${idx + 1}`,
+            text: optText.trim() || `Option ${idx + 1}`,
+            votes: 0
+          }))
+        : [];
 
-    setProposals([newProp, ...proposals]);
-    setShowCreateModal(false);
-    setNewTitle('');
-    setNewDesc('');
-    setProposalType('binary');
-    setCustomOptions([
-      'Option A: Priorité Solana Native ZK Pool',
-      'Option B: Priorité Avalanche C-Chain Subnet',
-      'Option C: Priorité BNB Smart Chain Engine'
-    ]);
+      let proposalSignature = '';
+
+      // [FIX M5] Submit proposal on-chain via Governor contract if deployed
+      const govAddress = CONTRACT_ADDRESSES.sepolia.LabyrinthGovernor;
+      if (govAddress && govAddress !== '0x0000000000000000000000000000000000000000') {
+        const govContract = new ethers.Contract(govAddress, LABYRINTH_GOVERNOR_ABI, signer);
+        const description = `${newTitle}\n\n${newDesc}`;
+        const tx = await govContract.propose(description);
+        const receipt = await tx.wait();
+        proposalSignature = `tx:${tx.hash.substring(0, 16)}...`;
+        console.log('Proposal submitted on-chain:', tx.hash);
+      } else {
+        // Fallback: sign proposal message
+        const proposalMessage = JSON.stringify({
+          protocol: 'Labyrinth DAO',
+          action: 'CREATE_PROPOSAL',
+          title: newTitle,
+          description: newDesc,
+          type: isMulti ? 'multi-choice' : 'binary',
+          author: walletAddress,
+          timestamp: Date.now()
+        });
+        const sig = await signer.signMessage(proposalMessage);
+        proposalSignature = sig.substring(0, 20) + '...';
+      }
+
+      const newProp = {
+        id: `LIP-00${proposals.length + 1}`,
+        title: `${newTitle}`,
+        author: `${walletAddress.substring(0, 6)}...${walletAddress.substring(walletAddress.length - 4)} (Vous)`,
+        category: isMulti ? 'Sondage & Choix Multiples' : 'Community Proposal',
+        description: newDesc,
+        isMultiChoice: isMulti,
+        options: formattedOptions,
+        votesFor: 0,
+        votesAgainst: 0,
+        quorumBps: 1500,
+        status: 'active',
+        endsIn: '5 days 00 hours',
+        creationTimestamp: new Date().toISOString().split('T')[0],
+        signature: proposalSignature
+      };
+
+      setProposals(prev => [newProp, ...prev]);
+      setShowCreateModal(false);
+      setNewTitle('');
+      setNewDesc('');
+    } catch (err) {
+      console.error('Proposal submission failed:', err);
+      if (err.code === 'ACTION_REJECTED') {
+        alert('Proposition annulée : vous avez rejeté la transaction.');
+      } else {
+        alert('Erreur lors de la soumission. Veuillez réessayer.');
+      }
+    }
   };
 
   const filteredProposals = proposals.filter(p => {

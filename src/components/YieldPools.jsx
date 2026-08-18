@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { ethers } from 'ethers';
+import { CONTRACT_ADDRESSES, LABYRINTH_GOVERNANCE_ABI } from '../contracts/config';
 import { TrendingUp, Shield, Layers, Coins, ExternalLink, Activity, ArrowUpRight } from 'lucide-react';
 
 const YieldPools = ({ t }) => {
   const tYield = t.yield;
 
-  const pools = [
+  const [pools, setPools] = useState([
     {
       id: 'eth-1',
       asset: 'ETH',
@@ -45,7 +47,33 @@ const YieldPools = ({ t }) => {
       strategy: 'GMX Liquidity Vault',
       status: 'Active'
     }
-  ];
+  ]);
+  const [totalTvl, setTotalTvl] = useState('—');
+  const [totalYieldDistributed, setTotalYieldDistributed] = useState('—');
+
+  useEffect(() => {
+    async function fetchOnChainData() {
+      try {
+        const provider = window.ethereum
+          ? new ethers.BrowserProvider(window.ethereum)
+          : new ethers.JsonRpcProvider('https://ethereum-sepolia-rpc.publicnode.com');
+
+        const govAddress = CONTRACT_ADDRESSES.sepolia.LabyrinthGovernance;
+        const govContract = new ethers.Contract(govAddress, LABYRINTH_GOVERNANCE_ABI, provider);
+
+        const totalStaked = await govContract.totalStaked();
+        const formattedStaked = Number(ethers.formatEther(totalStaked));
+
+        if (formattedStaked > 0) {
+          setTotalTvl(`$${(formattedStaked * 0.001).toLocaleString(undefined, { maximumFractionDigits: 0 })}`);
+        }
+      } catch (err) {
+        console.warn('Could not fetch on-chain yield data:', err);
+        // Keep default display values
+      }
+    }
+    fetchOnChainData();
+  }, []);
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8 space-y-8">
@@ -65,11 +93,11 @@ const YieldPools = ({ t }) => {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full md:w-auto">
           <div className="bg-slate-100 dark:bg-slate-950/80 p-3.5 sm:p-4 rounded-xl border border-blue-200 dark:border-blue-500/30 text-center overflow-hidden">
             <div className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider truncate">{tYield.totalTvl}</div>
-            <div className="text-lg sm:text-2xl font-black font-mono text-blue-600 dark:text-blue-400 mt-1 truncate">$94.6M+</div>
+            <div className="text-lg sm:text-2xl font-black font-mono text-blue-600 dark:text-blue-400 mt-1 truncate">{totalTvl}</div>
           </div>
           <div className="bg-slate-100 dark:bg-slate-950/80 p-3.5 sm:p-4 rounded-xl border border-emerald-200 dark:border-emerald-500/30 text-center overflow-hidden">
             <div className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider truncate">{tYield.yieldDistributed}</div>
-            <div className="text-lg sm:text-2xl font-black font-mono text-emerald-600 dark:text-emerald-400 mt-1 truncate">$1.42M+</div>
+            <div className="text-lg sm:text-2xl font-black font-mono text-emerald-600 dark:text-emerald-400 mt-1 truncate">{totalYieldDistributed}</div>
           </div>
         </div>
       </div>
@@ -89,9 +117,12 @@ const YieldPools = ({ t }) => {
                 </div>
               </div>
 
-              <span className="badge-emerald font-mono font-bold text-sm px-3 py-1">
-                {pool.yieldApy} {tYield.apy}
-              </span>
+              <div className="flex items-center gap-2">
+                <span className="badge-emerald font-mono font-bold text-sm px-3 py-1">
+                  {pool.yieldApy} {tYield.apy}
+                </span>
+                <span className="text-[9px] px-1.5 py-0.5 bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 rounded font-mono">TESTNET</span>
+              </div>
             </div>
 
             <div className="grid grid-cols-2 gap-3 pt-2">
