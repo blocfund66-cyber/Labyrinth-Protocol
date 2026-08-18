@@ -280,8 +280,8 @@ const MinotorusBot = ({ isDarkMode = true, onTriggerMix = null, onNavigateTab = 
     <div 
       className="fixed z-50 flex flex-col items-end pointer-events-none"
       style={{
-        bottom: 'calc(5.5rem + env(safe-area-inset-bottom, 0px))',
-        right: 'max(1.25rem, env(safe-area-inset-right, 1.25rem))'
+        bottom: 'calc(6.8rem + env(safe-area-inset-bottom, 0px))',
+        right: 'max(2rem, env(safe-area-inset-right, 2rem))'
       }}
     >
       
